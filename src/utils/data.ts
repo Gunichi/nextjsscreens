@@ -1,0 +1,252 @@
+export const data = 
+[{
+  "id": 1,
+  "name": "Hedwiga",
+  "cnpj": "9342055478",
+  "active": true
+}, {
+  "id": 2,
+  "name": "Trefor",
+  "cnpj": "6257118387",
+  "active": true
+}, {
+  "id": 3,
+  "name": "Carmelina",
+  "cnpj": "6066177575",
+  "active": false
+}, {
+  "id": 4,
+  "name": "Blanch",
+  "cnpj": "2618704789",
+  "active": false
+}, {
+  "id": 5,
+  "name": "Kaye",
+  "cnpj": "6813092006",
+  "active": false
+}, {
+  "id": 6,
+  "name": "Tessy",
+  "cnpj": "1068790490",
+  "active": true
+}, {
+  "id": 7,
+  "name": "Michel",
+  "cnpj": "7180065846",
+  "active": false
+}, {
+  "id": 8,
+  "name": "Darin",
+  "cnpj": "7140103968",
+  "active": true
+}, {
+  "id": 9,
+  "name": "Elfrieda",
+  "cnpj": "4298008991",
+  "active": true
+}, {
+  "id": 10,
+  "name": "Clerissa",
+  "cnpj": "9535718290",
+  "active": false
+}, {
+  "id": 11,
+  "name": "Merilyn",
+  "cnpj": "5526597962",
+  "active": true
+}, {
+  "id": 12,
+  "name": "Kai",
+  "cnpj": "2245660633",
+  "active": false
+}, {
+  "id": 13,
+  "name": "Nerta",
+  "cnpj": "5396806559",
+  "active": false
+}, {
+  "id": 14,
+  "name": "Manolo",
+  "cnpj": "2279399687",
+  "active": false
+}, {
+  "id": 15,
+  "name": "Sascha",
+  "cnpj": "4210819190",
+  "active": false
+}, {
+  "id": 16,
+  "name": "Boony",
+  "cnpj": "1975638840",
+  "active": true
+}, {
+  "id": 17,
+  "name": "Gwenora",
+  "cnpj": "0393801810",
+  "active": false
+}, {
+  "id": 18,
+  "name": "Emmalee",
+  "cnpj": "3487185385",
+  "active": false
+}, {
+  "id": 19,
+  "name": "Hughie",
+  "cnpj": "1586600125",
+  "active": false
+}, {
+  "id": 20,
+  "name": "Kendra",
+  "cnpj": "5114690310",
+  "active": true
+}, {
+  "id": 21,
+  "name": "Muhammad",
+  "cnpj": "5126020641",
+  "active": true
+}, {
+  "id": 22,
+  "name": "Felipe",
+  "cnpj": "7583881064",
+  "active": false
+}, {
+  "id": 23,
+  "name": "Avigdor",
+  "cnpj": "5399977370",
+  "active": true
+}, {
+  "id": 24,
+  "name": "Camellia",
+  "cnpj": "8962365944",
+  "active": false
+}, {
+  "id": 25,
+  "name": "Heath",
+  "cnpj": "3901459987",
+  "active": true
+}, {
+  "id": 26,
+  "name": "Romeo",
+  "cnpj": "4597490639",
+  "active": true
+}, {
+  "id": 27,
+  "name": "Pall",
+  "cnpj": "0911614796",
+  "active": true
+}, {
+  "id": 28,
+  "name": "Ives",
+  "cnpj": "5041659745",
+  "active": true
+}, {
+  "id": 29,
+  "name": "Hannis",
+  "cnpj": "8222122622",
+  "active": false
+}, {
+  "id": 30,
+  "name": "Ailsun",
+  "cnpj": "7106867454",
+  "active": true
+}, {
+  "id": 31,
+  "name": "Pamella",
+  "cnpj": "5696701795",
+  "active": false
+}, {
+  "id": 32,
+  "name": "Cheslie",
+  "cnpj": "4198965579",
+  "active": true
+}, {
+  "id": 33,
+  "name": "Francesco",
+  "cnpj": "4748939052",
+  "active": true
+}, {
+  "id": 34,
+  "name": "Eleanor",
+  "cnpj": "7955314131",
+  "active": false
+}, {
+  "id": 35,
+  "name": "Riannon",
+  "cnpj": "1960980122",
+  "active": false
+}, {
+  "id": 36,
+  "name": "Jack",
+  "cnpj": "2574133587",
+  "active": true
+}, {
+  "id": 37,
+  "name": "Allix",
+  "cnpj": "4504568616",
+  "active": true
+}, {
+  "id": 38,
+  "name": "Cleavland",
+  "cnpj": "6719609025",
+  "active": false
+}, {
+  "id": 39,
+  "name": "Tilda",
+  "cnpj": "8709955119",
+  "active": true
+}, {
+  "id": 40,
+  "name": "Carita",
+  "cnpj": "6882811105",
+  "active": false
+}, {
+  "id": 41,
+  "name": "Owen",
+  "cnpj": "0873427599",
+  "active": true
+}, {
+  "id": 42,
+  "name": "Kipper",
+  "cnpj": "8098137473",
+  "active": false
+}, {
+  "id": 43,
+  "name": "Jaquenette",
+  "cnpj": "8579107598",
+  "active": false
+}, {
+  "id": 44,
+  "name": "Vivi",
+  "cnpj": "0271119098",
+  "active": true
+}, {
+  "id": 45,
+  "name": "Ethelbert",
+  "cnpj": "2105491782",
+  "active": false
+}, {
+  "id": 46,
+  "name": "Kevyn",
+  "cnpj": "8530778359",
+  "active": false
+}, {
+  "id": 47,
+  "name": "Truda",
+  "cnpj": "6107383271",
+  "active": false
+}, {
+  "id": 48,
+  "name": "Rodie",
+  "cnpj": "6631783607",
+  "active": false
+}, {
+  "id": 49,
+  "name": "Daile",
+  "cnpj": "2218552604",
+  "active": true
+}, {
+  "id": 50,
+  "name": "Saxe",
+  "cnpj": "6394547603",
+  "active": false
+}]
