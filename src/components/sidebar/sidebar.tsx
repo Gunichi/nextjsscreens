@@ -32,7 +32,7 @@ const LinkItems: Array<LinkItemProps> = [
   { name: 'Clientes', icon: FiPlusCircle, href: '/clientes'},
   { name: 'Sistemas', icon: FiPlusCircle, href: '/sistemas'},
   { name: 'OVPN', icon: FiPlusCircle, href: '/ovpn'},
-  { name: 'Usuários', icon: FiPlusCircle, href: '/users'},
+  { name: 'Usuários', icon: FiPlusCircle, href: '/usuarios'},
 
 ];
 
