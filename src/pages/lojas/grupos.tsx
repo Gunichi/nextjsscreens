@@ -120,21 +120,6 @@ const gruposDeLojas = () => {
         </Grid>
         <TableContainer mt={4}>
           <Table size='sm'>
-          <TableCaption>
-          <Pagination
-            current={page}
-            onChange={(page) => {
-              handlePageChange(page);
-            }}
-            pageSize={pageSize}
-            total={data.length}
-            paginationProps={{
-              display: "flex",
-              justifyContent: "flex-end"
-            }}
-            colorScheme="red"
-          />
-        </TableCaption>
             <Thead>
               <Tr>
                 <Th textAlign='center'>Id</Th>
@@ -163,6 +148,19 @@ const gruposDeLojas = () => {
           </Table>                    
         </TableContainer>
       </Box>
+      <Pagination
+        current={page}
+        onChange={(page) => {
+          handlePageChange(page);
+        }}
+        pageSize={pageSize}
+        total={data.length}
+        paginationProps={{
+          display: "flex",
+          justifyContent: "flex-end"
+        }}
+        colorScheme="red"
+      />
       <Modal
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
