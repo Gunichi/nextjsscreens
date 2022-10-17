@@ -72,7 +72,7 @@ const Clientes = () => {
     <SidebarWithHeader>
       <Breadcrumb>
         <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink href='#'>Lojas</BreadcrumbLink>
+          <BreadcrumbLink href='#'>Clientes</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
       <Box 
@@ -82,6 +82,7 @@ const Clientes = () => {
         w={'100%'}
         p={8}
         mt={4}
+        mb={4}
       >
         <Stack spacing={4}>
           <Grid templateColumns='repeat(5, 1fr)' gap={4}>
@@ -100,30 +101,18 @@ const Clientes = () => {
           </Grid>
         </Stack>
         <br />     
-        <Grid templateColumns='repeat(5, 1fr)' gap={4}>
-          <GridItem colSpan={2} h='10'>
-            <Text fontSize='2xl' as='b'>Listagem de clientes</Text>  
+        <Grid 
+          templateColumns='repeat(5, 1fr)' 
+          gap={4}
+        >
+          <GridItem colSpan={5}>
+            <Text fontSize='4x1' as='b'>Listagem de clientes</Text>  
           </GridItem>
           <GridItem colStart={6} colEnd={6} h='10'>
           </GridItem>
         </Grid>
         <TableContainer mt={4}>
           <Table size='sm'>
-          <TableCaption>
-          <Pagination
-            current={page}
-            onChange={(page) => {
-              handlePageChange(page);
-            }}
-            pageSize={pageSize}
-            total={data.length}
-            paginationProps={{
-              display: "flex",
-              justifyContent: "flex-end"
-            }}
-            colorScheme="red"
-          />
-        </TableCaption>
             <Thead>
               <Tr>
                 <Th textAlign='center'>CPF</Th>
@@ -145,36 +134,19 @@ const Clientes = () => {
           </Table>                    
         </TableContainer>
       </Box>
-      <Modal
-        initialFocusRef={initialRef}
-        finalFocusRef={finalRef}
-        isOpen={isOpen}
-        onClose={onClose}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Cadastrar cliente</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            <FormControl>
-              <FormLabel>Nome</FormLabel>
-              <Input ref={initialRef} placeholder='Nome' />
-            </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Arquivo OVPN</FormLabel>
-              <Input size='sm' type='file' placeholder='Arquivo OVPN' />
-            </FormControl>         
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme='red' mr={3}>
-              Salvar
-            </Button>
-            <Button onClick={onClose}>Cancelar</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <Pagination
+        current={page}
+        onChange={(page) => {
+          handlePageChange(page);
+        }}
+        pageSize={pageSize}
+        total={data.length}
+        paginationProps={{
+          display: "flex",
+          justifyContent: "flex-end"
+        }}
+        colorScheme="red"
+      />
     </SidebarWithHeader>
     
   );

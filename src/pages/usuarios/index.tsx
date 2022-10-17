@@ -83,6 +83,7 @@ const Users = () => {
         w={'100%'}
         p={8}
         mt={4}
+        mb={4}
       >
         <Stack spacing={4}>
           <Grid templateColumns='repeat(5, 1fr)' gap={4}>
@@ -101,28 +102,18 @@ const Users = () => {
           </Grid>
         </Stack>
         <br />     
-        <Grid templateColumns='repeat(5, 1fr)' gap={4}>
-          <GridItem colSpan={2} h='10'>
-            <Text fontSize='2xl' as='b'>Usuários</Text>  
+        <Grid 
+          templateColumns='repeat(5, 1fr)' 
+          gap={4}
+        >
+          <GridItem colSpan={5}>
+            <Text fontSize='4x1' as='b'>Listagem de usuários</Text>  
+          </GridItem>
+          <GridItem colStart={6} colEnd={6} h='10'>
           </GridItem>
         </Grid>
         <TableContainer mt={4}>
           <Table size='sm'>
-          <TableCaption>
-          <Pagination
-            current={page}
-            onChange={(page) => {
-              handlePageChange(page);
-            }}
-            pageSize={pageSize}
-            total={data.length}
-            paginationProps={{
-              display: "flex",
-              justifyContent: "flex-end"
-            }}
-            colorScheme="red"
-          />
-        </TableCaption>
             <Thead>
               <Tr>
                 <Th textAlign='center'>Perfil de acesso</Th>
@@ -142,41 +133,19 @@ const Users = () => {
           </Table>                    
         </TableContainer>
       </Box>
-      <Modal
-        initialFocusRef={initialRef}
-        finalFocusRef={finalRef}
-        isOpen={isOpen}
-        onClose={onClose}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Criar usuário</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            
-            <FormControl mt={4}>
-              <FormLabel>Email</FormLabel>
-              <Input placeholder='@Email' />
-            </FormControl>
-            <FormControl mt={4}>
-              <FormLabel>Perfil de acesso</FormLabel>
-              <Input type='text' placeholder='Acesso' size='sm' />
-            </FormControl>
-            <FormControl mt={4}>
-              <FormLabel>Perfil de acesso</FormLabel>
-              <Input type='text' placeholder='Acesso' size='sm' />
-            </FormControl>
-            
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme='red' mr={3}>
-              Salvar
-            </Button>
-            <Button onClick={onClose}>Cancelar</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <Pagination
+        current={page}
+        onChange={(page) => {
+          handlePageChange(page);
+        }}
+        pageSize={pageSize}
+        total={data.length}
+        paginationProps={{
+          display: "flex",
+          justifyContent: "flex-end"
+        }}
+        colorScheme="red"
+      />
     </SidebarWithHeader>
     
   );

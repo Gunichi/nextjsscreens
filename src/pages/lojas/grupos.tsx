@@ -101,9 +101,12 @@ const gruposDeLojas = () => {
           </Grid>
         </Stack>
         <br />     
-        <Grid templateColumns='repeat(5, 1fr)' gap={4}>
-          <GridItem colSpan={2} h='10'>
-            <Text fontSize='2xl' as='b'>Grupo de lojas</Text>  
+        <Grid 
+          templateColumns='repeat(5, 1fr)' 
+          gap={4}
+        >
+          <GridItem colSpan={5}>
+            <Text fontSize='4x1' as='b'>Grupo de lojas</Text>  
           </GridItem>
           <GridItem colStart={6} colEnd={6} h='10'>
             <Button 
@@ -111,7 +114,7 @@ const gruposDeLojas = () => {
               size='md'
               onClick={onOpen}
             >
-              <FiEdit /> Adicionar grupo
+              <FiEdit /> Adicionar loja
             </Button>
           </GridItem>
         </Grid>
