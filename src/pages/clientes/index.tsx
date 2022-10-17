@@ -105,13 +105,6 @@ const Clientes = () => {
             <Text fontSize='2xl' as='b'>Listagem de clientes</Text>  
           </GridItem>
           <GridItem colStart={6} colEnd={6} h='10'>
-            <Button 
-              colorScheme='red' 
-              size='md'
-              onClick={onOpen}
-            >
-              <FiEdit /> Adicionar cliente
-            </Button>
           </GridItem>
         </Grid>
         <TableContainer mt={4}>

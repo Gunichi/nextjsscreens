@@ -83,6 +83,7 @@ const Lojas = () => {
         w={'100%'}
         p={8}
         mt={4}
+        mb={4}
       >
         <Stack spacing={4}>
           <Grid templateColumns='repeat(5, 1fr)' gap={4}>
@@ -101,9 +102,12 @@ const Lojas = () => {
           </Grid>
         </Stack>
         <br />     
-        <Grid templateColumns='repeat(5, 1fr)' gap={4}>
-          <GridItem colSpan={2} h='10'>
-            <Text fontSize='2xl' as='b'>Listagem de lojas</Text>  
+        <Grid 
+          templateColumns='repeat(5, 1fr)' 
+          gap={4}
+        >
+          <GridItem colSpan={5}>
+            <Text fontSize='4x1' as='b'>Listagem de lojas</Text>  
           </GridItem>
           <GridItem colStart={6} colEnd={6} h='10'>
             <Button 
@@ -117,21 +121,6 @@ const Lojas = () => {
         </Grid>
         <TableContainer mt={4}>
           <Table size='sm'>
-          <TableCaption>
-          <Pagination
-            current={page}
-            onChange={(page) => {
-              handlePageChange(page);
-            }}
-            pageSize={pageSize}
-            total={data.length}
-            paginationProps={{
-              display: "flex",
-              justifyContent: "flex-end"
-            }}
-            colorScheme="red"
-          />
-        </TableCaption>
             <Thead>
               <Tr>
                 <Th textAlign='center'>Id</Th>
@@ -162,6 +151,19 @@ const Lojas = () => {
           </Table>                    
         </TableContainer>
       </Box>
+      <Pagination
+        current={page}
+        onChange={(page) => {
+          handlePageChange(page);
+        }}
+        pageSize={pageSize}
+        total={data.length}
+        paginationProps={{
+          display: "flex",
+          justifyContent: "flex-end"
+        }}
+        colorScheme="red"
+      />
       <Modal
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
