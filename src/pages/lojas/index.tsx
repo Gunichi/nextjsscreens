@@ -31,6 +31,7 @@ import {
   Tr,
   Td,
   Tbody,
+  Select,
 } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/react'
 
@@ -38,6 +39,7 @@ import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import SidebarWithHeader from '../../components/sidebar/sidebar';
 import { data } from '../../utils/data';
 import Pagination from '@choc-ui/paginator';
+import axios from 'axios';
 
 
 const Lojas = () => {
@@ -50,24 +52,26 @@ const Lojas = () => {
   const pageSize = 10;
   const offset = (page - 1) * pageSize;
   const posts = users.slice(offset, offset + pageSize);
+  const [cnpj, setCnpj] = useState('')
 
   const handlePageChange = (page: number | undefined) => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     setPage(page!);
   };
 
-  const Prev = forwardRef((props) => (
-    <Button {...props}>
-      <FiChevronLeft />
-    </Button>
-  ));
-
-  const Next = forwardRef((props) => (
-    <Button {...props}>
-      <FiChevronRight />
-    </Button>
-  ));
-
+  const findCnpj = async () => { 
+    await axios
+      .get( `http://receitaws.com.br/v1/cnpj/42169087000175`, {
+        headers: {
+          'Access-Control-Allow-Origin' : '*',
+        },
+      }
+    )
+    .then(({ data }) => {
+      console.log(data)
+    })
+    .catch((e) => {});    
+  }
 
   return ( 
     <SidebarWithHeader>
@@ -175,10 +179,6 @@ const Lojas = () => {
           <ModalHeader>Criar conta</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <FormControl>
-              <FormLabel>Email</FormLabel>
-              <Input ref={initialRef} placeholder='email' />
-            </FormControl>
 
             <FormControl mt={4}>
               <FormLabel>Nome</FormLabel>
@@ -186,18 +186,15 @@ const Lojas = () => {
             </FormControl>
             <FormControl mt={4}>
               <FormLabel>CNPJ</FormLabel>
-              <Input placeholder='nome' />
+              <Input placeholder='nome' onBlur={findCnpj}/>
             </FormControl>
             <FormControl mt={4}>
-              <FormLabel>Tipo de usuário </FormLabel>
-              <Stack spacing={5} direction='row'>
-                <Checkbox colorScheme='red' defaultChecked>
-                  Cliente
-                </Checkbox>
-                <Checkbox colorScheme='red' defaultChecked>
-                  Interno
-                </Checkbox>
-              </Stack>
+              <FormLabel>Selecione</FormLabel>
+              <Select placeholder='Select option'>
+                <option value='option1'>Option 1</option>
+                <option value='option2'>Option 2</option>
+                <option value='option3'>Option 3</option>
+              </Select>
             </FormControl>
             
           </ModalBody>

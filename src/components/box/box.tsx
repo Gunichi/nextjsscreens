@@ -11,7 +11,8 @@ export default function BoxComponent({ children }: { children: ReactNode }) {
       bg={useColorModeValue("white", "gray.700")}
       boxShadow={"sm"}
       w={"md"}
-      p={8}
+      p={8}      
+      h={[300, 400, 500]}
       >
         {children}
     </Box>
