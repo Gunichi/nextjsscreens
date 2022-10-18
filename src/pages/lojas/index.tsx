@@ -43,6 +43,7 @@ import axios from 'axios-jsonp-pro';
 
 const Lojas = () => {
 
+
   const { isOpen, onOpen, onClose } = useDisclosure()
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null)  
@@ -65,14 +66,13 @@ const Lojas = () => {
 
   const findCnpj = () => { 
     axios.jsonp(`https://receitaws.com.br/v1/cnpj/${cnpj}`)
-  .then(function (response) {
-    setFantasyName(response.nome)
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-  }
+      .then((response => {
+        setFantasyName(response.nome)
+      }))
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
 
   return ( 
     <SidebarWithHeader>
