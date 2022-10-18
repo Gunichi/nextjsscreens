@@ -35,12 +35,11 @@ import {
 } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/react'
 
-import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
+import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight, FiPause } from 'react-icons/fi'
 import SidebarWithHeader from '../../components/sidebar/sidebar';
 import { data } from '../../utils/data';
 import Pagination from '@choc-ui/paginator';
-import axios from 'axios';
-
+import axios from 'axios-jsonp-pro';
 
 const Lojas = () => {
 
@@ -53,20 +52,26 @@ const Lojas = () => {
   const offset = (page - 1) * pageSize;
   const posts = users.slice(offset, offset + pageSize);
   const [cnpj, setCnpj] = useState('')
+  const [fantasyName, setFantasyName] = useState('')
 
   const handlePageChange = (page: number | undefined) => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     setPage(page!);
   };
 
-  const findCnpj = async () => { 
-    await axios
-      .get( `https://receitaws.com.br/v1/cnpj/42169087000175`, 
-    )
-    .then(({ data }) => {
-      console.log(data)
-    })
-    .catch((e) => {});    
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>)=> {
+    setCnpj(e.target.value)
+  }
+
+  const findCnpj = () => { 
+    axios.jsonp(`https://receitaws.com.br/v1/cnpj/${cnpj}`)
+  .then(function (response) {
+    setFantasyName(response.nome)
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
   }
 
   return ( 
@@ -95,9 +100,6 @@ const Lojas = () => {
                 />
                 <Input type='text' placeholder='Filtrar' />
               </InputGroup> 
-            </GridItem>
-            <GridItem colStart={6} colEnd={6} h='10'>
-              <Checkbox />
             </GridItem>
           </Grid>
         </Stack>
@@ -141,9 +143,15 @@ const Lojas = () => {
                     <Button colorScheme='red' variant='solid' size='sm' mr={2}> 
                       <FiEdit />
                     </Button>
-                    <Button colorScheme='red' variant='solid' size='sm'> 
-                      <FiPlay />
-                    </Button>
+                    {user.active == true ?
+                      <Button colorScheme='red' variant='solid' size='sm'> 
+                        <FiPause />
+                      </Button>
+                    :
+                      <Button colorScheme='red' variant='solid' size='sm'> 
+                        <FiPlay />
+                      </Button>
+                    }
                   </Td>
                 </Tr>
               ))}
@@ -182,7 +190,20 @@ const Lojas = () => {
             </FormControl>
             <FormControl mt={4}>
               <FormLabel>CNPJ</FormLabel>
-              <Input placeholder='nome' onBlur={findCnpj}/>
+              <Input 
+                placeholder='CNPJ' 
+                onBlur={findCnpj}
+                value={cnpj}
+                onChange={onChange}
+              />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Razão social</FormLabel>
+              <Input 
+                isReadOnly 
+                placeholder='Razão social'
+                value={fantasyName}
+              />
             </FormControl>
             <FormControl mt={4}>
               <FormLabel>Selecione</FormLabel>
