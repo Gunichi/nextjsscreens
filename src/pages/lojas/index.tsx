@@ -61,11 +61,7 @@ const Lojas = () => {
 
   const findCnpj = async () => { 
     await axios
-      .get( `http://receitaws.com.br/v1/cnpj/42169087000175`, {
-        headers: {
-          'Access-Control-Allow-Origin' : '*',
-        },
-      }
+      .get( `https://receitaws.com.br/v1/cnpj/42169087000175`, 
     )
     .then(({ data }) => {
       console.log(data)
