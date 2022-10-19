@@ -141,7 +141,7 @@ const Lojas = () => {
                   <Td textAlign='center'>{user.active == true ? 'Ativo' : 'Desativado'}</Td>
                   <Td textAlign='center'>
                     <Button colorScheme='red' variant='solid' size='sm' mr={2}> 
-                      <FiEdit />
+                      <FiEdit onClick={onOpen} />
                     </Button>
                     {user.active == true ?
                       <Button colorScheme='red' variant='solid' size='sm'> 

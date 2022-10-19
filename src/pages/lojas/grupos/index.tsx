@@ -11,45 +11,38 @@ import {
   InputLeftElement,
   Checkbox,
   useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  FormControl,
-  FormLabel,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   TableContainer,
   Table,
-  TableCaption,
   Thead,
   Th,
   Tr,
   Td,
   Tbody,
+  FormLabel,
 } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/react'
 
-import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
-import SidebarWithHeader from '../../components/sidebar/sidebar';
-import { data } from '../../utils/data';
+import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight, FiPause, FiSettings } from 'react-icons/fi'
+import SidebarWithHeader from '../../../components/sidebar/sidebar';
+import { data } from '../../../utils/data';
 import Pagination from '@choc-ui/paginator';
+import { Modal } from '@mantine/core';
+import { useRouter } from 'next/router';
 
 
 const gruposDeLojas = () => {
 
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const initialRef = React.useRef(null)
-  const finalRef = React.useRef(null)  
+  const [opened, setOpened] = useState(false);
   const [users, setUsers] = useState(data);
   const [page, setPage] = useState(1);
   const pageSize = 10;
   const offset = (page - 1) * pageSize;
   const posts = users.slice(offset, offset + pageSize);
+  const router = useRouter();
+
 
   const handlePageChange = (page: number | undefined) => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -83,6 +76,7 @@ const gruposDeLojas = () => {
         w={'100%'}
         p={8}
         mt={4}
+        mb={4}
       >
         <Stack spacing={4}>
           <Grid templateColumns='repeat(5, 1fr)' gap={4}>
@@ -112,9 +106,9 @@ const gruposDeLojas = () => {
             <Button 
               colorScheme='red' 
               size='md'
-              onClick={onOpen}
+              onClick={() => setOpened(true)}
             >
-              <FiEdit /> Adicionar loja
+              <FiEdit /> Adicionar grupo de loja
             </Button>
           </GridItem>
         </Grid>
@@ -135,12 +129,21 @@ const gruposDeLojas = () => {
                   <Td textAlign="center">{user.name}</Td>
                   <Td textAlign='center'>{user.active == true ? 'Ativo' : 'Desativado'}</Td>
                   <Td textAlign='center'>
-                    <Button colorScheme='red' variant='solid' size='sm' mr={2}> 
-                      <FiEdit />
-                    </Button>
-                    <Button colorScheme='red' variant='solid' size='sm'> 
-                      <FiPlay />
-                    </Button>
+                  <Button colorScheme='red' variant='solid' size='sm' mr={2}> 
+                      <FiEdit onClick={() => setOpened(true)} />
+                  </Button>
+                    {user.active == true ?
+                      <Button colorScheme='red' variant='solid' size='sm'> 
+                        <FiPause />
+                      </Button>
+                    :
+                      <Button colorScheme='red' variant='solid' size='sm'> 
+                        <FiPlay />
+                      </Button>
+                    }
+                    <Button colorScheme='red' variant='solid' size='sm' ml={2}> 
+                      <FiSettings onClick={() => router.push(`grupos/${user.id}`)} />
+                  </Button>
                   </Td>
                 </Tr>
               ))}
@@ -162,35 +165,12 @@ const gruposDeLojas = () => {
         colorScheme="red"
       />
       <Modal
-        initialFocusRef={initialRef}
-        finalFocusRef={finalRef}
-        isOpen={isOpen}
-        onClose={onClose}
+        opened={opened}
+        onClose={() => setOpened(false)}
+        title="Create!"
       >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Criar conta</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            
-            <FormControl mt={4}>
-              <FormLabel>Nome</FormLabel>
-              <Input placeholder='nome' />
-            </FormControl>
-            <FormControl mt={4}>
-              <FormLabel>OVPN</FormLabel>
-              <Input type='file' placeholder='nome' size='sm' />
-            </FormControl>
-            
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme='red' mr={3}>
-              Salvar
-            </Button>
-            <Button onClick={onClose}>Cancelar</Button>
-          </ModalFooter>
-        </ModalContent>
+        <FormLabel>Nome</FormLabel>
+        <Input placeholder='nome' />
       </Modal>
     </SidebarWithHeader>
     

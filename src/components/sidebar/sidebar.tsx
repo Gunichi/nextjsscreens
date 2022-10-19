@@ -29,6 +29,7 @@ interface LinkItemProps {
 }
 const LinkItems: Array<LinkItemProps> = [
   { name: 'Lojas', icon: FiHome, href:'/lojas' },
+  { name: 'Grupo de lojas', icon: FiHome, href:'/lojas/grupos' },
   { name: 'Clientes', icon: FiPlusCircle, href: '/clientes'},
   { name: 'Sistemas', icon: FiPlusCircle, href: '/sistemas'},
   { name: 'OVPN', icon: FiPlusCircle, href: '/ovpn'},
