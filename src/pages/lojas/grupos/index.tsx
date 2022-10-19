@@ -26,6 +26,7 @@ import {
 import { Text } from '@chakra-ui/react'
 
 import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight, FiPause, FiSettings } from 'react-icons/fi'
+import { VscSettings } from "react-icons/vsc";
 import SidebarWithHeader from '../../../components/sidebar/sidebar';
 import { data } from '../../../utils/data';
 import Pagination from '@choc-ui/paginator';
@@ -42,24 +43,14 @@ const gruposDeLojas = () => {
   const offset = (page - 1) * pageSize;
   const posts = users.slice(offset, offset + pageSize);
   const router = useRouter();
+  const [name, setName] = useState('Eu')
+  const [dataEdit, setDataEdit] = useState({});
 
 
   const handlePageChange = (page: number | undefined) => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     setPage(page!);
   };
-
-  const Prev = forwardRef((props) => (
-    <Button {...props}>
-      <FiChevronLeft />
-    </Button>
-  ));
-
-  const Next = forwardRef((props) => (
-    <Button {...props}>
-      <FiChevronRight />
-    </Button>
-  ));
 
 
   return ( 
@@ -123,16 +114,16 @@ const gruposDeLojas = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {posts.map((user) => (
-                <Tr key={user.id}>
-                  <Td textAlign='center'>{user.id}</Td>
-                  <Td textAlign="center">{user.name}</Td>
-                  <Td textAlign='center'>{user.active == true ? 'Ativo' : 'Desativado'}</Td>
+              {posts.map(({ id, name, active }, index) => (
+                <Tr key={id}>
+                  <Td textAlign='center'>{id}</Td>
+                  <Td textAlign="center">{name}</Td>
+                  <Td textAlign='center'>{active == true ? 'Ativo' : 'Desativado'}</Td>
                   <Td textAlign='center'>
                   <Button colorScheme='red' variant='solid' size='sm' mr={2}> 
                       <FiEdit onClick={() => setOpened(true)} />
                   </Button>
-                    {user.active == true ?
+                    {active == true ?
                       <Button colorScheme='red' variant='solid' size='sm'> 
                         <FiPause />
                       </Button>
@@ -142,7 +133,7 @@ const gruposDeLojas = () => {
                       </Button>
                     }
                     <Button colorScheme='red' variant='solid' size='sm' ml={2}> 
-                      <FiSettings onClick={() => router.push(`grupos/${user.id}`)} />
+                      <VscSettings onClick={() => router.push(`grupos/${id}`)} />
                   </Button>
                   </Td>
                 </Tr>
@@ -170,7 +161,17 @@ const gruposDeLojas = () => {
         title="Create!"
       >
         <FormLabel>Nome</FormLabel>
-        <Input placeholder='nome' />
+        <Input 
+          placeholder='nome' 
+          value={name}
+        />
+        
+            <Button colorScheme="green" mt={4} mr={4}>
+              SALVAR
+            </Button>
+            <Button colorScheme="red" mt={4} >
+              CANCELAR
+            </Button>
       </Modal>
     </SidebarWithHeader>
     

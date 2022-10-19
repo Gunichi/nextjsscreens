@@ -56,18 +56,6 @@ const Users = () => {
     setPage(page!);
   };
 
-  const Prev = forwardRef((props) => (
-    <Button {...props}>
-      <FiChevronLeft />
-    </Button>
-  ));
-
-  const Next = forwardRef((props) => (
-    <Button {...props}>
-      <FiChevronRight />
-    </Button>
-  ));
-
 
   return ( 
     <SidebarWithHeader>
@@ -110,6 +98,13 @@ const Users = () => {
             <Text fontSize='4x1' as='b'>Listagem de usuários</Text>  
           </GridItem>
           <GridItem colStart={6} colEnd={6} h='10'>
+            <Button 
+              colorScheme='red' 
+              size='md'
+              onClick={() => onOpen()}
+            >
+              <FiEdit /> Adicionar usuário
+            </Button>
           </GridItem>
         </Grid>
         <TableContainer mt={4}>
@@ -133,6 +128,36 @@ const Users = () => {
           </Table>                    
         </TableContainer>
       </Box>
+      <Modal
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={isOpen}
+        onClose={onClose}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Adicionar</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormControl>
+              <FormLabel>Email</FormLabel>
+              <Input placeholder='email' />
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Tipo de sistema</FormLabel>
+              <Input placeholder='tipo de sistema' />
+            </FormControl>           
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme='red' mr={3}>
+              Salvar
+            </Button>
+            <Button onClick={onClose}>Cancelar</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <Pagination
         current={page}
         onChange={(page) => {
