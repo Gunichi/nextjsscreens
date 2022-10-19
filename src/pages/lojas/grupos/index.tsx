@@ -11,6 +11,13 @@ import {
   InputLeftElement,
   Checkbox,
   useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
@@ -22,6 +29,7 @@ import {
   Td,
   Tbody,
   FormLabel,
+  FormControl,
 } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/react'
 
@@ -30,13 +38,14 @@ import { VscSettings } from "react-icons/vsc";
 import SidebarWithHeader from '../../../components/sidebar/sidebar';
 import { data } from '../../../utils/data';
 import Pagination from '@choc-ui/paginator';
-import { Modal } from '@mantine/core';
 import { useRouter } from 'next/router';
 
 
 const gruposDeLojas = () => {
 
-  const [opened, setOpened] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const initialRef = React.useRef(null)
+  const finalRef = React.useRef(null) 
   const [users, setUsers] = useState(data);
   const [page, setPage] = useState(1);
   const pageSize = 10;
@@ -97,7 +106,7 @@ const gruposDeLojas = () => {
             <Button 
               colorScheme='red' 
               size='md'
-              onClick={() => setOpened(true)}
+              onClick={() => onOpen()}
             >
               <FiEdit /> Adicionar grupo de loja
             </Button>
@@ -121,7 +130,7 @@ const gruposDeLojas = () => {
                   <Td textAlign='center'>{active == true ? 'Ativo' : 'Desativado'}</Td>
                   <Td textAlign='center'>
                   <Button colorScheme='red' variant='solid' size='sm' mr={2}> 
-                      <FiEdit onClick={() => setOpened(true)} />
+                      <FiEdit onClick={() => onOpen()} />
                   </Button>
                     {active == true ?
                       <Button colorScheme='red' variant='solid' size='sm'> 
@@ -155,23 +164,32 @@ const gruposDeLojas = () => {
         }}
         colorScheme="red"
       />
-      <Modal
-        opened={opened}
-        onClose={() => setOpened(false)}
-        title="Create!"
+     <Modal
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={isOpen}
+        onClose={onClose}
       >
-        <FormLabel>Nome</FormLabel>
-        <Input 
-          placeholder='nome' 
-          value={name}
-        />
-        
-            <Button colorScheme="green" mt={4} mr={4}>
-              SALVAR
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Adicionar grupo de loja</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+
+            <FormControl mt={4}>
+              <FormLabel>Nome</FormLabel>
+              <Input placeholder='nome' />
+            </FormControl>
+            
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme='red' mr={3}>
+              Salvar
             </Button>
-            <Button colorScheme="red" mt={4} >
-              CANCELAR
-            </Button>
+            <Button onClick={onClose}>Cancelar</Button>
+          </ModalFooter>
+        </ModalContent>
       </Modal>
     </SidebarWithHeader>
     

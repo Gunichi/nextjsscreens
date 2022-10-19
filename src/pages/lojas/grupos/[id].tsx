@@ -11,6 +11,13 @@ import {
   InputLeftElement,
   Checkbox,
   useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
@@ -30,7 +37,6 @@ import { FiEdit, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import SidebarWithHeader from '../../../components/sidebar/sidebar';
 import { data } from '../../../utils/data';
 import Pagination from '@choc-ui/paginator';
-import { Modal } from '@mantine/core';
 import { useRouter } from 'next/router';
 
 const GroupDetails = () => {
@@ -38,7 +44,9 @@ const GroupDetails = () => {
   const router = useRouter()
   const id = router.query.id
 
-  const [opened, setOpened] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const initialRef = React.useRef(null)
+  const finalRef = React.useRef(null) 
   const [users, setUsers] = useState(data);
   const [page, setPage] = useState(1);
   const pageSize = 10;
@@ -96,7 +104,7 @@ const GroupDetails = () => {
             <Button 
               colorScheme='red' 
               size='md'
-              onClick={() => setOpened(true)}
+              onClick={() => onOpen()}
             >
               <FiEdit /> Adicionar parâmetro
             </Button>
@@ -114,8 +122,8 @@ const GroupDetails = () => {
             <Tbody>
                 <Tr>
                   <Td textAlign='center'>{id}</Td>
-                  <Td textAlign="center"></Td>
-                  <Td textAlign='center'></Td>
+                  <Td textAlign="center">Infos</Td>
+                  <Td textAlign='center'>Infos</Td>
                 </Tr>
             </Tbody>
           </Table>                    
@@ -135,11 +143,18 @@ const GroupDetails = () => {
         colorScheme="red"
       />
       <Modal
-        opened={opened}
-        onClose={() => setOpened(false)}
-        title="Create!"
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={isOpen}
+        onClose={onClose}
       >
-        <FormLabel>Tipo</FormLabel>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Adicionar grupo de loja</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+
+          <FormLabel>Tipo</FormLabel>
         <Input placeholder='tipo' />
 
         <FormLabel mt={2}>Host</FormLabel>
@@ -166,6 +181,16 @@ const GroupDetails = () => {
             <option value='option2'>Option 2</option>
             <option value='option3'>Option 3</option>
           </Select>
+            
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme='red' mr={3}>
+              Salvar
+            </Button>
+            <Button onClick={onClose}>Cancelar</Button>
+          </ModalFooter>
+        </ModalContent>
       </Modal>
     </SidebarWithHeader>
     
