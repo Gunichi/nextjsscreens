@@ -53,7 +53,6 @@ const GroupDetails = () => {
   const offset = (page - 1) * pageSize;
   const posts = users.slice(offset, offset + pageSize);
 
-
   const handlePageChange = (page: number | undefined) => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     setPage(page!);

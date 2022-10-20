@@ -48,17 +48,24 @@ const gruposDeLojas = () => {
   const finalRef = React.useRef(null) 
   const [users, setUsers] = useState(data);
   const [page, setPage] = useState(1);
+  const [id, setId] = useState(0);
+  const [name, setName] = useState('');
   const pageSize = 10;
   const offset = (page - 1) * pageSize;
   const posts = users.slice(offset, offset + pageSize);
   const router = useRouter();
-  const [name, setName] = useState('Eu')
-  const [dataEdit, setDataEdit] = useState({});
-
 
   const handlePageChange = (page: number | undefined) => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     setPage(page!);
+  };
+
+  const handleEdit = (id: number) => {
+    const user = users.find((user) => user.id === id);
+    if (user) {
+      setId(user.id);
+      setName(user.name);
+      onOpen();
+    }
   };
 
 
@@ -123,16 +130,18 @@ const gruposDeLojas = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {posts.map(({ id, name, active }, index) => (
+              {posts.map((user) => (
                 <Tr key={id}>
-                  <Td textAlign='center'>{id}</Td>
-                  <Td textAlign="center">{name}</Td>
-                  <Td textAlign='center'>{active == true ? 'Ativo' : 'Desativado'}</Td>
+                  <Td textAlign='center'>{user.id}</Td>
+                  <Td textAlign="center">{user.name}</Td>
+                  <Td textAlign='center'>{user.active == true ? 'Ativo' : 'Desativado'}</Td>
                   <Td textAlign='center'>
                   <Button colorScheme='red' variant='solid' size='sm' mr={2}> 
-                      <FiEdit onClick={() => onOpen()} />
+                      <FiEdit onClick={
+                        () => handleEdit(user.id)
+                      } />
                   </Button>
-                    {active == true ?
+                    {user.active == true ?
                       <Button colorScheme='red' variant='solid' size='sm'> 
                         <FiPause />
                       </Button>
@@ -164,11 +173,14 @@ const gruposDeLojas = () => {
         }}
         colorScheme="red"
       />
-     <Modal
+
+
+      <Modal
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
         isOpen={isOpen}
         onClose={onClose}
+
       >
         <ModalOverlay />
         <ModalContent>
@@ -178,7 +190,10 @@ const gruposDeLojas = () => {
 
             <FormControl mt={4}>
               <FormLabel>Nome</FormLabel>
-              <Input placeholder='nome' />
+              <Input 
+                placeholder='nome' 
+                value={name}
+              />
             </FormControl>
             
           </ModalBody>
