@@ -6,7 +6,6 @@ import {
   Flex,
   Icon,
   useColorModeValue,
-  Link,
   Drawer,
   DrawerContent,
   Text,
@@ -14,6 +13,7 @@ import {
   BoxProps,
   FlexProps,
 } from '@chakra-ui/react';
+import Link from "next/link";
 import {
   FiHome,
   FiMenu,
@@ -102,7 +102,7 @@ interface NavItemProps extends FlexProps {
 }
 const NavItem = ({ icon, children, link, ...rest }: NavItemProps) => {
   return (
-    <Link href={link} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
+    <Link href={link} passHref>
       <Flex
         align="center"
         p="4"
