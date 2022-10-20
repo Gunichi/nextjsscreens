@@ -94,8 +94,6 @@ const Lojas = () => {
           <BreadcrumbLink href='#'>Lojas</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-      <Pagination total={20} siblings={2} initialPage={10} />
-
       <Box 
         rounded={"lg"}
         bg={useColorModeValue("white", "gray.700")}
