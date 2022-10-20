@@ -220,11 +220,11 @@ const Lojas = () => {
               />
             </FormControl>
             <FormControl mt={4}>
-              <FormLabel>Selecione</FormLabel>
-              <Select placeholder='Select option'>
-                <option value='option1'>Option 1</option>
-                <option value='option2'>Option 2</option>
-                <option value='option3'>Option 3</option>
+              <FormLabel>Grupo de loja</FormLabel>
+              <Select placeholder='Selecione um grupo de loja'>
+                {users.map(loja => 
+                  <option value={loja.name}>{loja.name}</option>
+                )}
               </Select>
             </FormControl>
             

@@ -151,7 +151,7 @@ const gruposDeLojas = () => {
                       </Button>
                     }
                     <Button colorScheme='red' variant='solid' size='sm' ml={2}> 
-                      <VscSettings onClick={() => router.push(`grupos/${id}`)} />
+                      <VscSettings onClick={() => router.push(`grupos/${user.id}`)} />
                   </Button>
                   </Td>
                 </Tr>

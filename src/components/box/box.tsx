@@ -12,7 +12,7 @@ export default function BoxComponent({ children }: { children: ReactNode }) {
       boxShadow={"sm"}
       w={"md"}
       p={8}      
-      h={[300, 400, 500]}
+      h={[150, 250, 350]}
       >
         {children}
     </Box>

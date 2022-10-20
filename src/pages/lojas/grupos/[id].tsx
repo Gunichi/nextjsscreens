@@ -53,19 +53,22 @@ const GroupDetails = () => {
   const offset = (page - 1) * pageSize;
   const posts = users.slice(offset, offset + pageSize);
 
-  const handlePageChange = (page: number | undefined) => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    setPage(page!);
-  };
-
-
   return ( 
     <SidebarWithHeader>
       <Breadcrumb>
+        <BreadcrumbItem>
+          <BreadcrumbLink href='#'>Lojas</BreadcrumbLink>
+        </BreadcrumbItem>
+
+        <BreadcrumbItem>
+          <BreadcrumbLink href='lojas/grupos/'>Grupo de lojas</BreadcrumbLink>
+        </BreadcrumbItem>
+
         <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink href='#'>Lojas / Grupos de Lojas / {id} </BreadcrumbLink>
+          <BreadcrumbLink href='#'>{id}</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
+
       <Box 
         rounded={"lg"}
         bg={useColorModeValue("white", "gray.700")}
@@ -75,23 +78,6 @@ const GroupDetails = () => {
         mt={4}
         mb={4}
       >
-        <Stack spacing={4}>
-          <Grid templateColumns='repeat(5, 1fr)' gap={4}>
-            <GridItem colSpan={4} h='10'>
-              <InputGroup>
-                <InputLeftElement
-                  pointerEvents='none'
-                  children={<FiEdit color='gray.300' />}
-                />
-                <Input type='text' placeholder='Filtrar' />
-              </InputGroup> 
-            </GridItem>
-            <GridItem colStart={6} colEnd={6} h='10'>
-              <Checkbox />
-            </GridItem>
-          </Grid>
-        </Stack>
-        <br />     
         <Grid 
           templateColumns='repeat(5, 1fr)' 
           gap={4}
@@ -128,19 +114,6 @@ const GroupDetails = () => {
           </Table>                    
         </TableContainer>
       </Box>
-      <Pagination
-        current={page}
-        onChange={(page) => {
-          handlePageChange(page);
-        }}
-        pageSize={pageSize}
-        total={data.length}
-        paginationProps={{
-          display: "flex",
-          justifyContent: "flex-end"
-        }}
-        colorScheme="red"
-      />
       <Modal
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}

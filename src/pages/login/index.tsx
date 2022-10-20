@@ -26,7 +26,7 @@ const Login = () => {
       justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}
     >
-      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+      <Stack spacing={8} mx={"auto"} maxW={"md"} py={12} px={6}>
         <BoxComponent>
           <Stack align={"center"}>
             <Heading fontSize={"2xl"} textAlign={"center"}>
