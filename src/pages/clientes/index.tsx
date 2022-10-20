@@ -145,6 +145,7 @@ const Clientes = () => {
           display: "flex",
           justifyContent: "flex-end"
         }}
+        pageNeighbours={2}
         colorScheme="red"
       />
     </SidebarWithHeader>

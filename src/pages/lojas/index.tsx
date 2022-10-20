@@ -33,6 +33,7 @@ import {
   Select,
 } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/react'
+import { sortBy } from 'sort-by-typescript';
 
 import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight, FiPause } from 'react-icons/fi'
 import SidebarWithHeader from '../../components/sidebar/sidebar';
@@ -42,21 +43,44 @@ import axios from 'axios-jsonp-pro';
 
 const Lojas = () => {
 
-
+  
+  const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onCloseEditOpen } = useDisclosure()
+  const { isOpen: isCreateOpen , onOpen: onCreateOpen, onClose: onCloseCreateOpen } = useDisclosure()
+  const initialRef = React.useRef(null)
+  const finalRef = React.useRef(null)  
   const [id, setId] = useState(0);
   const [name, setName] = useState('');
   const [cnpj, setCnpj] = useState('')
   const [fantasyName, setFantasyName] = useState('')
-
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const initialRef = React.useRef(null)
-  const finalRef = React.useRef(null)  
   const [users, setUsers] = useState(data);
+  const [isActive, setIsActive] = useState(true);
   const [page, setPage] = useState(1);
-
   const pageSize = 10;
   const offset = (page - 1) * pageSize;
   const posts = users.slice(offset, offset + pageSize);
+  const [order, setOrder] = useState('asc');
+
+
+  const sorting = (order: string) => {
+    if (order === 'asc') {
+      setOrder('desc');
+      setUsers(users.sort(sortBy('name')));
+    } else {
+      setOrder('asc');
+      setUsers(users.sort(sortBy('-name')));
+    }
+  };
+
+  const sortingByCnpj = (order: string) => {
+    if (order === 'asc') {
+      setOrder('desc');
+      setUsers(users.sort(sortBy('cnpj')));
+    } else {
+      setOrder('asc');
+      setUsers(users.sort(sortBy('-cnpj')));
+    }
+  };
+
 
   const handlePageChange = (page: number | undefined) => {
     setPage(page!);
@@ -76,13 +100,14 @@ const Lojas = () => {
     });
   }
 
+
   const handleEdit = (id: number) => {
     const user = users.find((user) => user.id === id);
     if (user) {
       setId(user.id);
       setName(user.name);
       setCnpj(user.cnpj)
-      onOpen();
+      onEditOpen();
     }
   };
 
@@ -128,7 +153,9 @@ const Lojas = () => {
             <Button 
               colorScheme='red' 
               size='md'
-              onClick={onOpen}
+              onClick={() => {
+                onCreateOpen()
+              }}
             >
               <FiEdit /> Adicionar loja
             </Button>
@@ -139,8 +166,15 @@ const Lojas = () => {
             <Thead>
               <Tr>
                 <Th textAlign='center'>Id</Th>
-                <Th textAlign='center'>Nomes</Th>
-                <Th textAlign='center'>CNPJ</Th>
+                <Th textAlign='center' 
+                  
+                  onClick={() => [
+                    sorting(order), 
+                  ]}
+
+                >Nomes</Th>
+                <Th textAlign='center' onClick={sortingByCnpj.bind(null, order)
+                }>CNPJ</Th>
                 <Th textAlign='center'>Status</Th>
                 <Th textAlign='center'>Ações</Th>
               </Tr>
@@ -156,15 +190,15 @@ const Lojas = () => {
                     <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={() => handleEdit(user.id)} > 
                       <FiEdit />
                     </Button>
-                    {user.active == true ?
-                      <Button colorScheme='red' variant='solid' size='sm'> 
-                        <FiPause />
-                      </Button>
-                    :
-                      <Button colorScheme='red' variant='solid' size='sm'> 
-                        <FiPlay />
-                      </Button>
-                    }
+                  {user.active == true ? (
+                    <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={() => setIsActive(!isActive)}>
+                      {isActive ? <FiPause /> : <FiPlay />}
+                    </Button>
+                  ) : (
+                    <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={() => setIsActive(!isActive)}>
+                      {isActive ? <FiPlay /> : <FiPause />}
+                    </Button>
+                  )}
                   </Td>
                 </Tr>
               ))}
@@ -172,6 +206,7 @@ const Lojas = () => {
           </Table>                    
         </TableContainer>
       </Box>
+
       <Pagination
         page={page}
         onChange={(page) => {
@@ -183,15 +218,71 @@ const Lojas = () => {
         color='red.7'  
         position='right'
       />
+
+      {/* Modal de criação de loja */}
       <Modal
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
-        isOpen={isOpen}
-        onClose={onClose}
+        isOpen={isCreateOpen}
+        onClose={onCloseCreateOpen}
       >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Criar conta</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+
+            <FormControl mt={4}>
+              <FormLabel>Nome</FormLabel>
+              <Input 
+                placeholder='nome' 
+              />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>CNPJ</FormLabel>
+              <Input 
+                placeholder='CNPJ' 
+                onBlur={findCnpj}
+                onChange={onChange}
+              />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Razão social</FormLabel>
+              <Input 
+                isReadOnly 
+                placeholder='Razão social'
+              />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Grupo de loja</FormLabel>
+              <Select placeholder='Selecione um grupo de loja'>
+                {users.map(loja => 
+                  <option value={loja.name}>{loja.name}</option>
+                )}
+              </Select>
+            </FormControl>
+            
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme='red' mr={3}>
+              Salvar
+            </Button>
+            <Button onClick={onCloseCreateOpen}>Cancelar</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* Modal Editar Loja */}
+      <Modal
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={isEditOpen}
+        onClose={onCloseEditOpen}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Editar conta</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
 
@@ -221,7 +312,7 @@ const Lojas = () => {
             </FormControl>
             <FormControl mt={4}>
               <FormLabel>Grupo de loja</FormLabel>
-              <Select placeholder='Selecione um grupo de loja'>
+              <Select placeholder='Selecione um grupo de loja' value={name}>
                 {users.map(loja => 
                   <option value={loja.name}>{loja.name}</option>
                 )}
@@ -234,7 +325,7 @@ const Lojas = () => {
             <Button colorScheme='red' mr={3}>
               Salvar
             </Button>
-            <Button onClick={onClose}>Cancelar</Button>
+            <Button onClick={onCloseEditOpen}>Cancelar</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
