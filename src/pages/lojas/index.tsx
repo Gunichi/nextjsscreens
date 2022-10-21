@@ -35,7 +35,7 @@ import {
 import { Text } from '@chakra-ui/react'
 import { sortBy } from 'sort-by-typescript';
 
-import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight, FiPause } from 'react-icons/fi'
+import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight, FiPause, FiShoppingCart } from 'react-icons/fi'
 import SidebarWithHeader from '../../components/sidebar/sidebar';
 import { data } from '../../utils/data';
 import { Pagination } from '@mantine/core';
@@ -60,8 +60,17 @@ const Lojas = () => {
   const posts = users.slice(offset, offset + pageSize);
   const [order, setOrder] = useState('asc');
 
+  const sortingById = (order: string) => {
+    if (order === 'asc') {
+      setOrder('desc');
+      setUsers(users.sort(sortBy('id')));
+    } else {
+      setOrder('asc');
+      setUsers(users.sort(sortBy('-id')));
+    }
+  };
 
-  const sorting = (order: string) => {
+  const sortingByName = (order: string) => {
     if (order === 'asc') {
       setOrder('desc');
       setUsers(users.sort(sortBy('name')));
@@ -74,10 +83,20 @@ const Lojas = () => {
   const sortingByCnpj = (order: string) => {
     if (order === 'asc') {
       setOrder('desc');
-      setUsers(users.sort(sortBy('cnpj')));
+      setUsers(users.sort(sortBy('cnpj' || 'id')));
     } else {
       setOrder('asc');
       setUsers(users.sort(sortBy('-cnpj')));
+    }
+  };
+
+  const sortingByStatus = (order: string) => {
+    if (order === 'asc') {
+      setOrder('desc');
+      setUsers(users.sort(sortBy('active')));
+    } else {
+      setOrder('asc');
+      setUsers(users.sort(sortBy('-active')));
     }
   };
 
@@ -165,17 +184,10 @@ const Lojas = () => {
           <Table size='sm'>
             <Thead>
               <Tr>
-                <Th textAlign='center'>Id</Th>
-                <Th textAlign='center' 
-                  
-                  onClick={() => [
-                    sorting(order), 
-                  ]}
-
-                >Nomes</Th>
-                <Th textAlign='center' onClick={sortingByCnpj.bind(null, order)
-                }>CNPJ</Th>
-                <Th textAlign='center'>Status</Th>
+                <Th textAlign='center' cursor='pointer' onClick={sortingById.bind(null, order)}>Id </Th>
+                <Th textAlign='center' cursor='pointer' onClick={() => sortingByName(order)}>Nome</Th>
+                <Th textAlign='center' cursor='pointer' onClick={sortingByCnpj.bind(null, order)}>CNPJ</Th>
+                <Th textAlign='center' cursor='pointer' onClick={sortingByStatus.bind(null, order)}>Status</Th>
                 <Th textAlign='center'>Ações</Th>
               </Tr>
             </Thead>
