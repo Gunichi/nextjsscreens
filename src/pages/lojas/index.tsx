@@ -31,11 +31,13 @@ import {
   Td,
   Tbody,
   Select,
+  SimpleGrid,
+  HStack,
 } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/react'
 import { sortBy } from 'sort-by-typescript';
 
-import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight, FiPause, FiShoppingCart } from 'react-icons/fi'
+import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight, FiPause, FiShoppingCart, FiArrowDown, FiArrowUp } from 'react-icons/fi'
 import SidebarWithHeader from '../../components/sidebar/sidebar';
 import { data } from '../../utils/data';
 import { Pagination } from '@mantine/core';
@@ -184,7 +186,27 @@ const Lojas = () => {
           <Table size='sm'>
             <Thead>
               <Tr>
-                <Th textAlign='center' cursor='pointer' onClick={sortingById.bind(null, order)}>Id </Th>
+                <Th textAlign='center' cursor='pointer' onClick={sortingById.bind(null, order)}> 
+                  { order == 'asc' ?
+                    <HStack spacing='2px' justifyContent='center'>
+                      <Box>
+                        ID
+                      </Box>
+                      <Box>
+                        <FiArrowUp title='id' size={12} />
+                      </Box>
+                    </HStack>
+                  :
+                    <HStack spacing='2px' justifyContent='center'>
+                      <Box>
+                        ID
+                      </Box>
+                      <Box>
+                        <FiArrowDown size={12} />
+                      </Box>
+                    </HStack>               
+                }           
+                </Th>
                 <Th textAlign='center' cursor='pointer' onClick={() => sortingByName(order)}>Nome</Th>
                 <Th textAlign='center' cursor='pointer' onClick={sortingByCnpj.bind(null, order)}>CNPJ</Th>
                 <Th textAlign='center' cursor='pointer' onClick={sortingByStatus.bind(null, order)}>Status</Th>
@@ -224,8 +246,8 @@ const Lojas = () => {
         onChange={(page) => {
           handlePageChange(page);
         }}
-        total={pageSize}
-        siblings={2}
+        total={10}
+        siblings={1}
         boundaries={0}      
         color='red.7'  
         position='right'

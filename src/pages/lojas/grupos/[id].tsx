@@ -119,9 +119,10 @@ const GroupDetails = () => {
         finalFocusRef={finalRef}
         isOpen={isOpen}
         onClose={onClose}
+        scrollBehavior='inside'
       >
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent maxH='70vh'>
           <ModalHeader>Adicionar grupo de loja</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
