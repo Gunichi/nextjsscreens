@@ -207,9 +207,69 @@ const Lojas = () => {
                     </HStack>               
                 }           
                 </Th>
-                <Th textAlign='center' cursor='pointer' onClick={() => sortingByName(order)}>Nome</Th>
-                <Th textAlign='center' cursor='pointer' onClick={sortingByCnpj.bind(null, order)}>CNPJ</Th>
-                <Th textAlign='center' cursor='pointer' onClick={sortingByStatus.bind(null, order)}>Status</Th>
+                <Th textAlign='center' cursor='pointer' onClick={() => sortingByName(order)}>
+                { order == 'asc' ?
+                    <HStack spacing='2px' justifyContent='center'>
+                      <Box>
+                        Nome
+                      </Box>
+                      <Box>
+                        <FiArrowUp title='id' size={12} />
+                      </Box>
+                    </HStack>
+                  :
+                    <HStack spacing='2px' justifyContent='center'>
+                      <Box>
+                        Nome
+                      </Box>
+                      <Box>
+                        <FiArrowDown size={12} />
+                      </Box>
+                    </HStack>               
+                }           
+                </Th>
+                <Th textAlign='center' cursor='pointer' onClick={sortingByCnpj.bind(null, order)}>
+                { order == 'asc' ?
+                    <HStack spacing='2px' justifyContent='center'>
+                      <Box>
+                        CNPJ
+                      </Box>
+                      <Box>
+                        <FiArrowUp title='id' size={12} />
+                      </Box>
+                    </HStack>
+                  :
+                    <HStack spacing='2px' justifyContent='center'>
+                      <Box>
+                        CNPJ
+                      </Box>
+                      <Box>
+                        <FiArrowDown size={12} />
+                      </Box>
+                    </HStack>               
+                }           
+                </Th>
+                <Th textAlign='center' cursor='pointer' onClick={sortingByStatus.bind(null, order)}>
+                { order == 'asc' ?
+                    <HStack spacing='2px' justifyContent='center'>
+                      <Box>
+                        Status
+                      </Box>
+                      <Box>
+                        <FiArrowUp title='id' size={12} />
+                      </Box>
+                    </HStack>
+                  :
+                    <HStack spacing='2px' justifyContent='center'>
+                      <Box>
+                        Status
+                      </Box>
+                      <Box>
+                        <FiArrowDown size={12} />
+                      </Box>
+                    </HStack>               
+                }           
+                </Th>
                 <Th textAlign='center'>Ações</Th>
               </Tr>
             </Thead>
