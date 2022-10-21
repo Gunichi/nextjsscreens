@@ -132,6 +132,16 @@ const Lojas = () => {
     }
   };
 
+  //Edit from active and inactive and change icons
+  const handleActive = (id: number) => {
+    const user = users.find((user) => user.id === id);
+    if (user) {
+      setIsActive(!user.active);
+      user.active = !user.active;
+    }
+  };
+
+
 
   return ( 
     <SidebarWithHeader>
@@ -284,15 +294,9 @@ const Lojas = () => {
                     <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={() => handleEdit(user.id)} > 
                       <FiEdit />
                     </Button>
-                  {user.active == true ? (
-                    <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={() => setIsActive(!isActive)}>
-                      {isActive ? <FiPause /> : <FiPlay />}
+                    <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={() => {[handleActive(user.id), console.log(isActive)]}}>
+                      {user.active == true ? <FiPause /> : <FiPlay />}
                     </Button>
-                  ) : (
-                    <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={() => setIsActive(!isActive)}>
-                      {isActive ? <FiPlay /> : <FiPause />}
-                    </Button>
-                  )}
                   </Td>
                 </Tr>
               ))}
