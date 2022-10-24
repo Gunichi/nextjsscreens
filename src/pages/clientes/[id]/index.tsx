@@ -29,8 +29,8 @@ import { useRouter } from 'next/router';
 import { IoIosPaper } from "react-icons/io";
 
 import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
-import SidebarWithHeader from '../../components/sidebar/sidebar';
-import { clienteCoupons } from '../../utils/clientsCoupons';
+import SidebarWithHeader from '../../../components/sidebar/sidebar';
+import { clienteCoupons } from '../../../utils/clientsCoupons';
 import Pagination from '@choc-ui/paginator';
 import router from 'next/router';
 
@@ -120,6 +120,7 @@ const Clientes = () => {
                       colorScheme='red'
                       variant='solid'
                       size='sm'
+                      onClick={() => router.push(`/clientes/${id}/${user.id}`)}
                     >
                       <IoIosPaper />
                     </Button>
