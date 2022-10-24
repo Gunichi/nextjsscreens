@@ -308,14 +308,6 @@ const Lojas = () => {
           <GridItem colStart={6} colEnd={6} h='10'>
           <ButtonGroup variant='solid' spacing='6'>
             <Button 
-              colorScheme='red' 
-              size='md'
-              leftIcon={<FiEdit />}
-              onClick={() => onCreateOpen()}
-            >
-              Adicionar loja
-            </Button>
-            <Button 
               onClick={() => handleExport()} 
               colorScheme="red" 
               variant="solid" 
@@ -325,7 +317,14 @@ const Lojas = () => {
             >
               Exportar tabela
             </Button>
-
+            <Button 
+              colorScheme='red' 
+              size='md'
+              leftIcon={<FiEdit />}
+              onClick={() => onCreateOpen()}
+            >
+              Adicionar loja
+            </Button>           
           </ButtonGroup>
           </GridItem>
         </Grid>
