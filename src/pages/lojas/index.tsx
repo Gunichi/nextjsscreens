@@ -62,19 +62,20 @@ const Lojas = () => {
   const offset = (page - 1) * pageSize;
   const posts = users.slice(offset, offset + pageSize);
   const [order, setOrder] = useState('');
+  const [orderId, setOrderId] = useState('');
   const [orderName, setOrderName] = useState('');
   const [orderCnpj, setOrderCnpj] = useState('');
   const [orderStatus, setOrderStatus] = useState('');
 
   const sortById = () => {
-    if(order === 'asc'){
-      setOrder('desc')
+    if(orderId === 'asc'){
+      setOrderId('desc')
       setUsers(users.sort(sortBy('id', 'desc')))
-    }else if(order === 'desc'){
-      setOrder('')
+    }else if(orderId === 'desc'){
+      setOrderId('')
       setUsers(users.sort(sortBy('id', 'asc')))
     }else{
-      setOrder('asc')
+      setOrderId('asc')
       setUsers(users.sort(sortBy('-id', 'asc')))
     }
   }
@@ -125,9 +126,9 @@ const Lojas = () => {
   }
 
   const sortIcon = (order: string) => {
-    if (order === 'asc') {
+    if (orderId === 'asc') {
       return <FiArrowUp />;
-    } else if (order === 'desc') {
+    } else if (orderId === 'desc') {
       return <FiArrowDown />;
     } else {
       return null;
@@ -213,7 +214,7 @@ const Lojas = () => {
     XLSX.writeFile(wb, 'lojas.xlsx');
   }
 
-    /*const sortingById = (order: string) => {
+  /*const sortingById = (order: string) => {
     if (order === 'asc') {
       setOrder('desc');
       setUsers(users.sort(sortBy('id')));
@@ -310,7 +311,7 @@ const Lojas = () => {
                 <Th textAlign='center' cursor='pointer' onClick={() => sortById()}>
                   <HStack spacing={0} justifyContent='center'>
                     <Text>ID</Text>
-                    <Text>{sortIcon(order)}</Text>
+                    <Text>{sortIcon(orderId)}</Text>
                   </HStack>
                 </Th>
                 <Th textAlign='center' cursor='pointer' onClick={() => sortByName()}>
