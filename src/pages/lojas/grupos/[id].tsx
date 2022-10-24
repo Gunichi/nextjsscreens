@@ -113,6 +113,7 @@ const GroupDetails = () => {
           </Table>                    
         </TableContainer>
       </Box>
+      
       <Modal
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}

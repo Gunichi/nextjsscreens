@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   useColorModeValue,
   Box,
@@ -33,11 +33,12 @@ import {
   Select,
   SimpleGrid,
   HStack,
+  ButtonGroup,
 } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/react'
 import { sortBy } from 'sort-by-typescript';
 
-import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight, FiPause, FiShoppingCart, FiArrowDown, FiArrowUp } from 'react-icons/fi'
+import { FiPlay, FiEdit, FiPause, FiArrowDown, FiArrowUp, FiShare } from 'react-icons/fi'
 import SidebarWithHeader from '../../components/sidebar/sidebar';
 import { data } from '../../utils/data';
 import { Pagination } from '@mantine/core';
@@ -68,6 +69,9 @@ const Lojas = () => {
   const [orderStatus, setOrderStatus] = useState('');
 
   const sortById = () => {
+    setOrderName('')
+    setOrderCnpj('')
+    setOrderStatus('')
     if(orderId === 'asc'){
       setOrderId('desc')
       setUsers(users.sort(sortBy('id', 'desc')))
@@ -81,6 +85,9 @@ const Lojas = () => {
   }
 
   const sortByName = () => {
+    setOrderId('')
+    setOrderCnpj('')
+    setOrderStatus('')
     if(orderName === 'asc'){
       setOrderName('desc')
       setUsers(users.sort(sortBy('name', 'desc')))
@@ -96,6 +103,9 @@ const Lojas = () => {
   }
 
   const sortByCnpj = () => {
+    setOrderId('')
+    setOrderName('')
+    setOrderStatus('')
     if(orderCnpj === 'asc'){
       setOrderCnpj('desc')
       setUsers(users.sort(sortBy('cnpj', 'desc')))
@@ -111,6 +121,9 @@ const Lojas = () => {
   }
 
   const sortByStatus = () => {
+    setOrderId('')
+    setOrderName('')
+    setOrderCnpj('')
     if(orderStatus === 'asc'){
       setOrderStatus('desc')
       setUsers(users.sort(sortBy('active', 'desc')))
@@ -164,6 +177,7 @@ const Lojas = () => {
       return null;
     }
   };
+
 
   const handlePageChange = (page: number | undefined) => {
     setPage(page!);
@@ -270,7 +284,6 @@ const Lojas = () => {
         mt={4}
         mb={4}
       >
-        <Button onClick={() => handleExport()} colorScheme="red" variant="solid" mb={4} mr={4}>Exportar tabela</Button>
         <Stack spacing={4}>
           <Grid templateColumns='repeat(5, 1fr)' gap={4}>
             <GridItem colSpan={4} h='10'>
@@ -293,22 +306,34 @@ const Lojas = () => {
             <Text fontSize='4x1' as='b'>Listagem de lojas</Text>  
           </GridItem>
           <GridItem colStart={6} colEnd={6} h='10'>
+          <ButtonGroup variant='solid' spacing='6'>
             <Button 
               colorScheme='red' 
               size='md'
-              onClick={() => {
-                onCreateOpen()
-              }}
+              leftIcon={<FiEdit />}
+              onClick={() => onCreateOpen()}
             >
-              <FiEdit /> Adicionar loja
+              Adicionar loja
             </Button>
+            <Button 
+              onClick={() => handleExport()} 
+              colorScheme="red" 
+              variant="solid" 
+              mb={4} 
+              mr={4}
+              leftIcon={<FiShare />}
+            >
+              Exportar tabela
+            </Button>
+
+          </ButtonGroup>
           </GridItem>
         </Grid>
         <TableContainer mt={4}>
           <Table size='sm'>
             <Thead>
               <Tr>
-                <Th textAlign='center' cursor='pointer' onClick={() => sortById()}>
+                <Th textAlign='center' cursor='pointer' onClick={() => sortById()}>      
                   <HStack spacing={0} justifyContent='center'>
                     <Text>ID</Text>
                     <Text>{sortIcon(orderId)}</Text>

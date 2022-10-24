@@ -31,6 +31,7 @@ import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import SidebarWithHeader from '../../components/sidebar/sidebar';
 import { data } from '../../utils/data';
 import Pagination from '@choc-ui/paginator';
+import router from 'next/router';
 
 const Clientes = () => {
 
@@ -112,9 +113,9 @@ const Clientes = () => {
                   <Td textAlign='center'>
                     <Button
                       colorScheme='red'
-                      variant='outline'
+                      variant='solid'
                       size='sm'
-                      onClick={onOpen}
+                      onClick={() => router.push(`clientes/${user.id}`)}    
                     >
                       <IoIosPaper />
                     </Button>

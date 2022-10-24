@@ -1,0 +1,202 @@
+export const clienteCoupons = 
+[{
+  "id": 1,
+  "pdv": "89",
+  "totalValue": 84.62
+}, {
+  "id": 2,
+  "pdv": "592",
+  "totalValue": 15.27
+}, {
+  "id": 3,
+  "pdv": "104",
+  "totalValue": 51.92
+}, {
+  "id": 4,
+  "pdv": "501",
+  "totalValue": 46.72
+}, {
+  "id": 5,
+  "pdv": "466",
+  "totalValue": 14.37
+}, {
+  "id": 6,
+  "pdv": "18568",
+  "totalValue": 28.1
+}, {
+  "id": 7,
+  "pdv": "81",
+  "totalValue": 15.69
+}, {
+  "id": 8,
+  "pdv": "96547",
+  "totalValue": 25.34
+}, {
+  "id": 9,
+  "pdv": "220",
+  "totalValue": 30.29
+}, {
+  "id": 10,
+  "pdv": "33",
+  "totalValue": 46.33
+}, {
+  "id": 11,
+  "pdv": "90529",
+  "totalValue": 52.29
+}, {
+  "id": 12,
+  "pdv": "4319",
+  "totalValue": 77.9
+}, {
+  "id": 13,
+  "pdv": "771",
+  "totalValue": 21.19
+}, {
+  "id": 14,
+  "pdv": "6",
+  "totalValue": 37.74
+}, {
+  "id": 15,
+  "pdv": "2",
+  "totalValue": 58.12
+}, {
+  "id": 16,
+  "pdv": "931",
+  "totalValue": 88.94
+}, {
+  "id": 17,
+  "pdv": "442",
+  "totalValue": 47.79
+}, {
+  "id": 18,
+  "pdv": "264",
+  "totalValue": 60.4
+}, {
+  "id": 19,
+  "pdv": "81",
+  "totalValue": 56.99
+}, {
+  "id": 20,
+  "pdv": "02955",
+  "totalValue": 47.6
+}, {
+  "id": 21,
+  "pdv": "4630",
+  "totalValue": 71.16
+}, {
+  "id": 22,
+  "pdv": "8",
+  "totalValue": 88.27
+}, {
+  "id": 23,
+  "pdv": "15",
+  "totalValue": 42.39
+}, {
+  "id": 24,
+  "pdv": "30233",
+  "totalValue": 16.36
+}, {
+  "id": 25,
+  "pdv": "7552",
+  "totalValue": 66.71
+}, {
+  "id": 26,
+  "pdv": "6",
+  "totalValue": 72.52
+}, {
+  "id": 27,
+  "pdv": "77",
+  "totalValue": 9.76
+}, {
+  "id": 28,
+  "pdv": "50947",
+  "totalValue": 61.23
+}, {
+  "id": 29,
+  "pdv": "8",
+  "totalValue": 23.14
+}, {
+  "id": 30,
+  "pdv": "61",
+  "totalValue": 7.74
+}, {
+  "id": 31,
+  "pdv": "0979",
+  "totalValue": 10.0
+}, {
+  "id": 32,
+  "pdv": "3",
+  "totalValue": 29.12
+}, {
+  "id": 33,
+  "pdv": "70663",
+  "totalValue": 47.04
+}, {
+  "id": 34,
+  "pdv": "14297",
+  "totalValue": 94.18
+}, {
+  "id": 35,
+  "pdv": "61",
+  "totalValue": 81.2
+}, {
+  "id": 36,
+  "pdv": "3127",
+  "totalValue": 39.85
+}, {
+  "id": 37,
+  "pdv": "9621",
+  "totalValue": 49.12
+}, {
+  "id": 38,
+  "pdv": "59",
+  "totalValue": 89.41
+}, {
+  "id": 39,
+  "pdv": "55709",
+  "totalValue": 39.59
+}, {
+  "id": 40,
+  "pdv": "9426",
+  "totalValue": 39.17
+}, {
+  "id": 41,
+  "pdv": "9802",
+  "totalValue": 28.04
+}, {
+  "id": 42,
+  "pdv": "4",
+  "totalValue": 6.0
+}, {
+  "id": 43,
+  "pdv": "360",
+  "totalValue": 1.46
+}, {
+  "id": 44,
+  "pdv": "14110",
+  "totalValue": 27.24
+}, {
+  "id": 45,
+  "pdv": "788",
+  "totalValue": 42.7
+}, {
+  "id": 46,
+  "pdv": "1",
+  "totalValue": 57.41
+}, {
+  "id": 47,
+  "pdv": "61",
+  "totalValue": 68.04
+}, {
+  "id": 48,
+  "pdv": "74651",
+  "totalValue": 71.77
+}, {
+  "id": 49,
+  "pdv": "2872",
+  "totalValue": 39.52
+}, {
+  "id": 50,
+  "pdv": "2736",
+  "totalValue": 95.18
+}]
