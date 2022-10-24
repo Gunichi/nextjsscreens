@@ -43,7 +43,8 @@ import { useRouter } from 'next/router';
 
 const gruposDeLojas = () => {
 
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onCloseEditOpen } = useDisclosure()
+  const { isOpen: isCreateOpen , onOpen: onCreateOpen, onClose: onCloseCreateOpen } = useDisclosure()
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null) 
   const [users, setUsers] = useState(data);
@@ -64,16 +65,19 @@ const gruposDeLojas = () => {
     if (user) {
       setId(user.id);
       setName(user.name);
-      onOpen();
+      onEditOpen();
     }
   };
-
 
   return ( 
     <SidebarWithHeader>
       <Breadcrumb>
+        <BreadcrumbItem>
+          <BreadcrumbLink href='/lojas'>Lojas</BreadcrumbLink>
+        </BreadcrumbItem>
+
         <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink href='#'>Lojas / Grupos de Lojas</BreadcrumbLink>
+          <BreadcrumbLink href='/lojas/grupos'>Grupo de lojas</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
       <Box 
@@ -113,7 +117,7 @@ const gruposDeLojas = () => {
             <Button 
               colorScheme='red' 
               size='md'
-              onClick={() => onOpen()}
+              onClick={() => onCreateOpen()}
             >
               <FiEdit /> Adicionar grupo de loja
             </Button>
@@ -131,7 +135,7 @@ const gruposDeLojas = () => {
             </Thead>
             <Tbody>
               {posts.map((user) => (
-                <Tr key={id}>
+                <Tr key={user.id}>
                   <Td textAlign='center'>{user.id}</Td>
                   <Td textAlign="center">{user.name}</Td>
                   <Td textAlign='center'>{user.active == true ? 'Ativo' : 'Desativado'}</Td>
@@ -187,16 +191,16 @@ const gruposDeLojas = () => {
       />
 
 
-      <Modal
+       {/* Modal de criação de loja */}
+       <Modal
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
-        isOpen={isOpen}
-        onClose={onClose}
-
+        isOpen={isCreateOpen}
+        onClose={onCloseCreateOpen}
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Adicionar grupo de loja</ModalHeader>
+          <ModalHeader>Criar conta</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
 
@@ -204,7 +208,6 @@ const gruposDeLojas = () => {
               <FormLabel>Nome</FormLabel>
               <Input 
                 placeholder='nome' 
-                value={name}
               />
             </FormControl>
             
@@ -214,7 +217,39 @@ const gruposDeLojas = () => {
             <Button colorScheme='red' mr={3}>
               Salvar
             </Button>
-            <Button onClick={onClose}>Cancelar</Button>
+            <Button onClick={onCloseCreateOpen}>Cancelar</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* Modal Editar Loja */}
+      <Modal
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={isEditOpen}
+        onClose={onCloseEditOpen}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Editar conta</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+
+            <FormControl mt={4}>
+              <FormLabel>Nome</FormLabel>
+              <Input 
+                placeholder='nome' 
+                value={name}
+              />
+            </FormControl>       
+            
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme='red' mr={3}>
+              Salvar
+            </Button>
+            <Button onClick={onCloseEditOpen}>Cancelar</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

@@ -57,18 +57,17 @@ const GroupDetails = () => {
     <SidebarWithHeader>
       <Breadcrumb>
         <BreadcrumbItem>
-          <BreadcrumbLink href='#'>Lojas</BreadcrumbLink>
+          <BreadcrumbLink href='/lojas'>Lojas</BreadcrumbLink>
         </BreadcrumbItem>
 
         <BreadcrumbItem>
-          <BreadcrumbLink href='lojas/grupos/'>Grupo de lojas</BreadcrumbLink>
+          <BreadcrumbLink href='/lojas/grupos'>Grupo de lojas</BreadcrumbLink>
         </BreadcrumbItem>
 
         <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink href='#'>{id}</BreadcrumbLink>
+          <BreadcrumbLink>{id}</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-
       <Box 
         rounded={"lg"}
         bg={useColorModeValue("white", "gray.700")}

@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {
   useColorModeValue,
   Box,
@@ -9,7 +9,7 @@ import {
   InputGroup, 
   Input,
   InputLeftElement,
-  Checkbox,
+  
   useDisclosure,
   Modal,
   ModalOverlay,
@@ -41,6 +41,7 @@ import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight, FiPause, FiShoppingCart,
 import SidebarWithHeader from '../../components/sidebar/sidebar';
 import { data } from '../../utils/data';
 import { Pagination } from '@mantine/core';
+import XLSX from 'xlsx'
 import axios from 'axios-jsonp-pro';
 
 const Lojas = () => {
@@ -60,48 +61,108 @@ const Lojas = () => {
   const pageSize = 10;
   const offset = (page - 1) * pageSize;
   const posts = users.slice(offset, offset + pageSize);
-  const [order, setOrder] = useState('asc');
+  const [order, setOrder] = useState('');
+  const [orderName, setOrderName] = useState('');
+  const [orderCnpj, setOrderCnpj] = useState('');
+  const [orderStatus, setOrderStatus] = useState('');
 
-  const sortingById = (order: string) => {
+  const sortById = () => {
+    if(order === 'asc'){
+      setOrder('desc')
+      setUsers(users.sort(sortBy('id', 'desc')))
+    }else if(order === 'desc'){
+      setOrder('')
+      setUsers(users.sort(sortBy('id', 'asc')))
+    }else{
+      setOrder('asc')
+      setUsers(users.sort(sortBy('-id', 'asc')))
+    }
+  }
+
+  const sortByName = () => {
+    if(orderName === 'asc'){
+      setOrderName('desc')
+      setUsers(users.sort(sortBy('name', 'desc')))
+    }else if(orderName === 'desc'){
+      setOrderName('')
+      setUsers(users.sort(sortBy('name', 'asc')))
+      setOrder('asc')
+      setUsers(users.sort(sortBy('id', 'desc')))
+    }else{
+      setOrderName('asc')
+      setUsers(users.sort(sortBy('-name', 'asc')))
+    }
+  }
+
+  const sortByCnpj = () => {
+    if(orderCnpj === 'asc'){
+      setOrderCnpj('desc')
+      setUsers(users.sort(sortBy('cnpj', 'desc')))
+    }else if(orderCnpj === 'desc'){
+      setOrderCnpj('')
+      setUsers(users.sort(sortBy('cnpj', 'asc')))
+      setOrder('asc')
+      setUsers(users.sort(sortBy('id', 'desc')))
+    }else{
+      setOrderCnpj('asc')
+      setUsers(users.sort(sortBy('-cnpj', 'asc')))
+    }
+  }
+
+  const sortByStatus = () => {
+    if(orderStatus === 'asc'){
+      setOrderStatus('desc')
+      setUsers(users.sort(sortBy('active', 'desc')))
+    }else if(orderStatus === 'desc'){
+      setOrderStatus('')
+      setUsers(users.sort(sortBy('active', 'asc')))
+      setOrder('asc')
+      setUsers(users.sort(sortBy('id', 'desc')))
+    }else{
+      setOrderStatus('asc')
+      setUsers(users.sort(sortBy('-active', 'asc')))
+    }
+  }
+
+  const sortIcon = (order: string) => {
     if (order === 'asc') {
-      setOrder('desc');
-      setUsers(users.sort(sortBy('id')));
+      return <FiArrowUp />;
+    } else if (order === 'desc') {
+      return <FiArrowDown />;
     } else {
-      setOrder('asc');
-      setUsers(users.sort(sortBy('-id')));
+      return null;
     }
   };
 
-  const sortingByName = (order: string) => {
-    if (order === 'asc') {
-      setOrder('desc');
-      setUsers(users.sort(sortBy('name')));
+  const sortIconName = (order: string) => {
+    if (orderName === 'asc') {
+      return <FiArrowUp />;
+    } else if (orderName === 'desc') {
+      return <FiArrowDown />;
     } else {
-      setOrder('asc');
-      setUsers(users.sort(sortBy('-name')));
+      return null;
     }
   };
 
-  const sortingByCnpj = (order: string) => {
-    if (order === 'asc') {
-      setOrder('desc');
-      setUsers(users.sort(sortBy('cnpj' || 'id')));
+  const sortIconCnpj = (order: string) => {
+    if (orderCnpj === 'asc') {
+      return <FiArrowUp />;
+    } else if (orderCnpj === 'desc') {
+      return <FiArrowDown />;
     } else {
-      setOrder('asc');
-      setUsers(users.sort(sortBy('-cnpj')));
+      return null;
     }
   };
 
-  const sortingByStatus = (order: string) => {
-    if (order === 'asc') {
-      setOrder('desc');
-      setUsers(users.sort(sortBy('active')));
+  const sortIconStatus = (order: string) => {
+    if (orderStatus === 'asc') {
+      return <FiArrowUp />;
+    } else if (orderStatus === 'desc') {
+      return <FiArrowDown />;
     } else {
-      setOrder('asc');
-      setUsers(users.sort(sortBy('-active')));
+      return null;
     }
   };
-
 
   const handlePageChange = (page: number | undefined) => {
     setPage(page!);
@@ -121,7 +182,6 @@ const Lojas = () => {
     });
   }
 
-
   const handleEdit = (id: number) => {
     const user = users.find((user) => user.id === id);
     if (user) {
@@ -132,22 +192,72 @@ const Lojas = () => {
     }
   };
 
-  //Edit from active and inactive and change icons
   const handleActive = (id: number) => {
     const user = users.find((user) => user.id === id);
     if (user) {
       setIsActive(!user.active);
-      user.active = !user.active;
+      const newUsers = users.map((user) => {
+        if (user.id === id) {
+          return { ...user, active: !user.active };
+        }
+        return user;
+      });
+      setUsers(newUsers);
     }
   };
 
+  const handleExport = () => {
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(users);
+    XLSX.utils.book_append_sheet(wb, ws, 'Lojas');
+    XLSX.writeFile(wb, 'lojas.xlsx');
+  }
 
+    /*const sortingById = (order: string) => {
+    if (order === 'asc') {
+      setOrder('desc');
+      setUsers(users.sort(sortBy('id')));
+    } else {
+      setOrder('asc');
+      setUsers(users.sort(sortBy('-id')));
+    }
+  };
+
+  const sortingByName = (order: string) => {
+    if (order === 'asc') {
+      setOrderName('desc');
+      setUsers(users.sort(sortBy('name')));
+    } else {
+      setOrderName('asc');
+      setUsers(users.sort(sortBy('-name')));
+    }
+  };
+
+  const sortingByCnpj = (order: string) => {
+    if (order === 'asc') {
+      setOrder('desc');
+      setUsers(users.sort(sortBy('cnpj' || 'id')));
+    } else {
+      setOrder('asc');
+      setUsers(users.sort(sortBy('-cnpj')));
+    }
+  }; 
+
+  const sortingByStatus = (order: string) => {
+    if (order === 'asc') {
+      setOrder('desc');
+      setUsers(users.sort(sortBy('active')));
+    } else {
+      setOrder('asc');
+      setUsers(users.sort(sortBy('-active')));
+    }
+  }; */
 
   return ( 
     <SidebarWithHeader>
       <Breadcrumb>
-        <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink href='#'>Lojas</BreadcrumbLink>
+        <BreadcrumbItem>
+          <BreadcrumbLink href='/lojas'>Lojas</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
       <Box 
@@ -159,6 +269,7 @@ const Lojas = () => {
         mt={4}
         mb={4}
       >
+        <Button onClick={() => handleExport()} colorScheme="red" variant="solid" mb={4} mr={4}>Exportar tabela</Button>
         <Stack spacing={4}>
           <Grid templateColumns='repeat(5, 1fr)' gap={4}>
             <GridItem colSpan={4} h='10'>
@@ -196,89 +307,26 @@ const Lojas = () => {
           <Table size='sm'>
             <Thead>
               <Tr>
-                <Th textAlign='center' cursor='pointer' onClick={sortingById.bind(null, order)}> 
-                  { order == 'asc' ?
-                    <HStack spacing='2px' justifyContent='center'>
-                      <Box>
-                        ID
-                      </Box>
-                      <Box>
-                        <FiArrowUp title='id' size={12} />
-                      </Box>
-                    </HStack>
-                  :
-                    <HStack spacing='2px' justifyContent='center'>
-                      <Box>
-                        ID
-                      </Box>
-                      <Box>
-                        <FiArrowDown size={12} />
-                      </Box>
-                    </HStack>               
-                }           
+                <Th textAlign='center' cursor='pointer' onClick={() => sortById()}>
+                  <HStack spacing={0} justifyContent='center'>
+                    <Text>ID</Text>
+                    <Text>{sortIcon(order)}</Text>
+                  </HStack>
                 </Th>
-                <Th textAlign='center' cursor='pointer' onClick={() => sortingByName(order)}>
-                { order == 'asc' ?
-                    <HStack spacing='2px' justifyContent='center'>
-                      <Box>
-                        Nome
-                      </Box>
-                      <Box>
-                        <FiArrowUp title='id' size={12} />
-                      </Box>
-                    </HStack>
-                  :
-                    <HStack spacing='2px' justifyContent='center'>
-                      <Box>
-                        Nome
-                      </Box>
-                      <Box>
-                        <FiArrowDown size={12} />
-                      </Box>
-                    </HStack>               
-                }           
+                <Th textAlign='center' cursor='pointer' onClick={() => sortByName()}>
+                  <HStack spacing={0} justifyContent='center'>
+                    <Text as='b'>Nome</Text> {sortIconName(orderName)}
+                  </HStack>
                 </Th>
-                <Th textAlign='center' cursor='pointer' onClick={sortingByCnpj.bind(null, order)}>
-                { order == 'asc' ?
-                    <HStack spacing='2px' justifyContent='center'>
-                      <Box>
-                        CNPJ
-                      </Box>
-                      <Box>
-                        <FiArrowUp title='id' size={12} />
-                      </Box>
-                    </HStack>
-                  :
-                    <HStack spacing='2px' justifyContent='center'>
-                      <Box>
-                        CNPJ
-                      </Box>
-                      <Box>
-                        <FiArrowDown size={12} />
-                      </Box>
-                    </HStack>               
-                }           
+                <Th textAlign='center' cursor='pointer' onClick={() => sortByCnpj()}>
+                  <HStack spacing={0} justifyContent='center'>
+                    <Text as='b'>CNPJ</Text> {sortIconCnpj(orderCnpj)}
+                  </HStack>
                 </Th>
-                <Th textAlign='center' cursor='pointer' onClick={sortingByStatus.bind(null, order)}>
-                { order == 'asc' ?
-                    <HStack spacing='2px' justifyContent='center'>
-                      <Box>
-                        Status
-                      </Box>
-                      <Box>
-                        <FiArrowUp title='id' size={12} />
-                      </Box>
-                    </HStack>
-                  :
-                    <HStack spacing='2px' justifyContent='center'>
-                      <Box>
-                        Status
-                      </Box>
-                      <Box>
-                        <FiArrowDown size={12} />
-                      </Box>
-                    </HStack>               
-                }           
+                <Th textAlign='center' cursor='pointer' onClick={() => sortByStatus()}>
+                  <HStack spacing={0} justifyContent='center'>
+                    <Text as='b'>Status</Text> {sortIconStatus(orderStatus)}
+                  </HStack>
                 </Th>
                 <Th textAlign='center'>Ações</Th>
               </Tr>
@@ -294,7 +342,9 @@ const Lojas = () => {
                     <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={() => handleEdit(user.id)} > 
                       <FiEdit />
                     </Button>
-                    <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={() => {[handleActive(user.id), console.log(isActive)]}}>
+                    <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={(() => handleActive(user.id))}>
+                      
+                    
                       {user.active == true ? <FiPause /> : <FiPlay />}
                     </Button>
                   </Td>
@@ -307,14 +357,17 @@ const Lojas = () => {
 
       <Pagination
         page={page}
-        onChange={(page) => {
-          handlePageChange(page);
-        }}
+        onChange={(page) => {handlePageChange(page)}}
         total={10}
-        siblings={1}
+        siblings={2}
         boundaries={0}      
         color='red.7'  
         position='right'
+        sx={(theme) => ({
+          '@media (max-width: 755px)': {
+            justifyContent: 'center'
+          },
+        })}
       />
 
       {/* Modal de criação de loja */}

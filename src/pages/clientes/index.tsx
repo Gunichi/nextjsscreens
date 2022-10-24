@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {
   useColorModeValue,
   Box,
@@ -11,15 +11,6 @@ import {
   InputLeftElement,
   Checkbox,
   useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  FormControl,
-  FormLabel,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
@@ -33,6 +24,8 @@ import {
   Tbody,
 } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/react'
+
+import { IoIosPaper } from "react-icons/io";
 
 import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import SidebarWithHeader from '../../components/sidebar/sidebar';
@@ -54,19 +47,6 @@ const Clientes = () => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     setPage(page!);
   };
-
-  const Prev = forwardRef((props) => (
-    <Button {...props}>
-      <FiChevronLeft />
-    </Button>
-  ));
-
-  const Next = forwardRef((props) => (
-    <Button {...props}>
-      <FiChevronRight />
-    </Button>
-  ));
-
 
   return ( 
     <SidebarWithHeader>
@@ -119,6 +99,7 @@ const Clientes = () => {
                 <Th textAlign='center'>Nome</Th>
                 <Th textAlign='center'>Loja favorita</Th>
                 <Th textAlign='center'>Última compra</Th>
+                <Th textAlign='center'>Ações</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -128,6 +109,16 @@ const Clientes = () => {
                   <Td textAlign="center">{user.name}</Td>
                   <Td textAlign="center">Loja ***</Td>
                   <Td textAlign='center'>Compra 1</Td>
+                  <Td textAlign='center'>
+                    <Button
+                      colorScheme='red'
+                      variant='outline'
+                      size='sm'
+                      onClick={onOpen}
+                    >
+                      <IoIosPaper />
+                    </Button>
+                  </Td>
                 </Tr>
               ))}
             </Tbody>
