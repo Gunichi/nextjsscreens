@@ -44,6 +44,7 @@ import { data } from '../../utils/data';
 import { Pagination } from '@mantine/core';
 import XLSX from 'xlsx'
 import axios from 'axios-jsonp-pro';
+import { DownloadSimple } from 'phosphor-react';
 
 const Lojas = () => {
 
@@ -228,7 +229,7 @@ const Lojas = () => {
     XLSX.writeFile(wb, 'lojas.xlsx');
   }
 
-  /*const sortingById = (order: string) => {
+  const sortingById = (order: string) => {
     if (order === 'asc') {
       setOrder('desc');
       setUsers(users.sort(sortBy('id')));
@@ -238,7 +239,7 @@ const Lojas = () => {
     }
   };
 
-  const sortingByName = (order: string) => {
+  /* const sortingByName = (order: string) => {
     if (order === 'asc') {
       setOrderName('desc');
       setUsers(users.sort(sortBy('name')));
@@ -268,6 +269,22 @@ const Lojas = () => {
     }
   }; */
 
+  //Select for sorting asc or desc by id or name or cnpj or status 
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = e.target;
+    if (value === 'id') {
+      sortingById(order);
+    } else if (value === 'name') {
+      sortByName();
+    } else if (value === 'cnpj') {
+      sortByCnpj();
+    } else if (value === 'status') {
+      sortByStatus();
+    }
+  };
+
+
+
   return ( 
     <SidebarWithHeader>
       <Breadcrumb>
@@ -285,22 +302,26 @@ const Lojas = () => {
         mb={4}
       >
         <Stack spacing={4}>
-          <Grid templateColumns='repeat(5, 1fr)' gap={4}>
-            <GridItem colSpan={4} h='10'>
-              <InputGroup>
-                <InputLeftElement
-                  pointerEvents='none'
-                  children={<FiEdit color='gray.300' />}
-                />
-                <Input type='text' placeholder='Filtrar' />
-              </InputGroup> 
-            </GridItem>
-          </Grid>
-        </Stack>
-        <br />     
+          <SimpleGrid columns={2} spacing={10}>
+            <InputGroup>
+              <InputLeftElement
+                pointerEvents='none'
+                children={<FiEdit color='gray.300' />}
+              />
+              <Input type='text' placeholder='Filtrar' />
+            </InputGroup> 
+              <Select placeholder='Ordenar por' onChange={handleSelect}>
+                <option value='id'>ID</option>
+                <option value='name'>Nome</option>
+                <option value='cnpj'>CNPJ</option>
+                <option value='status'>Status</option>
+              </Select>
+          </SimpleGrid>         
+        </Stack>   
         <Grid 
           templateColumns='repeat(5, 1fr)' 
           gap={4}
+          mt={8}
         >
           <GridItem colSpan={5}>
             <Text fontSize='4x1' as='b'>Listagem de lojas</Text>  
@@ -313,9 +334,8 @@ const Lojas = () => {
               variant="solid" 
               mb={4} 
               mr={4}
-              leftIcon={<FiShare />}
             >
-              Exportar tabela
+              <DownloadSimple size={20} weight='bold' />
             </Button>
             <Button 
               colorScheme='red' 
@@ -328,6 +348,7 @@ const Lojas = () => {
           </ButtonGroup>
           </GridItem>
         </Grid>
+    
         <TableContainer mt={4}>
           <Table size='sm'>
             <Thead>

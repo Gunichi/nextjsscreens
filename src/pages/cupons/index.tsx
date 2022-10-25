@@ -24,36 +24,43 @@ import {
   Tbody,
 } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/react'
+import { useRouter } from 'next/router';
 
 import { IoIosPaper } from "react-icons/io";
 
-import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import SidebarWithHeader from '../../components/sidebar/sidebar';
-import { data } from '../../utils/data';
+import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import Pagination from '@choc-ui/paginator';
 import router from 'next/router';
+import { clienteCoupons } from '../../utils/clientsCoupons';
 
-const Clientes = () => {
+const Cupons = () => {
 
+  const router = useRouter()
+  const id = router.query.id
+  
   const { isOpen, onOpen, onClose } = useDisclosure()
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null)  
-  const [users, setUsers] = useState(data);
+  const [users, setUsers] = useState(clienteCoupons);
   const [page, setPage] = useState(1);
   const pageSize = 10;
   const offset = (page - 1) * pageSize;
   const posts = users.slice(offset, offset + pageSize);
 
   const handlePageChange = (page: number | undefined) => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     setPage(page!);
   };
 
   return ( 
     <SidebarWithHeader>
       <Breadcrumb>
+        <BreadcrumbItem>
+          <BreadcrumbLink href='#'>Cupons</BreadcrumbLink>
+        </BreadcrumbItem>
+
         <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink href='#'>Clientes</BreadcrumbLink>
+          <BreadcrumbLink href='#'>Cupom {id} </BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
       <Box 
@@ -87,7 +94,7 @@ const Clientes = () => {
           gap={4}
         >
           <GridItem colSpan={5}>
-            <Text fontSize='4x1' as='b'>Listagem de clientes</Text>  
+            <Text fontSize='4x1' as='b'>Listagem de cupons</Text>  
           </GridItem>
           <GridItem colStart={6} colEnd={6} h='10'>
           </GridItem>
@@ -96,26 +103,24 @@ const Clientes = () => {
           <Table size='sm'>
             <Thead>
               <Tr>
-                <Th textAlign='center'>CPF</Th>
-                <Th textAlign='center'>Nome</Th>
-                <Th textAlign='center'>Loja favorita</Th>
-                <Th textAlign='center'>Última compra</Th>
+                <Th textAlign='center'>Número Cupom</Th>
+                <Th textAlign='center'>Número PDV</Th>
+                <Th textAlign='center'>Valor total</Th>
                 <Th textAlign='center'>Ações</Th>
               </Tr>
             </Thead>
             <Tbody>
               {posts.map((user) => (
                 <Tr key={user.id}>
-                  <Td textAlign='center'>{user.cnpj}</Td>
-                  <Td textAlign="center">{user.name}</Td>
-                  <Td textAlign="center">Loja ***</Td>
-                  <Td textAlign='center'>Compra 1</Td>
+                  <Td textAlign='center'>{user.id}</Td>
+                  <Td textAlign="center">{user.pdv}</Td>
+                  <Td textAlign="center">R$ {user.totalValue}</Td>
                   <Td textAlign='center'>
                     <Button
                       colorScheme='red'
                       variant='solid'
                       size='sm'
-                      onClick={() => router.push(`cupons/${user.id}`)}    
+                      onClick={() => router.push(`/cupons/${user.id}`)}
                     >
                       <IoIosPaper />
                     </Button>
@@ -132,7 +137,7 @@ const Clientes = () => {
           handlePageChange(page);
         }}
         pageSize={pageSize}
-        total={data.length}
+        total={clienteCoupons.length}
         paginationProps={{
           display: "flex",
           justifyContent: "flex-end"
@@ -145,4 +150,4 @@ const Clientes = () => {
   );
 }
 
-export default Clientes;
+export default Cupons;

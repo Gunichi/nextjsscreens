@@ -10,11 +10,15 @@ export default function BoxComponent({ children }: { children: ReactNode }) {
       rounded={"lg"}
       bg={useColorModeValue("white", "gray.700")}
       boxShadow={"sm"}
-      w={"md"}
+      w={"sm"}
       p={8}      
-      h={[150, 250, 350]}
+      height={[
+        "100%", // base
+        "50%", // 480px upwards
+        "25%", // 768px upwards
+        "15%", // 992px upwards
+      ]}
       >
-        {children}
     </Box>
   );
 }

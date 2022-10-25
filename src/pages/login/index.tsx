@@ -27,7 +27,19 @@ const Login = () => {
       bg={useColorModeValue("gray.50", "gray.800")}
     >
       <Stack spacing={8} mx={"auto"} maxW={"md"} py={12} px={6}>
-        <BoxComponent>
+        <Box 
+        rounded={"lg"}
+        bg={useColorModeValue("white", "gray.700")}
+        boxShadow={"sm"}
+        w={"sm"}
+        p={8}      
+        height={[
+          "100%", // base
+          "50%", // 480px upwards
+          "25%", // 768px upwards
+          "15%", // 992px upwards
+        ]}
+        >
           <Stack align={"center"}>
             <Heading fontSize={"2xl"} textAlign={"center"}>
               Acessar sistema
@@ -52,7 +64,7 @@ const Login = () => {
               Acessar
             </Button>
           </Stack>
-        </BoxComponent>
+        </Box>
       </Stack>
 
 
