@@ -330,7 +330,7 @@ const Lojas = () => {
         mb={4}
       >
         <Stack spacing={4}>
-          <SimpleGrid columns={3} spacing={10}>
+          <SimpleGrid columns={2} spacing={10}>
             <InputGroup>
               <InputLeftElement
                 pointerEvents='none'
@@ -338,21 +338,27 @@ const Lojas = () => {
               />
               <Input type='text' placeholder='Filtrar' />
             </InputGroup> 
-              <Select onChange={handleSelect}>
-                <option selected hidden disabled value="">Ordenar por</option>
-                <option value='id'>ID</option>
-                <option value='name'>Nome</option>
-                <option value='cnpj'>CNPJ</option>
-                <option value='status'>Status</option>
-              </Select>
-              <Button colorScheme='red'  size='md' onClick={handleButton} width='200px'>
-                {sortingIcon(
-                  orderId,
-                  orderName,
-                  orderCnpj,
-                  orderStatus
-                )}
-              </Button>
+            <HStack spacing='24px' justifyContent='flex-end'>
+              <Box w='200px'>
+                <Select onChange={handleSelect}>
+                  <option selected hidden disabled value="">Ordenar por</option>
+                  <option value='id'>ID</option>
+                  <option value='name'>Nome</option>
+                  <option value='cnpj'>CNPJ</option>
+                  <option value='status'>Status</option>
+                </Select>
+              </Box>
+              <Box>
+                <Button colorScheme='red'  size='md' onClick={handleButton}>
+                  {sortingIcon(
+                    orderId,
+                    orderName,
+                    orderCnpj,
+                    orderStatus
+                  )}
+                </Button>
+              </Box>
+            </HStack>
           </SimpleGrid>         
         </Stack>   
         <Grid 

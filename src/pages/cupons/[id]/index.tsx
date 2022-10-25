@@ -84,16 +84,189 @@ const CuponsId = () => {
           <GridItem colStart={6} colEnd={6} h='10'>
           </GridItem>
         </Grid>
-        <SimpleGrid columns={2} spacingX='40px' spacingY='1px' mt={4}>
-          <Box height='80px'>Valor:</Box>
-          <Box height='80px'>PDV</Box>
-          <Box height='80px'>Nome da loja</Box>
-          <Box height='80px'>Código do operador</Box>
-          <Box height='80px'>Nome do operador</Box>
-          <Box height='80px'>Data de criação</Box>
-          <Box height='80px'>Número do cupom</Box>
+        <SimpleGrid columns={7} mt={4}>
+          <Box maxW='sm' ml={0} overflow='hidden'>
+            <Box>
+              <Box display='flex' alignItems='baseline'>   
+                <Box
+                  color='gray.500'
+                  fontWeight='semibold'
+                  letterSpacing='wide'
+                  fontSize='xs'
+                  textTransform='uppercase'
+                >
+                  Valor total
+                </Box>
+              </Box>
+              <Box
+                mt='1'
+                fontWeight='semibold'
+                as='h4'
+                lineHeight='tight'
+                noOfLines={1}
+              >
+                R$ 100,00
+              </Box>
+            </Box>
+          </Box>
+          <Box maxW='sm' overflow='hidden' ml={4}>
+            <Box>
+              <Box display='flex' alignItems='baseline'>   
+                <Box
+                  color='gray.500'
+                  fontWeight='semibold'
+                  letterSpacing='wide'
+                  fontSize='xs'
+                  textTransform='uppercase'
+                >
+                  PDV 
+                </Box>
+              </Box>
+              <Box
+                mt='1'
+                fontWeight='semibold'
+                as='h4'
+                lineHeight='tight'
+                noOfLines={1}
+              >
+                PDV
+              </Box>
+            </Box>
+          </Box>
+          <Box maxW='sm' ml={4} overflow='hidden'>
+            <Box>
+              <Box display='flex' alignItems='baseline'>   
+                <Box
+                  color='gray.500'
+                  fontWeight='semibold'
+                  letterSpacing='wide'
+                  fontSize='xs'
+                  textTransform='uppercase'
+                >
+                  Nome da loja
+                </Box>
+              </Box>
+              <Box
+                mt='1'
+                fontWeight='semibold'
+                as='h4'
+                lineHeight='tight'
+                noOfLines={1}
+              >
+                Loja 1
+              </Box>
+            </Box>
+          </Box>
+          <Box maxW='sm' ml={4} overflow='hidden'>
+            <Box>
+              <Box display='flex' alignItems='baseline'>   
+                <Box
+                  color='gray.500'
+                  fontWeight='semibold'
+                  letterSpacing='wide'
+                  fontSize='xs'
+                  textTransform='uppercase'
+                >
+                  Cód. Operador
+                </Box>
+              </Box>
+              <Box
+                mt='1'
+                fontWeight='semibold'
+                as='h4'
+                lineHeight='tight'
+                noOfLines={1}
+              >
+                1
+              </Box>
+            </Box>
+          </Box>
+          <Box maxW='sm' ml={4} overflow='hidden'>
+            <Box>
+              <Box display='flex' alignItems='baseline'>   
+                <Box
+                  color='gray.500'
+                  fontWeight='semibold'
+                  letterSpacing='wide'
+                  fontSize='xs'
+                  textTransform='uppercase'
+                >
+                  Nome operador
+                </Box>
+              </Box>
+              <Box
+                mt='1'
+                fontWeight='semibold'
+                as='h4'
+                lineHeight='tight'
+                noOfLines={1}
+              >
+                <Text>
+                  Name
+                </Text>
+              </Box>
+            </Box>
+          </Box>
+          <Box maxW='sm' overflow='hidden' ml={5}>
+            <Box>
+              <Box display='flex' alignItems='baseline'>   
+                <Box
+                  color='gray.500'
+                  fontWeight='semibold'
+                  letterSpacing='wide'
+                  fontSize='xs'
+                  textTransform='uppercase'
+                >
+                  Criado em
+                </Box>
+              </Box>
+              <Box
+                mt='1'
+                fontWeight='semibold'
+                as='h4'
+                lineHeight='tight'
+                noOfLines={1}
+              >
+                R$ 100,00
+              </Box>
+            </Box>
+          </Box>
+          <Box maxW='sm' overflow='hidden' ml={5}>
+            <Box>
+              <Box display='flex' alignItems='baseline'>   
+                <Box
+                  color='gray.500'
+                  fontWeight='semibold'
+                  letterSpacing='wide'
+                  fontSize='xs'
+                  textTransform='uppercase'
+                >
+                  Num. Cupom
+                </Box>
+              </Box>
+              <Box
+                mt='1'
+                fontWeight='semibold'
+                as='h4'
+                lineHeight='tight'
+                noOfLines={1}
+              >
+                R$ 100,00
+              </Box>
+            </Box>
+          </Box>
+        
         </SimpleGrid>
-        <Divider />
+      </Box>
+      <Box 
+        rounded={"lg"}
+        bg={useColorModeValue("white", "gray.700")}
+        boxShadow={"sm"}
+        w={'100%'}
+        p={8}
+        mt={4}
+        mb={4}
+      >
         {/*<Stack spacing={4} mt={5}>
           <Grid templateColumns='repeat(5, 1fr)' gap={4}>
             <GridItem colSpan={4} h='10'>
@@ -110,7 +283,7 @@ const CuponsId = () => {
             </GridItem>
           </Grid>
         </Stack>*/}
-        <TableContainer mt={4}>
+        <TableContainer mt={4} borderWidth='2px' rounded='md'>
           <Table size='sm'>
             <Thead>
               <Tr>
