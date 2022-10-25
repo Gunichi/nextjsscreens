@@ -38,7 +38,7 @@ import {
 import { Text } from '@chakra-ui/react'
 import { sortBy } from 'sort-by-typescript';
 
-import { FiPlay, FiEdit, FiPause, FiArrowDown, FiArrowUp, FiShare } from 'react-icons/fi'
+import { FiPlay, FiEdit, FiPause, FiArrowDown, FiArrowUp, FiShare, FiSearch } from 'react-icons/fi'
 import SidebarWithHeader from '../../components/sidebar/sidebar';
 import { data } from '../../utils/data';
 import { Pagination } from '@mantine/core';
@@ -69,17 +69,26 @@ const Lojas = () => {
   const [orderCnpj, setOrderCnpj] = useState('');
   const [orderStatus, setOrderStatus] = useState('');
 
-  const sortById = () => {
+  /*const sortById = () => {
     setOrderName('')
     setOrderCnpj('')
     setOrderStatus('')
     if(orderId === 'asc'){
       setOrderId('desc')
       setUsers(users.sort(sortBy('id', 'desc')))
-    }else if(orderId === 'desc'){
-      setOrderId('')
-      setUsers(users.sort(sortBy('id', 'asc')))
     }else{
+      setOrderId('asc')
+      setUsers(users.sort(sortBy('-id', 'asc')))
+    }
+  }*/
+
+  const sortById = () => {
+    setOrderCnpj('')
+    setOrderStatus('')
+    if(orderId === 'asc'){
+      setOrderId('desc')
+      setUsers(users.sort(sortBy('id', 'desc')))
+    } else {
       setOrderId('asc')
       setUsers(users.sort(sortBy('-id', 'asc')))
     }
@@ -92,16 +101,12 @@ const Lojas = () => {
     if(orderName === 'asc'){
       setOrderName('desc')
       setUsers(users.sort(sortBy('name', 'desc')))
-    }else if(orderName === 'desc'){
-      setOrderName('')
-      setUsers(users.sort(sortBy('name', 'asc')))
-      setOrder('asc')
-      setUsers(users.sort(sortBy('id', 'desc')))
-    }else{
+    }else {
       setOrderName('asc')
       setUsers(users.sort(sortBy('-name', 'asc')))
-    }
   }
+  }
+
 
   const sortByCnpj = () => {
     setOrderId('')
@@ -110,12 +115,7 @@ const Lojas = () => {
     if(orderCnpj === 'asc'){
       setOrderCnpj('desc')
       setUsers(users.sort(sortBy('cnpj', 'desc')))
-    }else if(orderCnpj === 'desc'){
-      setOrderCnpj('')
-      setUsers(users.sort(sortBy('cnpj', 'asc')))
-      setOrder('asc')
-      setUsers(users.sort(sortBy('id', 'desc')))
-    }else{
+    } else {
       setOrderCnpj('asc')
       setUsers(users.sort(sortBy('-cnpj', 'asc')))
     }
@@ -128,24 +128,25 @@ const Lojas = () => {
     if(orderStatus === 'asc'){
       setOrderStatus('desc')
       setUsers(users.sort(sortBy('active', 'desc')))
-    }else if(orderStatus === 'desc'){
-      setOrderStatus('')
-      setUsers(users.sort(sortBy('active', 'asc')))
-      setOrder('asc')
-      setUsers(users.sort(sortBy('id', 'desc')))
     }else{
       setOrderStatus('asc')
       setUsers(users.sort(sortBy('-active', 'asc')))
     }
   }
 
-  const sortIcon = (order: string) => {
-    if (orderId === 'asc') {
+  const sortIcon = (orderId: string) => {
+    if (orderId || orderName || orderCnpj || orderStatus === 'asc') {
       return <FiArrowUp />;
-    } else if (orderId === 'desc') {
-      return <FiArrowDown />;
     } else {
-      return null;
+      return <FiArrowDown />;
+    }
+  };
+
+  const sortingIcon = (orderId: string, orderName: string, orderCnpj: string, orderStatus: string) => {
+    if (orderId === 'asc' || orderName === 'asc' || orderCnpj === 'asc' || orderStatus === 'asc') {
+      return <FiArrowUp />;
+    } else {
+      return <FiArrowDown />;
     }
   };
 
@@ -229,7 +230,7 @@ const Lojas = () => {
     XLSX.writeFile(wb, 'lojas.xlsx');
   }
 
-  const sortingById = (order: string) => {
+  /* const sortingById = (order: string) => {
     if (order === 'asc') {
       setOrder('desc');
       setUsers(users.sort(sortBy('id')));
@@ -239,7 +240,7 @@ const Lojas = () => {
     }
   };
 
-  /* const sortingByName = (order: string) => {
+  const sortingByName = (order: string) => {
     if (order === 'asc') {
       setOrderName('desc');
       setUsers(users.sort(sortBy('name')));
@@ -273,7 +274,7 @@ const Lojas = () => {
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
     if (value === 'id') {
-      sortingById(order);
+      sortById();
     } else if (value === 'name') {
       sortByName();
     } else if (value === 'cnpj') {
@@ -283,8 +284,35 @@ const Lojas = () => {
     }
   };
 
-
-
+  //Button change the select sort to asc or desc
+  const handleButton = () => {
+    if (orderId === 'asc') {
+      console.log(orderId)
+      sortById();
+    } else if (orderId === 'desc') {
+      console.log(orderId)
+      sortById();
+    } else if (orderName === 'asc') {
+      console.log(orderName + 'aa')
+      sortByName();
+    } else if (orderName === 'desc') {
+      console.log(orderName + 'bb')
+      sortByName();
+    } else if (orderCnpj === 'asc') {
+      console.log(orderCnpj)
+      sortByCnpj();
+    } else if (orderCnpj === 'desc') {
+      console.log(orderCnpj)
+      sortByCnpj();
+    } else if (orderStatus === 'asc') {
+      console.log(orderStatus)
+      sortByStatus();
+    } else if (orderStatus === 'desc') {
+      console.log(orderStatus)
+      sortByStatus();
+    }
+  };
+      
   return ( 
     <SidebarWithHeader>
       <Breadcrumb>
@@ -302,20 +330,29 @@ const Lojas = () => {
         mb={4}
       >
         <Stack spacing={4}>
-          <SimpleGrid columns={2} spacing={10}>
+          <SimpleGrid columns={3} spacing={10}>
             <InputGroup>
               <InputLeftElement
                 pointerEvents='none'
-                children={<FiEdit color='gray.300' />}
+                children={<FiSearch color='gray.300' />}
               />
               <Input type='text' placeholder='Filtrar' />
             </InputGroup> 
-              <Select placeholder='Ordenar por' onChange={handleSelect}>
+              <Select onChange={handleSelect}>
+                <option selected hidden disabled value="">Ordenar por</option>
                 <option value='id'>ID</option>
                 <option value='name'>Nome</option>
                 <option value='cnpj'>CNPJ</option>
                 <option value='status'>Status</option>
               </Select>
+              <Button colorScheme='red'  size='md' onClick={handleButton} width='200px'>
+                {sortingIcon(
+                  orderId,
+                  orderName,
+                  orderCnpj,
+                  orderStatus
+                )}
+              </Button>
           </SimpleGrid>         
         </Stack>   
         <Grid 
@@ -356,22 +393,21 @@ const Lojas = () => {
                 <Th textAlign='center' cursor='pointer' onClick={() => sortById()}>      
                   <HStack spacing={0} justifyContent='center'>
                     <Text>ID</Text>
-                    <Text>{sortIcon(orderId)}</Text>
                   </HStack>
                 </Th>
                 <Th textAlign='center' cursor='pointer' onClick={() => sortByName()}>
                   <HStack spacing={0} justifyContent='center'>
-                    <Text as='b'>Nome</Text> {sortIconName(orderName)}
+                    <Text as='b'>Nome</Text>
                   </HStack>
                 </Th>
                 <Th textAlign='center' cursor='pointer' onClick={() => sortByCnpj()}>
                   <HStack spacing={0} justifyContent='center'>
-                    <Text as='b'>CNPJ</Text> {sortIconCnpj(orderCnpj)}
+                    <Text as='b'>CNPJ</Text> 
                   </HStack>
                 </Th>
                 <Th textAlign='center' cursor='pointer' onClick={() => sortByStatus()}>
                   <HStack spacing={0} justifyContent='center'>
-                    <Text as='b'>Status</Text> {sortIconStatus(orderStatus)}
+                    <Text as='b'>Status</Text> 
                   </HStack>
                 </Th>
                 <Th textAlign='center'>Ações</Th>
