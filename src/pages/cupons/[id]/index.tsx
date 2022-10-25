@@ -68,7 +68,7 @@ const CuponsId = () => {
       <Box 
         rounded={"lg"}
         bg={useColorModeValue("white", "gray.700")}
-        boxShadow={"sm"}
+        boxShadow={"md"}
         w={'100%'}
         p={8}
         mt={4}
@@ -261,7 +261,7 @@ const CuponsId = () => {
       <Box 
         rounded={"lg"}
         bg={useColorModeValue("white", "gray.700")}
-        boxShadow={"sm"}
+        boxShadow={"md"}
         w={'100%'}
         p={8}
         mt={4}
@@ -283,7 +283,7 @@ const CuponsId = () => {
             </GridItem>
           </Grid>
         </Stack>*/}
-        <TableContainer mt={4} borderWidth='2px' rounded='md'>
+        <TableContainer>
           <Table size='sm'>
             <Thead>
               <Tr>
@@ -307,8 +307,17 @@ const CuponsId = () => {
             </Tbody>
           </Table>                         
         </TableContainer>
-        <Divider mt={4} />     
-        <TableContainer mt={4}>
+      </Box>
+      <Box 
+        rounded={"lg"}
+        bg={useColorModeValue("white", "gray.700")}
+        boxShadow={"md"}
+        w={'100%'}
+        p={8}
+        mt={4}
+        mb={4}
+      >
+        <TableContainer>
           <Table size='sm' rounded='md' borderRadius='md'>
             <Thead>
               <Tr>
@@ -329,20 +338,6 @@ const CuponsId = () => {
           </Table>
         </TableContainer>
       </Box>
-      <Pagination
-        current={page}
-        onChange={(page) => {
-          handlePageChange(page);
-        }}
-        pageSize={pageSize}
-        total={clienteCoupons.length}
-        paginationProps={{
-          display: "flex",
-          justifyContent: "flex-end"
-        }}
-        pageNeighbours={2}
-        colorScheme="red"
-      />
     </SidebarWithHeader>
     
   );

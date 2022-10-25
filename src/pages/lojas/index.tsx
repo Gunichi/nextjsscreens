@@ -38,7 +38,7 @@ import {
 import { Text } from '@chakra-ui/react'
 import { sortBy } from 'sort-by-typescript';
 
-import { FiPlay, FiEdit, FiPause, FiArrowDown, FiArrowUp, FiShare, FiSearch } from 'react-icons/fi'
+import { FiPlay, FiEdit, FiPause, FiArrowDown, FiArrowUp, FiSearch, FiPlus } from 'react-icons/fi'
 import SidebarWithHeader from '../../components/sidebar/sidebar';
 import { data } from '../../utils/data';
 import { Pagination } from '@mantine/core';
@@ -361,39 +361,42 @@ const Lojas = () => {
             </HStack>
           </SimpleGrid>         
         </Stack>   
-        <Grid 
-          templateColumns='repeat(5, 1fr)' 
-          gap={4}
-          mt={8}
+        </Box>
+        <Box
+          rounded={"lg"}
+          bg={useColorModeValue("white", "gray.700")}
+          boxShadow={"lg"}
+          w={'100%'}
+          p={8}
+          mt={4}
+          mb={4}
         >
-          <GridItem colSpan={5}>
-            <Text fontSize='4x1' as='b'>Listagem de lojas</Text>  
-          </GridItem>
-          <GridItem colStart={6} colEnd={6} h='10'>
-          <ButtonGroup variant='solid' spacing='6'>
-            <Button 
-              onClick={() => handleExport()} 
-              colorScheme="red" 
-              variant="solid" 
-              mb={4} 
-              mr={4}
-            >
-              <DownloadSimple size={20} weight='bold' />
-            </Button>
-            <Button 
-              colorScheme='red' 
-              size='md'
-              leftIcon={<FiEdit />}
-              onClick={() => onCreateOpen()}
-            >
-              Adicionar loja
-            </Button>           
-          </ButtonGroup>
-          </GridItem>
-        </Grid>
-    
+        <SimpleGrid columns={[2, null, 2]} spacing={10}>
+          <Box>
+            <Text fontSize='1xl' fontWeight='bold'>
+              Listagem de lojas
+            </Text>
+          </Box>
+          <HStack spacing='24px' justifyContent='flex-end'>
+            <Box>
+              <Button colorScheme='red'  variant='outline' size='md' onClick={handleExport}>
+                <DownloadSimple size={20} weight='bold' />
+              </Button>
+            </Box>
+            <Box>
+              <Button 
+                colorScheme='red'               
+                leftIcon={<FiPlus />}
+                size='md' 
+                onClick={onCreateOpen}
+              >
+                Adicionar loja
+              </Button>
+            </Box>
+          </HStack>
+        </SimpleGrid> 
         <TableContainer mt={4}>
-          <Table size='sm'>
+          <Table size='sm' mt={4}>
             <Thead>
               <Tr>
                 <Th textAlign='center' cursor='pointer' onClick={() => sortById()}>      

@@ -22,6 +22,7 @@ import {
   Tr,
   Td,
   Tbody,
+  SimpleGrid,
 } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/react'
 
@@ -66,32 +67,31 @@ const Clientes = () => {
         mb={4}
       >
         <Stack spacing={4}>
-          <Grid templateColumns='repeat(5, 1fr)' gap={4}>
-            <GridItem colSpan={4} h='10'>
-              <InputGroup>
-                <InputLeftElement
-                  pointerEvents='none'
-                  children={<FiEdit color='gray.300' />}
-                />
-                <Input type='text' placeholder='Filtrar' />
-              </InputGroup> 
-            </GridItem>
-            <GridItem colStart={6} colEnd={6} h='10'>
-              <Checkbox />
-            </GridItem>
-          </Grid>
+          <SimpleGrid columns={1} spacing={10}>
+            <InputGroup>
+              <InputLeftElement
+                pointerEvents='none'
+                children={<FiEdit color='gray.300' />}
+              />
+              <Input type='text' placeholder='Filtrar' />
+            </InputGroup> 
+          </SimpleGrid>
         </Stack>
-        <br />     
-        <Grid 
-          templateColumns='repeat(5, 1fr)' 
-          gap={4}
-        >
-          <GridItem colSpan={5}>
-            <Text fontSize='4x1' as='b'>Listagem de clientes</Text>  
-          </GridItem>
-          <GridItem colStart={6} colEnd={6} h='10'>
-          </GridItem>
-        </Grid>
+      </Box>
+      <Box
+        rounded={"lg"}
+        bg={useColorModeValue("white", "gray.700")}
+        boxShadow={"sm"}
+        w={'100%'}
+        p={8}
+        mt={4}
+        mb={4}
+      >
+        <SimpleGrid columns={1} spacing={10}>
+          <Box w={'100%'} p={1}>
+            <Text fontWeight='bold' fontSize='1xl'>Listagem de clientes</Text>
+          </Box>
+        </SimpleGrid>         
         <TableContainer mt={4}>
           <Table size='sm'>
             <Thead>

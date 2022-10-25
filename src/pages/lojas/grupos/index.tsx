@@ -30,10 +30,11 @@ import {
   Tbody,
   FormLabel,
   FormControl,
+  SimpleGrid,
 } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/react'
 
-import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight, FiPause, FiSettings } from 'react-icons/fi'
+import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight, FiPause, FiSettings, FiSearch, FiPlusCircle } from 'react-icons/fi'
 import { VscSettings } from "react-icons/vsc";
 import SidebarWithHeader from '../../../components/sidebar/sidebar';
 import { data } from '../../../utils/data';
@@ -80,6 +81,7 @@ const gruposDeLojas = () => {
           <BreadcrumbLink href='/lojas/grupos'>Grupo de lojas</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
+
       <Box 
         rounded={"lg"}
         bg={useColorModeValue("white", "gray.700")}
@@ -90,39 +92,42 @@ const gruposDeLojas = () => {
         mb={4}
       >
         <Stack spacing={4}>
-          <Grid templateColumns='repeat(5, 1fr)' gap={4}>
-            <GridItem colSpan={4} h='10'>
-              <InputGroup>
-                <InputLeftElement
-                  pointerEvents='none'
-                  children={<FiEdit color='gray.300' />}
-                />
-                <Input type='text' placeholder='Filtrar' />
-              </InputGroup> 
-            </GridItem>
-            <GridItem colStart={6} colEnd={6} h='10'>
-              <Checkbox />
-            </GridItem>
-          </Grid>
+          <SimpleGrid columns={1} spacing={10}>
+            <InputGroup>
+              <InputLeftElement
+                pointerEvents='none'
+                children={<FiSearch color='gray.300' />}
+              />
+              <Input type='text' placeholder='Filtrar' />
+            </InputGroup> 
+          </SimpleGrid>
         </Stack>
-        <br />     
-        <Grid 
-          templateColumns='repeat(5, 1fr)' 
-          gap={4}
-        >
-          <GridItem colSpan={5}>
-            <Text fontSize='4x1' as='b'>Grupo de lojas</Text>  
-          </GridItem>
-          <GridItem colStart={6} colEnd={6} h='10'>
-            <Button 
-              colorScheme='red' 
-              size='md'
-              onClick={() => onCreateOpen()}
+      </Box>
+
+      <Box 
+        rounded={"lg"}
+        bg={useColorModeValue("white", "gray.700")}
+        boxShadow={"sm"}
+        w={'100%'}
+        p={8}
+        mt={4}
+        mb={4}
+      >
+        <SimpleGrid columns={2} spacing={10}>
+          <Box>
+            <Text fontSize="1xl" fontWeight='bold'>Grupo de lojas</Text>
+          </Box>
+          <Box textAlign="right">
+            <Button
+              leftIcon={<FiPlusCircle />}
+              colorScheme='red'
+              variant="solid"
+              onClick={onCreateOpen}
             >
-              <FiEdit /> Adicionar grupo de loja
+              Adicionar grupo de loja
             </Button>
-          </GridItem>
-        </Grid>
+          </Box>
+        </SimpleGrid>
         <TableContainer mt={4}>
           <Table size='sm'>
             <Thead>
@@ -200,14 +205,14 @@ const gruposDeLojas = () => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Criar conta</ModalHeader>
+          <ModalHeader>Adicionar grupo</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
 
             <FormControl mt={4}>
               <FormLabel>Nome</FormLabel>
               <Input 
-                placeholder='nome' 
+                placeholder='Nome' 
               />
             </FormControl>
             
