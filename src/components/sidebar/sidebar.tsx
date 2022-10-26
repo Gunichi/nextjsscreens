@@ -15,28 +15,41 @@ import {
 } from '@chakra-ui/react';
 import Link from "next/link";
 import {
+  FiCodesandbox,
   FiHome,
   FiMenu,
-  FiPlusCircle
+  FiPlusCircle,
+  FiUsers,
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 import { ReactText } from 'react';
 import {
   BsNewspaper
 } from 'react-icons/bs';
+import {
+  IoManOutline
+} from 'react-icons/io5';
+import {
+  SiOpenvpn 
+} from 'react-icons/si';
+import { BuildingStorefrontIcon, BuildingOffice2Icon } from '@heroicons/react/24/solid'
+
+
+
+
 interface LinkItemProps {
   name: string;
   icon: IconType;
   href: string;
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: 'Lojas', icon: FiHome, href:'/lojas' },
-  { name: 'Grupo de lojas', icon: FiHome, href:'/lojas/grupos' },
+  { name: 'Lojas', icon: BuildingStorefrontIcon, href:'/lojas' },
+  { name: 'Grupo de lojas', icon: BuildingOffice2Icon, href:'/lojas/grupos' },
   { name: 'Cupons', icon: BsNewspaper, href:'/cupons' },
-  { name: 'Clientes', icon: FiPlusCircle, href: '/clientes'},
-  { name: 'Sistemas', icon: FiPlusCircle, href: '/sistemas'},
-  { name: 'OVPN', icon: FiPlusCircle, href: '/ovpn'},
-  { name: 'Usuários', icon: FiPlusCircle, href: '/usuarios'},
+  { name: 'Clientes', icon: IoManOutline, href: '/clientes'},
+  { name: 'Sistemas', icon: FiCodesandbox, href: '/sistemas'},
+  { name: 'OVPN', icon: SiOpenvpn, href: '/ovpn'},
+  { name: 'Usuários', icon: FiUsers, href: '/usuarios'},
 
 ];
 

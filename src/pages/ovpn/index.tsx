@@ -40,6 +40,7 @@ import { FiEdit, FiChevronLeft, FiChevronRight, FiSearch, FiPlay, FiPlusCircle }
 import SidebarWithHeader from '../../components/sidebar/sidebar';
 import { data } from '../../utils/data';
 import { Pagination } from '@mantine/core';
+import { Download } from 'phosphor-react';
 
 const Ovpn = () => {
 
@@ -145,6 +146,14 @@ const Ovpn = () => {
                     </Button>
                     <Button colorScheme='red' variant='solid' size='sm'> 
                       <FiEdit />
+                    </Button>
+                    <Button 
+                      colorScheme='red'
+                      variant='solid'
+                      size='sm'
+                      ml={2}
+                    >
+                      <Download size={20} />
                     </Button>
                   </Td>
                 </Tr>

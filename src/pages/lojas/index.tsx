@@ -44,6 +44,8 @@ import { Pagination } from '@mantine/core';
 import XLSX from 'xlsx'
 import axios from 'axios-jsonp-pro';
 import { DownloadSimple } from 'phosphor-react';
+import { VscSettings } from 'react-icons/vsc';
+import { useRouter } from 'next/router';
 
 const Lojas = () => {
 
@@ -67,6 +69,7 @@ const Lojas = () => {
   const [orderName, setOrderName] = useState('');
   const [orderCnpj, setOrderCnpj] = useState('');
   const [orderStatus, setOrderStatus] = useState('');
+  const router = useRouter();
 
   /*const sortById = () => {
     setOrderName('')
@@ -178,7 +181,6 @@ const Lojas = () => {
       return null;
     }
   };
-
 
   const handlePageChange = (page: number | undefined) => {
     setPage(page!);
@@ -433,10 +435,17 @@ const Lojas = () => {
                       <FiEdit />
                     </Button>
                     <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={(() => handleActive(user.id))}>
-                      
-                    
                       {user.active == true ? <FiPause /> : <FiPlay />}
                     </Button>
+                    <Button 
+                      colorScheme='red' 
+                      variant='solid' 
+                      size='sm' 
+                      mr={2} 
+                      onClick={() => router.push(`lojas/${user.id}`)}
+                    > 
+                      <VscSettings />
+                  </Button>
                   </Td>
                 </Tr>
               ))}
