@@ -74,6 +74,7 @@ const CuponsId = () => {
         mt={4}
         mb={4}
       >
+        
         <Grid 
           templateColumns='repeat(5, 1fr)' 
           gap={4}
@@ -103,7 +104,6 @@ const CuponsId = () => {
                 fontWeight='semibold'
                 as='h4'
                 lineHeight='tight'
-                noOfLines={1}
               >
                 R$ 100,00
               </Box>
@@ -127,7 +127,6 @@ const CuponsId = () => {
                 fontWeight='semibold'
                 as='h4'
                 lineHeight='tight'
-                noOfLines={1}
               >
                 PDV
               </Box>
@@ -151,7 +150,6 @@ const CuponsId = () => {
                 fontWeight='semibold'
                 as='h4'
                 lineHeight='tight'
-                noOfLines={1}
               >
                 Loja 1
               </Box>
@@ -175,7 +173,6 @@ const CuponsId = () => {
                 fontWeight='semibold'
                 as='h4'
                 lineHeight='tight'
-                noOfLines={1}
               >
                 1
               </Box>
@@ -199,7 +196,6 @@ const CuponsId = () => {
                 fontWeight='semibold'
                 as='h4'
                 lineHeight='tight'
-                noOfLines={1}
               >
                 <Text>
                   Name
@@ -225,7 +221,6 @@ const CuponsId = () => {
                 fontWeight='semibold'
                 as='h4'
                 lineHeight='tight'
-                noOfLines={1}
               >
                 R$ 100,00
               </Box>
@@ -249,7 +244,6 @@ const CuponsId = () => {
                 fontWeight='semibold'
                 as='h4'
                 lineHeight='tight'
-                noOfLines={1}
               >
                 R$ 100,00
               </Box>
