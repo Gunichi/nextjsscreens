@@ -85,8 +85,14 @@ const CuponsId = () => {
           <GridItem colStart={6} colEnd={6} h='10'>
           </GridItem>
         </Grid>
-        <SimpleGrid columns={7} mt={4}>
-          <Box maxW='sm' ml={0} overflow='hidden'>
+        <SimpleGrid columns={7} mt={4}
+        sx={{
+          '@media  (max-width: 755px)': {
+            gridTemplateColumns: 'repeat(2, 2fr)',
+          },
+        }}
+        >
+          <Box maxW='sm' ml={4} overflow='hidden'>
             <Box>
               <Box display='flex' alignItems='baseline'>   
                 <Box
