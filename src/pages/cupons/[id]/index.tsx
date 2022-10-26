@@ -31,10 +31,10 @@ import { useRouter } from 'next/router';
 import { IoIosPaper } from "react-icons/io";
 
 import SidebarWithHeader from '../../../components/sidebar/sidebar';
-import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
-import Pagination from '@choc-ui/paginator';
+
 import router from 'next/router';
 import { clienteCoupons } from '../../../utils/clientsCoupons';
+import { ChevronRightIcon } from '@chakra-ui/icons';
 
 const CuponsId = () => {
 
@@ -56,9 +56,9 @@ const CuponsId = () => {
 
   return ( 
     <SidebarWithHeader>
-      <Breadcrumb>
+      <Breadcrumb separator={<ChevronRightIcon color='gray.500' />}>
         <BreadcrumbItem>
-          <BreadcrumbLink href='#'>Cupons</BreadcrumbLink>
+          <BreadcrumbLink href='/cupons'>Cupons</BreadcrumbLink>
         </BreadcrumbItem>
 
         <BreadcrumbItem isCurrentPage>

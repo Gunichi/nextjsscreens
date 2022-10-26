@@ -30,14 +30,17 @@ import {
   Tbody,
   FormLabel,
   Select,
+  SimpleGrid,
+  HStack,
 } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/react'
 
-import { FiEdit, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
+import { FiEdit, FiChevronLeft, FiChevronRight, FiPlusCircle } from 'react-icons/fi'
 import SidebarWithHeader from '../../../components/sidebar/sidebar';
 import { data } from '../../../utils/data';
 import Pagination from '@choc-ui/paginator';
 import { useRouter } from 'next/router';
+import { ChevronRightIcon } from '@chakra-ui/icons';
 
 const GroupDetails = () => {
 
@@ -55,7 +58,7 @@ const GroupDetails = () => {
 
   return ( 
     <SidebarWithHeader>
-      <Breadcrumb>
+      <Breadcrumb separator={<ChevronRightIcon color='gray.500' />}>
         <BreadcrumbItem>
           <BreadcrumbLink href='/lojas'>Lojas</BreadcrumbLink>
         </BreadcrumbItem>
@@ -77,23 +80,23 @@ const GroupDetails = () => {
         mt={4}
         mb={4}
       >
-        <Grid 
-          templateColumns='repeat(5, 1fr)' 
-          gap={4}
-        >
-          <GridItem colSpan={5}>
-            <Text fontSize='4x1' as='b'>Listagem</Text>  
-          </GridItem>
-          <GridItem colStart={6} colEnd={6} h='10'>
-            <Button 
-              colorScheme='red' 
-              size='md'
-              onClick={() => onOpen()}
+        <SimpleGrid columns={2} spacing={10}>
+          <Box>
+            <Text fontSize="1xl" fontWeight='bold'>Listagem</Text>
+          </Box>
+          <Box>
+          <HStack spacing='24px' justifyContent='flex-end'>
+            <Button
+              leftIcon={<FiPlusCircle />}
+              colorScheme='red'
+              variant="solid"
+              onClick={onOpen}
             >
-              <FiEdit /> Adicionar parâmetro
+              Adicionar parâmetro
             </Button>
-          </GridItem>
-        </Grid>
+            </HStack>
+          </Box>
+        </SimpleGrid>
         <TableContainer mt={4}>
           <Table size='sm'>
             <Thead>

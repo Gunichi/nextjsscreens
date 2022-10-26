@@ -31,14 +31,15 @@ import {
   Tbody,
   Td,
   TableCaption,
+  SimpleGrid,
+  HStack,
 } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/react'
 
-import { FiEdit, FiChevronLeft, FiChevronRight, FiPlusCircle, FiPlay } from 'react-icons/fi'
+import { FiEdit, FiChevronLeft, FiChevronRight, FiSearch, FiPlay, FiPlusCircle } from 'react-icons/fi'
 import SidebarWithHeader from '../../components/sidebar/sidebar';
 import { data } from '../../utils/data';
-import Pagination from '@choc-ui/paginator';
-
+import { Pagination } from '@mantine/core';
 
 const Ovpn = () => {
 
@@ -85,39 +86,43 @@ const Ovpn = () => {
         mb={4}
       >
         <Stack spacing={4}>
-          <Grid templateColumns='repeat(5, 1fr)' gap={4}>
-            <GridItem colSpan={4} h='10'>
-              <InputGroup>
-                <InputLeftElement
-                  pointerEvents='none'
-                  children={<FiEdit color='gray.300' />}
-                />
-                <Input type='text' placeholder='Filtrar' />
-              </InputGroup> 
-            </GridItem>
-            <GridItem colStart={6} colEnd={6} h='10'>
-              <Checkbox />
-            </GridItem>
-          </Grid>
+          <SimpleGrid columns={1} spacing={10}>
+            <InputGroup>
+              <InputLeftElement
+                pointerEvents='none'
+                children={<FiSearch color='gray.300' />}
+              />
+              <Input type='text' placeholder='Filtrar' />
+            </InputGroup> 
+          </SimpleGrid>
         </Stack>
-        <br />     
-        <Grid 
-          templateColumns='repeat(5, 1fr)' 
-          gap={4}
-        >
-          <GridItem colSpan={5}>
-            <Text fontSize='4x1' as='b'>OVPN</Text>  
-          </GridItem>
-          <GridItem colStart={6} colEnd={6} h='10'>
-            <Button 
-              colorScheme='red' 
-              size='md'
+      </Box>   
+      <Box
+        rounded={"lg"}
+        bg={useColorModeValue("white", "gray.700")}
+        boxShadow={"sm"}
+        w={'100%'}
+        p={8}
+        mt={4}
+        mb={4}
+      >
+        <SimpleGrid columns={2} spacing={10}>
+          <Box>
+            <Text fontSize="1xl" fontWeight='bold'>OVPN</Text>
+          </Box>
+          <Box>
+          <HStack spacing='24px' justifyContent='flex-end'>
+            <Button
+              leftIcon={<FiPlusCircle />}
+              colorScheme='red'
+              variant="solid"
               onClick={onOpen}
             >
-              <FiEdit /> Adicionar
+              Adicionar
             </Button>
-          </GridItem>
-        </Grid>
+            </HStack>
+          </Box>
+        </SimpleGrid>
         <TableContainer mt={4}>
           <Table size='sm'>
             <Thead>
@@ -148,19 +153,22 @@ const Ovpn = () => {
           </Table>                    
         </TableContainer>
       </Box>
+      
       <Pagination
-        current={page}
-        onChange={(page) => {
-          handlePageChange(page);
-        }}
-        pageSize={pageSize}
-        total={data.length}
-        paginationProps={{
-          display: "flex",
-          justifyContent: "flex-end"
-        }}
-        colorScheme="red"
+        page={page}
+        onChange={(page) => {handlePageChange(page)}}
+        total={10}
+        siblings={2}
+        boundaries={0}      
+        color='red.7'  
+        position='right'
+        sx={(theme) => ({
+          '@media (max-width: 755px)': {
+            justifyContent: 'center'
+          },
+        })}
       />
+
       <Modal
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}

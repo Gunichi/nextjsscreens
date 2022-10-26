@@ -31,8 +31,8 @@ import { IoIosPaper } from "react-icons/io";
 import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import SidebarWithHeader from '../../components/sidebar/sidebar';
 import { data } from '../../utils/data';
-import Pagination from '@choc-ui/paginator';
 import router from 'next/router';
+import { Pagination } from '@mantine/core';
 
 const Clientes = () => {
 
@@ -127,18 +127,18 @@ const Clientes = () => {
         </TableContainer>
       </Box>
       <Pagination
-        current={page}
-        onChange={(page) => {
-          handlePageChange(page);
-        }}
-        pageSize={pageSize}
-        total={data.length}
-        paginationProps={{
-          display: "flex",
-          justifyContent: "flex-end"
-        }}
-        pageNeighbours={2}
-        colorScheme="red"
+        page={page}
+        onChange={(page) => {handlePageChange(page)}}
+        total={10}
+        siblings={2}
+        boundaries={0}      
+        color='red.7'  
+        position='right'
+        sx={(theme) => ({
+          '@media (max-width: 755px)': {
+            justifyContent: 'center'
+          },
+        })}
       />
     </SidebarWithHeader>
     

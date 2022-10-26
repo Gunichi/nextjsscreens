@@ -33,6 +33,7 @@ import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import Pagination from '@choc-ui/paginator';
 import router from 'next/router';
 import { clienteCoupons } from '../../utils/clientsCoupons';
+import { ChevronRightIcon } from '@chakra-ui/icons';
 
 const Cupons = () => {
 
@@ -54,15 +55,16 @@ const Cupons = () => {
 
   return ( 
     <SidebarWithHeader>
-      <Breadcrumb>
+      <Breadcrumb separator={<ChevronRightIcon color='gray.500' />}>
         <BreadcrumbItem>
-          <BreadcrumbLink href='#'>Cupons</BreadcrumbLink>
+          <BreadcrumbLink href='/lojas'>Lojas</BreadcrumbLink>
         </BreadcrumbItem>
 
         <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink href='#'>Cupom {id} </BreadcrumbLink>
+          <BreadcrumbLink href='/lojas/grupos'>Grupo de lojas</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
+      
       <Box 
         rounded={"lg"}
         bg={useColorModeValue("white", "gray.700")}

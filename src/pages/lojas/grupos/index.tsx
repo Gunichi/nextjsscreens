@@ -31,6 +31,7 @@ import {
   FormLabel,
   FormControl,
   SimpleGrid,
+  HStack,
 } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/react'
 
@@ -38,8 +39,9 @@ import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight, FiPause, FiSettings, FiS
 import { VscSettings } from "react-icons/vsc";
 import SidebarWithHeader from '../../../components/sidebar/sidebar';
 import { data } from '../../../utils/data';
-import Pagination from '@choc-ui/paginator';
+import { Pagination } from '@mantine/core';
 import { useRouter } from 'next/router';
+import { ChevronRightIcon } from '@chakra-ui/icons';
 
 
 const gruposDeLojas = () => {
@@ -72,7 +74,7 @@ const gruposDeLojas = () => {
 
   return ( 
     <SidebarWithHeader>
-      <Breadcrumb>
+      <Breadcrumb separator={<ChevronRightIcon color='gray.500' />}>
         <BreadcrumbItem>
           <BreadcrumbLink href='/lojas'>Lojas</BreadcrumbLink>
         </BreadcrumbItem>
@@ -117,15 +119,17 @@ const gruposDeLojas = () => {
           <Box>
             <Text fontSize="1xl" fontWeight='bold'>Grupo de lojas</Text>
           </Box>
-          <Box textAlign="right">
+          <Box>
+          <HStack spacing='24px' justifyContent='flex-end'>
             <Button
               leftIcon={<FiPlusCircle />}
               colorScheme='red'
               variant="solid"
               onClick={onCreateOpen}
             >
-              Adicionar grupo de loja
+              Adicionar grupo
             </Button>
+            </HStack>
           </Box>
         </SimpleGrid>
         <TableContainer mt={4}>
@@ -182,22 +186,23 @@ const gruposDeLojas = () => {
         </TableContainer>
       </Box>
       <Pagination
-        current={page}
-        onChange={(page) => {
-          handlePageChange(page);
-        }}
-        pageSize={pageSize}
-        total={data.length}
-        paginationProps={{
-          display: "flex",
-          justifyContent: "flex-end"
-        }}
-        colorScheme="red"
+        page={page}
+        onChange={(page) => {handlePageChange(page)}}
+        total={10}
+        siblings={2}
+        boundaries={0}      
+        color='red.7'  
+        position='right'
+        sx={(theme) => ({
+          '@media (max-width: 755px)': {
+            justifyContent: 'center'
+          },
+        })}
       />
 
 
        {/* Modal de criação de loja */}
-       <Modal
+      <Modal
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
         isOpen={isCreateOpen}
