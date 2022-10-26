@@ -23,7 +23,7 @@ const Login = () => {
       <Box 
         rounded={"lg"}
         bg={useColorModeValue("white", "gray.700")}
-        boxShadow={"sm"}
+        boxShadow={"md"}
         w={"sm"}
         p={8}      
       >
