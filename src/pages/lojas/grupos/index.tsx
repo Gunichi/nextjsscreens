@@ -34,6 +34,7 @@ import {
   HStack,
 } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/react'
+import XLSX from 'xlsx'
 
 import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight, FiPause, FiSettings, FiSearch, FiPlusCircle } from 'react-icons/fi'
 import { VscSettings } from "react-icons/vsc";
@@ -42,6 +43,7 @@ import { data } from '../../../utils/data';
 import { Pagination } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { ChevronRightIcon } from '@chakra-ui/icons';
+import { DownloadSimple } from 'phosphor-react'
 
 
 const gruposDeLojas = () => {
@@ -70,6 +72,13 @@ const gruposDeLojas = () => {
       setName(user.name);
       onEditOpen();
     }
+  };
+
+  const handleExport = () => {
+    const ws = XLSX.utils.json_to_sheet(users);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Grupos de Lojas');
+    XLSX.writeFile(wb, 'Grupos de Lojas.xlsx');
   };
 
   return ( 
@@ -121,14 +130,21 @@ const gruposDeLojas = () => {
           </Box>
           <Box>
           <HStack spacing='24px' justifyContent='flex-end'>
-            <Button
-              leftIcon={<FiPlusCircle />}
-              colorScheme='red'
-              variant="solid"
-              onClick={onCreateOpen}
-            >
-              Adicionar grupo
-            </Button>
+            <Box>
+              <Button colorScheme='red'  variant='outline' size='md' onClick={handleExport}>
+                <DownloadSimple size={20} weight='bold' />
+              </Button>
+            </Box>
+            <Box>
+              <Button
+                leftIcon={<FiPlusCircle />}
+                colorScheme='red'
+                variant="solid"
+                onClick={onCreateOpen}
+              >
+                Adicionar grupo
+              </Button>
+            </Box>
             </HStack>
           </Box>
         </SimpleGrid>

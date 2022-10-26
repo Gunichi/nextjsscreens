@@ -21,7 +21,9 @@ import {
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 import { ReactText } from 'react';
-
+import {
+  BsNewspaper
+} from 'react-icons/bs';
 interface LinkItemProps {
   name: string;
   icon: IconType;
@@ -30,6 +32,7 @@ interface LinkItemProps {
 const LinkItems: Array<LinkItemProps> = [
   { name: 'Lojas', icon: FiHome, href:'/lojas' },
   { name: 'Grupo de lojas', icon: FiHome, href:'/lojas/grupos' },
+  { name: 'Cupons', icon: BsNewspaper, href:'/cupons' },
   { name: 'Clientes', icon: FiPlusCircle, href: '/clientes'},
   { name: 'Sistemas', icon: FiPlusCircle, href: '/sistemas'},
   { name: 'OVPN', icon: FiPlusCircle, href: '/ovpn'},
