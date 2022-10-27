@@ -82,6 +82,7 @@ const Lojas = () => {
   const pageSize = 10;
   const offset = (page - 1) * pageSize;
   const posts = data.slice(offset, offset + pageSize);
+  const totalPages = Math.ceil(data.length / pageSize);
   
   /*const sortById = () => {
     setOrderName('')
@@ -109,7 +110,6 @@ const Lojas = () => {
   }
 
   //Get total number of pages
-  const totalPages = Math.ceil(data.length / pageSize);
 
 
   const sortByName = () => {
@@ -447,19 +447,19 @@ const Lojas = () => {
         </Box>
 
         <Pagination
-        page={page}
-        onChange={(page) => {handlePageChange(page)}}
-        total={totalPages}
-        siblings={2}
-        boundaries={0}      
-        color='red.7'  
-        position='right'
-        sx={(theme) => ({
-          '@media (max-width: 755px)': {
-            justifyContent: 'center'
-          },
-        })}
-      />
+          page={page}
+          onChange={(page) => {handlePageChange(page)}}
+          total={totalPages}
+          siblings={2}
+          boundaries={0}      
+          color='red.7'  
+          position='right'
+          sx={(theme) => ({
+            '@media (max-width: 755px)': {
+              justifyContent: 'center'
+            },
+          })}
+        />
         
 
 

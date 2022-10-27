@@ -38,38 +38,46 @@ import { Text } from '@chakra-ui/react'
 
 import { FiEdit, FiChevronLeft, FiChevronRight, FiSearch, FiPlay, FiPlusCircle } from 'react-icons/fi'
 import SidebarWithHeader from '../../components/sidebar/sidebar';
-import { datas } from '../../utils/data';
 import { Pagination } from '@mantine/core';
 import { Download } from 'phosphor-react';
+import axios from 'axios';
+import router from 'next/router';
+import { over } from 'lodash';
 
 const Ovpn = () => {
+
+  type data = {
+    id: number,
+    username: string,
+    block: boolean,
+    ovpn: string,
+    gunit: string,
+  }
+
 
   const { isOpen, onOpen, onClose } = useDisclosure()
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null)  
-  const [users, setUsers] = useState(datas);
   const [page, setPage] = useState(1);
+  const [data, setData] = useState([]);
   const pageSize = 10;
   const offset = (page - 1) * pageSize;
-  const posts = users.slice(offset, offset + pageSize);
+  const posts = data.slice(offset, offset + pageSize);
+  const totalPages = Math.ceil(data.length / pageSize);
 
   const handlePageChange = (page: number | undefined) => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     setPage(page!);
   };
 
-  const Prev = forwardRef((props) => (
-    <Button {...props}>
-      <FiChevronLeft />
-    </Button>
-  ));
+  useEffect(() => {
+    axios.get('http://144.126.138.178/web/users/list/?page=1')
+      .then((response) => {
+        setData(response.data.result.items)
+      })
+  }, [])
 
-  const Next = forwardRef((props) => (
-    <Button {...props}>
-      <FiChevronRight />
-    </Button>
-  ));
-
+  
   return ( 
     <SidebarWithHeader>
       <Breadcrumb>
@@ -135,11 +143,11 @@ const Ovpn = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {posts.map((user) => (
-                <Tr key={user.id}>
-                  <Td textAlign='center'>{user.id}</Td>
-                  <Td textAlign='center'>Grupo 1</Td>
-                  <Td textAlign='center'>{user.active == true ? 'Ativo' : 'Desativado'}</Td>
+              {posts.map((item: data) => (
+                <Tr key={item.id}>
+                  <Td textAlign='center'>{item.username}</Td>
+                  <Td textAlign='center'>{item.gunit}</Td>
+                  <Td textAlign='center'>{item.block == true ? 'Ativo' : 'Desativado'}</Td>
                   <Td textAlign='center'>
                     <Button colorScheme='red' variant='solid' size='sm' mr={2}> 
                       <FiPlay />
@@ -152,6 +160,7 @@ const Ovpn = () => {
                       variant='solid'
                       size='sm'
                       ml={2}
+                      onClick={() => router.push(`http://144.126.138.178/web/users/download/${item.ovpn}`)}
                     >
                       <Download size={20} />
                     </Button>
@@ -164,19 +173,19 @@ const Ovpn = () => {
       </Box>
       
       <Pagination
-        page={page}
-        onChange={(page) => {handlePageChange(page)}}
-        total={10}
-        siblings={2}
-        boundaries={0}      
-        color='red.7'  
-        position='right'
-        sx={(theme) => ({
-          '@media (max-width: 755px)': {
-            justifyContent: 'center'
-          },
-        })}
-      />
+          page={page}
+          onChange={(page) => {handlePageChange(page)}}
+          total={totalPages}
+          siblings={2}
+          boundaries={0}      
+          color='red.7'  
+          position='right'
+          sx={(theme) => ({
+            '@media (max-width: 755px)': {
+              justifyContent: 'center'
+            },
+          })}
+        />
 
       <Modal
         initialFocusRef={initialRef}
