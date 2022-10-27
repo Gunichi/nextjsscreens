@@ -110,9 +110,6 @@ const Lojas = () => {
     }
   }
 
-  //Get total number of pages
-
-
   const sortByName = () => {
     setOrderId('')
     setOrderCnpj('')
@@ -238,7 +235,17 @@ const Lojas = () => {
     });
   }
 
+  //Detect and call api when modal is open
+  useEffect(() => {
+    if (isEditOpen) {
+      findCnpj2();
+    }
+  }, [isEditOpen]);
+
+
+
   const findCnpj2 = () => {
+
     const formatCnpj = cnpj.replace(/[^\d]+/g,'');
     console.log(formatCnpj)
 
@@ -248,7 +255,7 @@ const Lojas = () => {
       console.log(response.nome)
     }))
     .catch(function (error) {
-      console.log(error);
+      console.log(error + formatCnpj);
     });
   }
 
@@ -439,7 +446,9 @@ const Lojas = () => {
                         user.unit,
                         user.corporate,
                         user.cnpj,                  
-                        ), findCnpj2()]} > 
+                        ),
+                      ]}
+                      > 
                         <FiEdit />
                       </Button>
                       <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={(() => console.log('a'))}>
@@ -556,7 +565,8 @@ const Lojas = () => {
               </FormControl>
               <FormControl mt={4}>
                 <FormLabel>CNPJ</FormLabel>
-                <Input 
+                <Input
+                  readOnly
                   placeholder='CNPJ' 
                   onBlur={findCnpj2}
                   value={cnpj}
