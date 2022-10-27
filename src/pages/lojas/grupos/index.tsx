@@ -75,11 +75,10 @@ const gruposDeLojas = () => {
       })
   }, [])
 
-  //Show only 10 itens per page
-  const itensPerPage = 10;
-  const totalItens = data.length;
-  const totalPages = Math.ceil(totalItens / itensPerPage);
-  const currentItens = data.slice((page - 1) * itensPerPage, page * itensPerPage);
+  const pageSize = 10;
+  const offset = (page - 1) * pageSize;
+  const posts = data.slice(offset, offset + pageSize);
+  const totalPages = Math.ceil(data.length / pageSize);
 
   const handlePageChange = (page: number | undefined) => {
     setPage(page!);
@@ -188,7 +187,7 @@ const gruposDeLojas = () => {
                 </Tr>
               </Thead>
               <Tbody>
-                {data.map((user: data) => (
+                {posts.map((user: data) => (
                   <Tr key={user.id}>
                     <Td textAlign='center'>{user.id}</Td>
                     <Td textAlign="center">{user.gunit}</Td>
@@ -233,7 +232,7 @@ const gruposDeLojas = () => {
         <Pagination
           page={page}
           onChange={(page) => {handlePageChange(page)}}
-          total={10}
+          total={totalPages}
           siblings={2}
           boundaries={0}      
           color='red.7'  
