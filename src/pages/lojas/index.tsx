@@ -33,6 +33,8 @@ import {
   Select,
   SimpleGrid,
   HStack,
+  Spinner,
+  Center,
 } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/react'
 import { sortBy } from 'sort-by-typescript';
@@ -75,8 +77,8 @@ const Lojas = () => {
   const [orderStatus, setOrderStatus] = useState('');
   const [data, setData] = useState([]);
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   
-
   //Show only 10 itens per page
   const itensPerPage = 10;
   const totalItens = data.length;
@@ -277,272 +279,285 @@ const Lojas = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
     axios.get('http://144.126.138.178/web/units/list/?page=1')
       .then(response => {
         setData(response.data.result.items)
+        setLoading(false)
       })
   }, [])
 
       
-  return ( 
-    <SidebarWithHeader>
-      <Breadcrumb>
-        <BreadcrumbItem>
-          <BreadcrumbLink href='/lojas'>Lojas</BreadcrumbLink>
-        </BreadcrumbItem>
-      </Breadcrumb>
-      <Box 
-        rounded={"lg"}
-        bg={useColorModeValue("white", "gray.700")}
-        boxShadow={"sm"}
-        w={'100%'}
-        p={8}
-        mt={4}
-        mb={4}
-      >
-        <Stack spacing={4}>
-          <SimpleGrid columns={2} spacing={10}>
-            <InputGroup>
-              <InputLeftElement
-                pointerEvents='none'
-                children={<FiSearch color='gray.300' />}
-              />
-              <Input type='text' placeholder='Filtrar' />
-            </InputGroup> 
-            <HStack spacing='24px' justifyContent='flex-end'>
-              <Box w='200px'>
-                <Select onChange={handleSelect}>
-                  <option selected hidden disabled value="">Ordenar por</option>
-                  <option value='id'>ID</option>
-                  <option value='name'>Nome</option>
-                  <option value='cnpj'>CNPJ</option>
-                  <option value='status'>Status</option>
-                </Select>
-              </Box>
-              <Box>
-                <Button colorScheme='red'  size='md' onClick={handleButton}>
-                  {sortingIcon(
-                    orderId,
-                    orderName,
-                    orderCnpj,
-                    orderStatus
-                  )}
-                </Button>
-              </Box>
-            </HStack>
-          </SimpleGrid>         
-        </Stack>   
-        </Box>
-        <Box
+  if (loading) {
+    return (
+      <Box justifyContent="center" alignItems="center" display="flex" height="100vh">
+        <Spinner
+          emptyColor='gray.200'
+          color='red.500'
+          size='xl'
+        />
+      </Box>
+    )
+  } else {
+    return (
+      <SidebarWithHeader>
+        <Breadcrumb>
+          <BreadcrumbItem>
+            <BreadcrumbLink href='/lojas'>Lojas</BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb>
+        <Box 
           rounded={"lg"}
           bg={useColorModeValue("white", "gray.700")}
-          boxShadow={"lg"}
+          boxShadow={"sm"}
           w={'100%'}
           p={8}
           mt={4}
           mb={4}
         >
-        <SimpleGrid columns={[2, null, 2]} spacing={10}>
-          <Box>
-            <Text fontSize='1xl' fontWeight='bold'>
-              Listagem de lojas
-            </Text>
-          </Box>
-          <HStack spacing='24px' justifyContent='flex-end'>
-            <Box>
-              <Button colorScheme='red'  variant='outline' size='md' onClick={handleExport}>
-                <DownloadSimple size={20} weight='bold' />
-              </Button>
-            </Box>
-            <Box>
-              <Button 
-                colorScheme='red'               
-                leftIcon={<FiPlus />}
-                size='md' 
-                onClick={onCreateOpen}
-              >
-                Adicionar loja
-              </Button>
-            </Box>
-          </HStack>
-        </SimpleGrid> 
-        <TableContainer mt={4}>
-          <Table size='sm' mt={4}>
-            <Thead>
-              <Tr>
-                <Th textAlign='center' cursor='pointer' onClick={() => sortById()}>      
-                  <HStack spacing={0} justifyContent='center'>
-                    <Text>ID</Text>
-                  </HStack>
-                </Th>
-                <Th textAlign='center' cursor='pointer' onClick={() => sortByName()}>
-                  <HStack spacing={0} justifyContent='center'>
-                    <Text as='b'>Nome</Text>
-                  </HStack>
-                </Th>
-                <Th textAlign='center' cursor='pointer' onClick={() => sortByCnpj()}>
-                  <HStack spacing={0} justifyContent='center'>
-                    <Text as='b'>CNPJ</Text> 
-                  </HStack>
-                </Th>
-                <Th textAlign='center' cursor='pointer' onClick={() => sortByStatus()}>
-                  <HStack spacing={0} justifyContent='center'>
-                    <Text as='b'>Status</Text> 
-                  </HStack>
-                </Th>
-                <Th textAlign='center'>Ações</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {data.map((user: data) => (
-                <Tr key={id}>
-                  <Td textAlign='center'>{user.id}</Td>
-                  <Td textAlign="center">{user.unit}</Td>
-                  <Td textAlign="center">{user.cnpj}</Td>
-                  <Td textAlign='center'>{user.block == true ? 'Ativo' : 'Desativado'}</Td>
-                  <Td textAlign='center'>
-                    <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={() => handleEdit(
-                      user.id,
-                      user.unit,
-                      user.corporate,
-                      user.cnpj,                  
-                      )} > 
-                      <FiEdit />
-                    </Button>
-                    <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={(() => console.log('a'))}>
-                      {user.block == true ? <FiPause /> : <FiPlay />}
-                    </Button>
-                    <Button 
-                      colorScheme='red' 
-                      variant='solid' 
-                      size='sm' 
-                      mr={2} 
-                      onClick={() => router.push(`lojas/${user.id}`)}
-                    > 
-                      <VscSettings />
+          <Stack spacing={4}>
+            <SimpleGrid columns={2} spacing={10}>
+              <InputGroup>
+                <InputLeftElement
+                  pointerEvents='none'
+                  children={<FiSearch color='gray.300' />}
+                />
+                <Input type='text' placeholder='Filtrar' />
+              </InputGroup> 
+              <HStack spacing='24px' justifyContent='flex-end'>
+                <Box w='200px'>
+                  <Select onChange={handleSelect}>
+                    <option selected hidden disabled value="">Ordenar por</option>
+                    <option value='id'>ID</option>
+                    <option value='name'>Nome</option>
+                    <option value='cnpj'>CNPJ</option>
+                    <option value='status'>Status</option>
+                  </Select>
+                </Box>
+                <Box>
+                  <Button colorScheme='red'  size='md' onClick={handleButton}>
+                    {sortingIcon(
+                      orderId,
+                      orderName,
+                      orderCnpj,
+                      orderStatus
+                    )}
                   </Button>
-                  </Td>
+                </Box>
+              </HStack>
+            </SimpleGrid>         
+          </Stack>   
+          </Box>
+          <Box
+            rounded={"lg"}
+            bg={useColorModeValue("white", "gray.700")}
+            boxShadow={"lg"}
+            w={'100%'}
+            p={8}
+            mt={4}
+            mb={4}
+          >
+          <SimpleGrid columns={[2, null, 2]} spacing={10}>
+            <Box>
+              <Text fontSize='1xl' fontWeight='bold'>
+                Listagem de lojas
+              </Text>
+            </Box>
+            <HStack spacing='24px' justifyContent='flex-end'>
+              <Box>
+                <Button colorScheme='red'  variant='outline' size='md' onClick={handleExport}>
+                  <DownloadSimple size={20} weight='bold' />
+                </Button>
+              </Box>
+              <Box>
+                <Button 
+                  colorScheme='red'               
+                  leftIcon={<FiPlus />}
+                  size='md' 
+                  onClick={onCreateOpen}
+                >
+                  Adicionar loja
+                </Button>
+              </Box>
+            </HStack>
+          </SimpleGrid> 
+          <TableContainer mt={4}>
+            <Table size='sm' mt={4}>
+              <Thead>
+                <Tr>
+                  <Th textAlign='center' cursor='pointer' onClick={() => sortById()}>      
+                    <HStack spacing={0} justifyContent='center'>
+                      <Text>ID</Text>
+                    </HStack>
+                  </Th>
+                  <Th textAlign='center' cursor='pointer' onClick={() => sortByName()}>
+                    <HStack spacing={0} justifyContent='center'>
+                      <Text as='b'>Nome</Text>
+                    </HStack>
+                  </Th>
+                  <Th textAlign='center' cursor='pointer' onClick={() => sortByCnpj()}>
+                    <HStack spacing={0} justifyContent='center'>
+                      <Text as='b'>CNPJ</Text> 
+                    </HStack>
+                  </Th>
+                  <Th textAlign='center' cursor='pointer' onClick={() => sortByStatus()}>
+                    <HStack spacing={0} justifyContent='center'>
+                      <Text as='b'>Status</Text> 
+                    </HStack>
+                  </Th>
+                  <Th textAlign='center'>Ações</Th>
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>                    
-        </TableContainer>
-      </Box>
+              </Thead>
+              <Tbody>
+                {data.map((user: data) => (
+                  <Tr key={id}>
+                    <Td textAlign='center'>{user.id}</Td>
+                    <Td textAlign="center">{user.unit}</Td>
+                    <Td textAlign="center">{user.cnpj}</Td>
+                    <Td textAlign='center'>{user.block == true ? 'Ativo' : 'Desativado'}</Td>
+                    <Td textAlign='center'>
+                      <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={() => handleEdit(
+                        user.id,
+                        user.unit,
+                        user.corporate,
+                        user.cnpj,                  
+                        )} > 
+                        <FiEdit />
+                      </Button>
+                      <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={(() => console.log('a'))}>
+                        {user.block == true ? <FiPause /> : <FiPlay />}
+                      </Button>
+                      <Button 
+                        colorScheme='red' 
+                        variant='solid' 
+                        size='sm' 
+                        mr={2} 
+                        onClick={() => router.push(`lojas/${user.id}`)}
+                      > 
+                        <VscSettings />
+                    </Button>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>                    
+          </TableContainer>
+        </Box>
 
-      {/* Modal de criação de loja */}
-      <Modal
-        initialFocusRef={initialRef}
-        finalFocusRef={finalRef}
-        isOpen={isCreateOpen}
-        onClose={onCloseCreateOpen}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Criar conta</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
+        {/* Modal de criação de loja */}
+        <Modal
+          initialFocusRef={initialRef}
+          finalFocusRef={finalRef}
+          isOpen={isCreateOpen}
+          onClose={onCloseCreateOpen}
+        >
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Criar conta</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody pb={6}>
 
-            <FormControl mt={4}>
-              <FormLabel>Nome</FormLabel>
-              <Input 
-                placeholder='nome' 
-              />
-            </FormControl>
-            <FormControl mt={4}>
-              <FormLabel>CNPJ</FormLabel>
-              <Input 
-                placeholder='CNPJ' 
-                onBlur={findCnpj}
-                onChange={onChange}
-              />
-            </FormControl>
-            <FormControl mt={4}>
-              <FormLabel>Razão social</FormLabel>
-              <Input 
-                isReadOnly 
-                placeholder='Razão social'
-                value={fantasyName}
-              />
-            </FormControl>
-            <FormControl mt={4}>
-              <FormLabel>Grupo de loja</FormLabel>
-              <Select placeholder='Selecione um grupo de loja'>
-                {data.map((user: data) => 
-                  <option value={user.unit}>{user.unit}</option>
-                )}
-              </Select>
-            </FormControl>
-            
-          </ModalBody>
+              <FormControl mt={4}>
+                <FormLabel>Nome</FormLabel>
+                <Input 
+                  placeholder='nome' 
+                />
+              </FormControl>
+              <FormControl mt={4}>
+                <FormLabel>CNPJ</FormLabel>
+                <Input 
+                  placeholder='CNPJ' 
+                  onBlur={findCnpj}
+                  onChange={onChange}
+                />
+              </FormControl>
+              <FormControl mt={4}>
+                <FormLabel>Razão social</FormLabel>
+                <Input 
+                  isReadOnly 
+                  placeholder='Razão social'
+                  value={fantasyName}
+                />
+              </FormControl>
+              <FormControl mt={4}>
+                <FormLabel>Grupo de loja</FormLabel>
+                <Select placeholder='Selecione um grupo de loja'>
+                  {data.map((user: data) => 
+                    <option value={user.unit}>{user.unit}</option>
+                  )}
+                </Select>
+              </FormControl>
+              
+            </ModalBody>
 
-          <ModalFooter>
-            <Button colorScheme='red' mr={3}>
-              Salvar
-            </Button>
-            <Button onClick={onCloseCreateOpen}>Cancelar</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+            <ModalFooter>
+              <Button colorScheme='red' mr={3}>
+                Salvar
+              </Button>
+              <Button onClick={onCloseCreateOpen}>Cancelar</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
 
-      {/* Modal Editar Loja */}
-      <Modal
-        initialFocusRef={initialRef}
-        finalFocusRef={finalRef}
-        isOpen={isEditOpen}
-        onClose={onCloseEditOpen}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Editar conta</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
+        {/* Modal Editar Loja */}
+        <Modal
+          initialFocusRef={initialRef}
+          finalFocusRef={finalRef}
+          isOpen={isEditOpen}
+          onClose={onCloseEditOpen}
+        >
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Editar conta</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody pb={6}>
 
-            <FormControl mt={4}>
-              <FormLabel>Nome</FormLabel>
-              <Input 
-                placeholder='nome' 
-                value={unit}
-              />
-            </FormControl>
-            <FormControl mt={4}>
-              <FormLabel>CNPJ</FormLabel>
-              <Input 
-                placeholder='CNPJ' 
-                onBlur={findCnpj}
-                value={cnpj}
-                onChange={onChange}
-              />
-            </FormControl>
-            <FormControl mt={4}>
-              <FormLabel>Razão social</FormLabel>
-              <Input 
-                isReadOnly 
-                placeholder='Razão social'
-                value={corporate}
-              />
-            </FormControl>
-            <FormControl mt={4}>
-              <FormLabel>Grupo de loja</FormLabel>
-              <Select placeholder='Selecione um grupo de loja' value={unit}>
-                {data.map((user: data) => 
-                  <option value={user.unit}>{user.unit}</option>
-                )}
-              </Select>
-            </FormControl>
-            
-          </ModalBody>
+              <FormControl mt={4}>
+                <FormLabel>Nome</FormLabel>
+                <Input 
+                  placeholder='nome' 
+                  value={unit}
+                />
+              </FormControl>
+              <FormControl mt={4}>
+                <FormLabel>CNPJ</FormLabel>
+                <Input 
+                  placeholder='CNPJ' 
+                  onBlur={findCnpj}
+                  value={cnpj}
+                  onChange={onChange}
+                />
+              </FormControl>
+              <FormControl mt={4}>
+                <FormLabel>Razão social</FormLabel>
+                <Input 
+                  isReadOnly 
+                  placeholder='Razão social'
+                  value={corporate}
+                />
+              </FormControl>
+              <FormControl mt={4}>
+                <FormLabel>Grupo de loja</FormLabel>
+                <Select placeholder='Selecione um grupo de loja' value={unit}>
+                  {data.map((user: data) => 
+                    <option value={user.unit}>{user.unit}</option>
+                  )}
+                </Select>
+              </FormControl>
+              
+            </ModalBody>
 
-          <ModalFooter>
-            <Button colorScheme='red' mr={3}>
-              Salvar
-            </Button>
-            <Button onClick={onCloseEditOpen}>Cancelar</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </SidebarWithHeader>
-    
-  );
+            <ModalFooter>
+              <Button colorScheme='red' mr={3}>
+                Salvar
+              </Button>
+              <Button onClick={onCloseEditOpen}>Cancelar</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </SidebarWithHeader>
+    )
+  }
 }
 
 export default Lojas;

@@ -32,6 +32,7 @@ import {
   FormControl,
   SimpleGrid,
   HStack,
+  Spinner,
 } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/react'
 import XLSX from 'xlsx'
@@ -63,11 +64,14 @@ const gruposDeLojas = () => {
   const [gunit, setGunit] = useState('');
   const router = useRouter();
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     axios.get('http://144.126.138.178/web/gunits/list/?page=1')
       .then(response => {
         setData(response.data.result.items)
+        setLoading(false);
       })
   }, [])
 
@@ -95,208 +99,218 @@ const gruposDeLojas = () => {
   };
       
 
-
-  return ( 
-    <SidebarWithHeader>
-      <Breadcrumb separator={<ChevronRightIcon color='gray.500' />}>
-        <BreadcrumbItem>
-          <BreadcrumbLink href='/lojas'>Lojas</BreadcrumbLink>
-        </BreadcrumbItem>
-
-        <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink href='/lojas/grupos'>Grupo de lojas</BreadcrumbLink>
-        </BreadcrumbItem>
-      </Breadcrumb>
-
-      <Box 
-        rounded={"lg"}
-        bg={useColorModeValue("white", "gray.700")}
-        boxShadow={"sm"}
-        w={'100%'}
-        p={8}
-        mt={4}
-        mb={4}
-      >
-        <Stack spacing={4}>
-          <SimpleGrid columns={1} spacing={10}>
-            <InputGroup>
-              <InputLeftElement
-                pointerEvents='none'
-                children={<FiSearch color='gray.300' />}
-              />
-              <Input type='text' placeholder='Filtrar' />
-            </InputGroup> 
-          </SimpleGrid>
-        </Stack>
+  if (loading) {
+    return (
+      <Box justifyContent="center" alignItems="center" display="flex" height="100vh">
+        <Spinner
+          emptyColor='gray.200'
+          color='red.500'
+          size='xl'
+        />
       </Box>
+    )
+  } else {
+    return ( 
+      <SidebarWithHeader>
+        <Breadcrumb separator={<ChevronRightIcon color='gray.500' />}>
+          <BreadcrumbItem>
+            <BreadcrumbLink href='/lojas'>Lojas</BreadcrumbLink>
+          </BreadcrumbItem>
 
-      <Box 
-        rounded={"lg"}
-        bg={useColorModeValue("white", "gray.700")}
-        boxShadow={"sm"}
-        w={'100%'}
-        p={8}
-        mt={4}
-        mb={4}
-      >
-        <SimpleGrid columns={2} spacing={10}>
-          <Box>
-            <Text fontSize="1xl" fontWeight='bold'>Grupo de lojas</Text>
-          </Box>
-          <Box>
-          <HStack spacing='24px' justifyContent='flex-end'>
+          <BreadcrumbItem isCurrentPage>
+            <BreadcrumbLink href='/lojas/grupos'>Grupo de lojas</BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb>
+
+        <Box 
+          rounded={"lg"}
+          bg={useColorModeValue("white", "gray.700")}
+          boxShadow={"sm"}
+          w={'100%'}
+          p={8}
+          mt={4}
+          mb={4}
+        >
+          <Stack spacing={4}>
+            <SimpleGrid columns={1} spacing={10}>
+              <InputGroup>
+                <InputLeftElement
+                  pointerEvents='none'
+                  children={<FiSearch color='gray.300' />}
+                />
+                <Input type='text' placeholder='Filtrar' />
+              </InputGroup> 
+            </SimpleGrid>
+          </Stack>
+        </Box>
+
+        <Box 
+          rounded={"lg"}
+          bg={useColorModeValue("white", "gray.700")}
+          boxShadow={"sm"}
+          w={'100%'}
+          p={8}
+          mt={4}
+          mb={4}
+        >
+          <SimpleGrid columns={2} spacing={10}>
             <Box>
-              <Button colorScheme='red'  variant='outline' size='md' onClick={handleExport}>
-                <DownloadSimple size={20} weight='bold' />
-              </Button>
+              <Text fontSize="1xl" fontWeight='bold'>Grupo de lojas</Text>
             </Box>
             <Box>
-              <Button
-                leftIcon={<FiPlusCircle />}
-                colorScheme='red'
-                variant="solid"
-                onClick={onCreateOpen}
-              >
-                Adicionar grupo
-              </Button>
+            <HStack spacing='24px' justifyContent='flex-end'>
+              <Box>
+                <Button colorScheme='red'  variant='outline' size='md' onClick={handleExport}>
+                  <DownloadSimple size={20} weight='bold' />
+                </Button>
+              </Box>
+              <Box>
+                <Button
+                  leftIcon={<FiPlusCircle />}
+                  colorScheme='red'
+                  variant="solid"
+                  onClick={onCreateOpen}
+                >
+                  Adicionar grupo
+                </Button>
+              </Box>
+              </HStack>
             </Box>
-            </HStack>
-          </Box>
-        </SimpleGrid>
-        <TableContainer mt={4}>
-          <Table size='sm'>
-            <Thead>
-              <Tr>
-                <Th textAlign='center'>Id</Th>
-                <Th textAlign='center'>Nomes</Th>
-                <Th textAlign='center'>Status</Th>
-                <Th textAlign='center'>Ações</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {data.map((user: data) => (
-                <Tr key={user.id}>
-                  <Td textAlign='center'>{user.id}</Td>
-                  <Td textAlign="center">{user.gunit}</Td>
-                  <Td textAlign='center'>{user.block == true ? 'Ativo' : 'Desativado'}</Td>
-                  <Td textAlign='center'>
-                  <Button 
-                    colorScheme='red' 
-                    variant='solid' 
-                    size='sm' 
-                    mr={2} 
-                    onClick={
-                      () => handleEdit(user.id, user.gunit)
-                    }
-                  > 
-                    <FiEdit />
-                  </Button>
-                    {user.block == true ?
-                      <Button colorScheme='red' variant='solid' size='sm'> 
-                        <FiPause />
-                      </Button>
-                    :
-                      <Button colorScheme='red' variant='solid' size='sm'> 
-                        <FiPlay />
-                      </Button>
-                    }
+          </SimpleGrid>
+          <TableContainer mt={4}>
+            <Table size='sm'>
+              <Thead>
+                <Tr>
+                  <Th textAlign='center'>Id</Th>
+                  <Th textAlign='center'>Nomes</Th>
+                  <Th textAlign='center'>Status</Th>
+                  <Th textAlign='center'>Ações</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {data.map((user: data) => (
+                  <Tr key={user.id}>
+                    <Td textAlign='center'>{user.id}</Td>
+                    <Td textAlign="center">{user.gunit}</Td>
+                    <Td textAlign='center'>{user.block == true ? 'Ativo' : 'Desativado'}</Td>
+                    <Td textAlign='center'>
                     <Button 
                       colorScheme='red' 
                       variant='solid' 
                       size='sm' 
-                      ml={2} 
-                      onClick={() => router.push(`grupos/${user.id}`)}
+                      mr={2} 
+                      onClick={
+                        () => handleEdit(user.id, user.gunit)
+                      }
                     > 
-                      <VscSettings />
-                  </Button>
-                  </Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>                    
-        </TableContainer>
-      </Box>
-      <Pagination
-        page={page}
-        onChange={(page) => {handlePageChange(page)}}
-        total={10}
-        siblings={2}
-        boundaries={0}      
-        color='red.7'  
-        position='right'
-        sx={(theme) => ({
-          '@media (max-width: 755px)': {
-            justifyContent: 'center'
-          },
-        })}
-      />
+                      <FiEdit />
+                    </Button>
+                      {user.block == true ?
+                        <Button colorScheme='red' variant='solid' size='sm'> 
+                          <FiPause />
+                        </Button>
+                      :
+                        <Button colorScheme='red' variant='solid' size='sm'> 
+                          <FiPlay />
+                        </Button>
+                      }
+                      <Button 
+                        colorScheme='red' 
+                        variant='solid' 
+                        size='sm' 
+                        ml={2} 
+                        onClick={() => router.push(`grupos/${user.id}`)}
+                      > 
+                        <VscSettings />
+                    </Button>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>                    
+          </TableContainer>
+        </Box>
+        <Pagination
+          page={page}
+          onChange={(page) => {handlePageChange(page)}}
+          total={10}
+          siblings={2}
+          boundaries={0}      
+          color='red.7'  
+          position='right'
+          sx={(theme) => ({
+            '@media (max-width: 755px)': {
+              justifyContent: 'center'
+            },
+          })}
+        />
 
 
-       {/* Modal de criação de loja */}
-      <Modal
-        initialFocusRef={initialRef}
-        finalFocusRef={finalRef}
-        isOpen={isCreateOpen}
-        onClose={onCloseCreateOpen}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Adicionar grupo</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
+        {/* Modal de criação de loja */}
+        <Modal
+          initialFocusRef={initialRef}
+          finalFocusRef={finalRef}
+          isOpen={isCreateOpen}
+          onClose={onCloseCreateOpen}
+        >
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Adicionar grupo</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody pb={6}>
 
-            <FormControl mt={4}>
-              <FormLabel>Nome</FormLabel>
-              <Input 
-                placeholder='Nome' 
-              />
-            </FormControl>
-            
-          </ModalBody>
+              <FormControl mt={4}>
+                <FormLabel>Nome</FormLabel>
+                <Input 
+                  placeholder='Nome' 
+                />
+              </FormControl>
+              
+            </ModalBody>
 
-          <ModalFooter>
-            <Button colorScheme='red' mr={3}>
-              Salvar
-            </Button>
-            <Button onClick={onCloseCreateOpen}>Cancelar</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+            <ModalFooter>
+              <Button colorScheme='red' mr={3}>
+                Salvar
+              </Button>
+              <Button onClick={onCloseCreateOpen}>Cancelar</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
 
-      {/* Modal Editar Loja */}
-      <Modal
-        initialFocusRef={initialRef}
-        finalFocusRef={finalRef}
-        isOpen={isEditOpen}
-        onClose={onCloseEditOpen}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Editar conta</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
+        {/* Modal Editar Loja */}
+        <Modal
+          initialFocusRef={initialRef}
+          finalFocusRef={finalRef}
+          isOpen={isEditOpen}
+          onClose={onCloseEditOpen}
+        >
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Editar conta</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody pb={6}>
 
-            <FormControl mt={4}>
-              <FormLabel>Nome</FormLabel>
-              <Input 
-                placeholder='nome' 
-                value={gunit}
-              />
-            </FormControl>       
-            
-          </ModalBody>
+              <FormControl mt={4}>
+                <FormLabel>Nome</FormLabel>
+                <Input 
+                  placeholder='nome' 
+                  value={gunit}
+                />
+              </FormControl>       
+              
+            </ModalBody>
 
-          <ModalFooter>
-            <Button colorScheme='red' mr={3}>
-              Salvar
-            </Button>
-            <Button onClick={onCloseEditOpen}>Cancelar</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </SidebarWithHeader>
-    
+            <ModalFooter>
+              <Button colorScheme='red' mr={3}>
+                Salvar
+              </Button>
+              <Button onClick={onCloseEditOpen}>Cancelar</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </SidebarWithHeader>
   );
+  }
 }
 
 export default gruposDeLojas;
