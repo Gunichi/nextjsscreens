@@ -450,7 +450,7 @@ const Lojas = () => {
         page={page}
         onChange={(page) => {handlePageChange(page)}}
         total={totalPages}
-        siblings={1}
+        siblings={2}
         boundaries={0}      
         color='red.7'  
         position='right'
