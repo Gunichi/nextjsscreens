@@ -39,7 +39,6 @@ import { sortBy } from 'sort-by-typescript';
 
 import { FiPlay, FiEdit, FiPause, FiArrowDown, FiArrowUp, FiSearch, FiPlus } from 'react-icons/fi'
 import SidebarWithHeader from '../../components/sidebar/sidebar';
-import { datas } from '../../utils/data';
 import { Pagination } from '@mantine/core';
 import XLSX from 'xlsx'
 import axios from 'axios-jsonp-pro';
@@ -49,26 +48,40 @@ import { useRouter } from 'next/router';
 
 const Lojas = () => {
 
+  type data = {
+    id: number,
+    unit: string,
+    corporate: string,
+    cnpj: string,
+    code: string,
+    block: boolean,
+  }
+
   const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onCloseEditOpen } = useDisclosure()
   const { isOpen: isCreateOpen , onOpen: onCreateOpen, onClose: onCloseCreateOpen } = useDisclosure()
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null)  
   const [id, setId] = useState(0);
+  const [unit, setUnit] = useState('');
+  const [corporate, setCorporate] = useState('');
+  const [cnpj, setCnpj] = useState('');
   const [name, setName] = useState('');
-  const [cnpj, setCnpj] = useState('')
   const [fantasyName, setFantasyName] = useState('')
-  const [users, setUsers] = useState(datas);
   const [isActive, setIsActive] = useState(true);
   const [page, setPage] = useState(1);
-  const pageSize = 10;
-  const offset = (page - 1) * pageSize;
-  const posts = users.slice(offset, offset + pageSize);
-  const [order, setOrder] = useState('');
   const [orderId, setOrderId] = useState('');
   const [orderName, setOrderName] = useState('');
   const [orderCnpj, setOrderCnpj] = useState('');
   const [orderStatus, setOrderStatus] = useState('');
+  const [data, setData] = useState([]);
   const router = useRouter();
+  
+
+  //Show only 10 itens per page
+  const itensPerPage = 10;
+  const totalItens = data.length;
+  const totalPages = Math.ceil(totalItens / itensPerPage);
+  const currentItens = data.slice((page - 1) * itensPerPage, page * itensPerPage);
 
   /*const sortById = () => {
     setOrderName('')
@@ -88,10 +101,10 @@ const Lojas = () => {
     setOrderStatus('')
     if(orderId === 'asc'){
       setOrderId('desc')
-      setUsers(users.sort(sortBy('id', 'desc')))
+      setData(data.sort(sortBy('id', 'desc')))
     } else {
       setOrderId('asc')
-      setUsers(users.sort(sortBy('-id', 'asc')))
+      setData(data.sort(sortBy('-id', 'asc')))
     }
   }
 
@@ -101,13 +114,12 @@ const Lojas = () => {
     setOrderStatus('')
     if(orderName === 'asc'){
       setOrderName('desc')
-      setUsers(users.sort(sortBy('name', 'desc')))
+      setData(data.sort(sortBy('unit', 'desc')))
     }else {
       setOrderName('asc')
-      setUsers(users.sort(sortBy('-name', 'asc')))
+      setData(data.sort(sortBy('-unit', 'asc')))
+    }
   }
-  }
-
 
   const sortByCnpj = () => {
     setOrderId('')
@@ -115,10 +127,10 @@ const Lojas = () => {
     setOrderStatus('')
     if(orderCnpj === 'asc'){
       setOrderCnpj('desc')
-      setUsers(users.sort(sortBy('cnpj', 'desc')))
+      setData(data.sort(sortBy('cnpj', 'desc')))
     } else {
       setOrderCnpj('asc')
-      setUsers(users.sort(sortBy('-cnpj', 'asc')))
+      setData(data.sort(sortBy('-cnpj', 'asc')))
     }
   }
 
@@ -128,56 +140,18 @@ const Lojas = () => {
     setOrderCnpj('')
     if(orderStatus === 'asc'){
       setOrderStatus('desc')
-      setUsers(users.sort(sortBy('active', 'desc')))
+      setData(data.sort(sortBy('block', 'desc')))
     }else{
       setOrderStatus('asc')
-      setUsers(users.sort(sortBy('-active', 'asc')))
+      setData(data.sort(sortBy('-block', 'asc')))
     }
   }
-
-  const sortIcon = (orderId: string) => {
-    if (orderId || orderName || orderCnpj || orderStatus === 'asc') {
-      return <FiArrowUp />;
-    } else {
-      return <FiArrowDown />;
-    }
-  };
 
   const sortingIcon = (orderId: string, orderName: string, orderCnpj: string, orderStatus: string) => {
     if (orderId === 'asc' || orderName === 'asc' || orderCnpj === 'asc' || orderStatus === 'asc') {
       return <FiArrowUp />;
     } else {
       return <FiArrowDown />;
-    }
-  };
-
-  const sortIconName = (order: string) => {
-    if (orderName === 'asc') {
-      return <FiArrowUp />;
-    } else if (orderName === 'desc') {
-      return <FiArrowDown />;
-    } else {
-      return null;
-    }
-  };
-
-  const sortIconCnpj = (order: string) => {
-    if (orderCnpj === 'asc') {
-      return <FiArrowUp />;
-    } else if (orderCnpj === 'desc') {
-      return <FiArrowDown />;
-    } else {
-      return null;
-    }
-  };
-
-  const sortIconStatus = (order: string) => {
-    if (orderStatus === 'asc') {
-      return <FiArrowUp />;
-    } else if (orderStatus === 'desc') {
-      return <FiArrowDown />;
-    } else {
-      return null;
     }
   };
 
@@ -189,33 +163,22 @@ const Lojas = () => {
     setCnpj(e.target.value)
   }
 
-  const handleEdit = (id: number) => {
-    const user = users.find((user) => user.id === id);
-    if (user) {
-      setId(user.id);
-      setName(user.name);
-      setCnpj(user.cnpj)
-      onEditOpen();
-    }
-  };
-
-  const handleActive = (id: number) => {
-    const user = users.find((user) => user.id === id);
-    if (user) {
-      setIsActive(!user.active);
-      const newUsers = users.map((user) => {
-        if (user.id === id) {
-          return { ...user, active: !user.active };
-        }
-        return user;
-      });
-      setUsers(newUsers);
-    }
+  const handleEdit = (
+    id: number, 
+    unit: string,
+    corporate: string,
+    cnpj: string,
+  ) => {
+    setId(id);
+    setUnit(unit);
+    setCorporate(corporate);
+    setCnpj(cnpj);
+    onEditOpen();
   };
 
   const handleExport = () => {
     const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.json_to_sheet(users);
+    const ws = XLSX.utils.json_to_sheet(data);
     XLSX.utils.book_append_sheet(wb, ws, 'Lojas');
     XLSX.writeFile(wb, 'lojas.xlsx');
   }
@@ -312,6 +275,14 @@ const Lojas = () => {
       sortByStatus();
     }
   };
+
+  useEffect(() => {
+    axios.get('http://144.126.138.178/web/units/list/?page=1')
+      .then(response => {
+        setData(response.data.result.items)
+      })
+  }, [])
+
       
   return ( 
     <SidebarWithHeader>
@@ -423,18 +394,23 @@ const Lojas = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {posts.map((user, id) => (
+              {data.map((user: data) => (
                 <Tr key={id}>
                   <Td textAlign='center'>{user.id}</Td>
-                  <Td textAlign="center">{user.name}</Td>
+                  <Td textAlign="center">{user.unit}</Td>
                   <Td textAlign="center">{user.cnpj}</Td>
-                  <Td textAlign='center'>{user.active == true ? 'Ativo' : 'Desativado'}</Td>
+                  <Td textAlign='center'>{user.block == true ? 'Ativo' : 'Desativado'}</Td>
                   <Td textAlign='center'>
-                    <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={() => handleEdit(user.id)} > 
+                    <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={() => handleEdit(
+                      user.id,
+                      user.unit,
+                      user.corporate,
+                      user.cnpj,                  
+                      )} > 
                       <FiEdit />
                     </Button>
-                    <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={(() => handleActive(user.id))}>
-                      {user.active == true ? <FiPause /> : <FiPlay />}
+                    <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={(() => console.log('a'))}>
+                      {user.block == true ? <FiPause /> : <FiPlay />}
                     </Button>
                     <Button 
                       colorScheme='red' 
@@ -452,21 +428,6 @@ const Lojas = () => {
           </Table>                    
         </TableContainer>
       </Box>
-
-      <Pagination
-        page={page}
-        onChange={(page) => {handlePageChange(page)}}
-        total={10}
-        siblings={2}
-        boundaries={0}      
-        color='red.7'  
-        position='right'
-        sx={(theme) => ({
-          '@media (max-width: 755px)': {
-            justifyContent: 'center'
-          },
-        })}
-      />
 
       {/* Modal de criação de loja */}
       <Modal
@@ -506,8 +467,8 @@ const Lojas = () => {
             <FormControl mt={4}>
               <FormLabel>Grupo de loja</FormLabel>
               <Select placeholder='Selecione um grupo de loja'>
-                {users.map(loja => 
-                  <option value={loja.name}>{loja.name}</option>
+                {data.map((user: data) => 
+                  <option value={user.unit}>{user.unit}</option>
                 )}
               </Select>
             </FormControl>
@@ -540,7 +501,7 @@ const Lojas = () => {
               <FormLabel>Nome</FormLabel>
               <Input 
                 placeholder='nome' 
-                value={name}
+                value={unit}
               />
             </FormControl>
             <FormControl mt={4}>
@@ -557,14 +518,14 @@ const Lojas = () => {
               <Input 
                 isReadOnly 
                 placeholder='Razão social'
-                value={fantasyName}
+                value={corporate}
               />
             </FormControl>
             <FormControl mt={4}>
               <FormLabel>Grupo de loja</FormLabel>
-              <Select placeholder='Selecione um grupo de loja' value={name}>
-                {users.map(loja => 
-                  <option value={loja.name}>{loja.name}</option>
+              <Select placeholder='Selecione um grupo de loja' value={unit}>
+                {data.map((user: data) => 
+                  <option value={user.unit}>{user.unit}</option>
                 )}
               </Select>
             </FormControl>

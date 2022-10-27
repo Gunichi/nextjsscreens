@@ -39,47 +39,62 @@ import XLSX from 'xlsx'
 import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight, FiPause, FiSettings, FiSearch, FiPlusCircle } from 'react-icons/fi'
 import { VscSettings } from "react-icons/vsc";
 import SidebarWithHeader from '../../../components/sidebar/sidebar';
-import { data } from '../../../utils/data';
 import { Pagination } from '@mantine/core';
 import { useRouter } from 'next/router';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { DownloadSimple } from 'phosphor-react'
+import axios from 'axios'
 
 
 const gruposDeLojas = () => {
+
+  type data = {
+    id: number,
+    gunit: string,
+    block : boolean,
+  }
 
   const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onCloseEditOpen } = useDisclosure()
   const { isOpen: isCreateOpen , onOpen: onCreateOpen, onClose: onCloseCreateOpen } = useDisclosure()
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null) 
-  const [users, setUsers] = useState(data);
   const [page, setPage] = useState(1);
   const [id, setId] = useState(0);
-  const [name, setName] = useState('');
-  const pageSize = 10;
-  const offset = (page - 1) * pageSize;
-  const posts = users.slice(offset, offset + pageSize);
+  const [gunit, setGunit] = useState('');
   const router = useRouter();
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://144.126.138.178/web/gunits/list/?page=1')
+      .then(response => {
+        setData(response.data.result.items)
+      })
+  }, [])
+
+  //Show only 10 itens per page
+  const itensPerPage = 10;
+  const totalItens = data.length;
+  const totalPages = Math.ceil(totalItens / itensPerPage);
+  const currentItens = data.slice((page - 1) * itensPerPage, page * itensPerPage);
 
   const handlePageChange = (page: number | undefined) => {
     setPage(page!);
   };
 
-  const handleEdit = (id: number) => {
-    const user = users.find((user) => user.id === id);
-    if (user) {
-      setId(user.id);
-      setName(user.name);
-      onEditOpen();
-    }
-  };
-
   const handleExport = () => {
-    const ws = XLSX.utils.json_to_sheet(users);
+    const ws = XLSX.utils.json_to_sheet(data);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Grupos de Lojas');
     XLSX.writeFile(wb, 'Grupos de Lojas.xlsx');
   };
+
+  const handleEdit = (id: number, gunit: string) => {
+    setId(id);
+    setGunit(gunit);
+    onEditOpen();
+  };
+      
+
 
   return ( 
     <SidebarWithHeader>
@@ -159,11 +174,11 @@ const gruposDeLojas = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {posts.map((user) => (
+              {data.map((user: data) => (
                 <Tr key={user.id}>
                   <Td textAlign='center'>{user.id}</Td>
-                  <Td textAlign="center">{user.name}</Td>
-                  <Td textAlign='center'>{user.active == true ? 'Ativo' : 'Desativado'}</Td>
+                  <Td textAlign="center">{user.gunit}</Td>
+                  <Td textAlign='center'>{user.block == true ? 'Ativo' : 'Desativado'}</Td>
                   <Td textAlign='center'>
                   <Button 
                     colorScheme='red' 
@@ -171,12 +186,12 @@ const gruposDeLojas = () => {
                     size='sm' 
                     mr={2} 
                     onClick={
-                      () => handleEdit(user.id)
+                      () => handleEdit(user.id, user.gunit)
                     }
                   > 
                     <FiEdit />
                   </Button>
-                    {user.active == true ?
+                    {user.block == true ?
                       <Button colorScheme='red' variant='solid' size='sm'> 
                         <FiPause />
                       </Button>
@@ -265,7 +280,7 @@ const gruposDeLojas = () => {
               <FormLabel>Nome</FormLabel>
               <Input 
                 placeholder='nome' 
-                value={name}
+                value={gunit}
               />
             </FormControl>       
             
