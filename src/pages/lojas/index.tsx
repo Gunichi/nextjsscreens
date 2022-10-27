@@ -289,6 +289,7 @@ const Lojas = () => {
       })
   }, [])
 
+  //Change from active     
       
   if (loading) {
     return (
@@ -416,7 +417,7 @@ const Lojas = () => {
                     <Td textAlign='center'>{user.id}</Td>
                     <Td textAlign="center">{user.unit}</Td>
                     <Td textAlign="center">{user.cnpj}</Td>
-                    <Td textAlign='center'>{user.block == true ? 'Ativo' : 'Desativado'}</Td>
+                    <Td textAlign='center'>{user.block == false ? 'Ativo' : 'Desativado'}</Td>
                     <Td textAlign='center'>
                       <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={() => handleEdit(
                         user.id,
@@ -427,7 +428,7 @@ const Lojas = () => {
                         <FiEdit />
                       </Button>
                       <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={(() => console.log('a'))}>
-                        {user.block == true ? <FiPause /> : <FiPlay />}
+                        {user.block == false ? <FiPause /> : <FiPlay />}
                       </Button>
                       <Button 
                         colorScheme='red' 

@@ -42,7 +42,6 @@ import { Pagination } from '@mantine/core';
 import { Download } from 'phosphor-react';
 import axios from 'axios';
 import router from 'next/router';
-import { over } from 'lodash';
 
 const Ovpn = () => {
 
