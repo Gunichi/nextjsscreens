@@ -19,6 +19,7 @@ import {
   FiHome,
   FiMenu,
   FiPlusCircle,
+  FiServer,
   FiUsers,
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
@@ -34,9 +35,6 @@ import {
 } from 'react-icons/si';
 import { BuildingStorefrontIcon, BuildingOffice2Icon } from '@heroicons/react/24/solid'
 
-
-
-
 interface LinkItemProps {
   name: string;
   icon: IconType;
@@ -50,6 +48,7 @@ const LinkItems: Array<LinkItemProps> = [
   { name: 'Sistemas', icon: FiCodesandbox, href: '/sistemas'},
   { name: 'OVPN', icon: SiOpenvpn, href: '/ovpn'},
   { name: 'Usuários', icon: FiUsers, href: '/usuarios'},
+  { name: 'Operador', icon: FiServer, href: '/operador'},
 
 ];
 

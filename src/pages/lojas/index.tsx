@@ -310,9 +310,7 @@ const Lojas = () => {
         setLoading(false)
       })
   }, [])
-
-  //Change from active     
-      
+  
   if (loading) {
     return (
       <Box justifyContent="center" alignItems="center" display="flex" height="100vh">
