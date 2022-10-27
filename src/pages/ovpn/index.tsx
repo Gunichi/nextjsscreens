@@ -146,7 +146,7 @@ const Ovpn = () => {
                 <Tr key={item.id}>
                   <Td textAlign='center'>{item.username}</Td>
                   <Td textAlign='center'>{item.gunit}</Td>
-                  <Td textAlign='center'>{item.block == true ? 'Ativo' : 'Desativado'}</Td>
+                  <Td textAlign='center'>{item.block == false ? 'Ativo' : 'Desativado'}</Td>
                   <Td textAlign='center'>
                     <Button colorScheme='red' variant='solid' size='sm' mr={2}> 
                       <FiPlay />

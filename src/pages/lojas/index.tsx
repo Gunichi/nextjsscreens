@@ -75,6 +75,7 @@ const Lojas = () => {
   const [orderName, setOrderName] = useState('');
   const [orderCnpj, setOrderCnpj] = useState('');
   const [orderStatus, setOrderStatus] = useState('');
+  const [corporateName, setCorporateName] = useState('');
   const [data, setData] = useState([]);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -231,6 +232,16 @@ const Lojas = () => {
     axios.jsonp(`https://receitaws.com.br/v1/cnpj/${cnpj}`)
     .then((response => {
       setFantasyName(response.nome)
+    }))
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  const findCnpj2 = () => {
+    axios.jsonp(`https://receitaws.com.br/v1/cnpj/${cnpj}`)
+    .then((response => {
+      setCorporateName(response.nome)
     }))
     .catch(function (error) {
       console.log(error);
@@ -413,7 +424,7 @@ const Lojas = () => {
               </Thead>
               <Tbody>
                 {posts.map((user: data) => (
-                  <Tr key={id}>
+                  <Tr key={user.id}>
                     <Td textAlign='center'>{user.id}</Td>
                     <Td textAlign="center">{user.unit}</Td>
                     <Td textAlign="center">{user.cnpj}</Td>
@@ -543,7 +554,7 @@ const Lojas = () => {
                 <FormLabel>CNPJ</FormLabel>
                 <Input 
                   placeholder='CNPJ' 
-                  onBlur={findCnpj}
+                  onBlur={findCnpj2}
                   value={cnpj}
                   onChange={onChange}
                 />
@@ -553,7 +564,7 @@ const Lojas = () => {
                 <Input 
                   isReadOnly 
                   placeholder='Razão social'
-                  value={corporate}
+                  value={fantasyName}
                 />
               </FormControl>
               <FormControl mt={4}>
