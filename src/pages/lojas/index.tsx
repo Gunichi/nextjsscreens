@@ -78,13 +78,11 @@ const Lojas = () => {
   const [data, setData] = useState([]);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  
-  //Show only 10 itens per page
-  const itensPerPage = 10;
-  const totalItens = data.length;
-  const totalPages = Math.ceil(totalItens / itensPerPage);
-  const currentItens = data.slice((page - 1) * itensPerPage, page * itensPerPage);
 
+  const pageSize = 10;
+  const offset = (page - 1) * pageSize;
+  const posts = data.slice(offset, offset + pageSize);
+  
   /*const sortById = () => {
     setOrderName('')
     setOrderCnpj('')
@@ -109,6 +107,10 @@ const Lojas = () => {
       setData(data.sort(sortBy('-id', 'asc')))
     }
   }
+
+  //Get total number of pages
+  const totalPages = Math.ceil(data.length / pageSize);
+
 
   const sortByName = () => {
     setOrderId('')
@@ -409,7 +411,7 @@ const Lojas = () => {
                 </Tr>
               </Thead>
               <Tbody>
-                {data.map((user: data) => (
+                {posts.map((user: data) => (
                   <Tr key={id}>
                     <Td textAlign='center'>{user.id}</Td>
                     <Td textAlign="center">{user.unit}</Td>
@@ -443,6 +445,23 @@ const Lojas = () => {
             </Table>                    
           </TableContainer>
         </Box>
+
+        <Pagination
+        page={page}
+        onChange={(page) => {handlePageChange(page)}}
+        total={totalPages}
+        siblings={1}
+        boundaries={0}      
+        color='red.7'  
+        position='right'
+        sx={(theme) => ({
+          '@media (max-width: 755px)': {
+            justifyContent: 'center'
+          },
+        })}
+      />
+        
+
 
         {/* Modal de criação de loja */}
         <Modal
