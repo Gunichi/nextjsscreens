@@ -239,7 +239,10 @@ const Lojas = () => {
   }
 
   const findCnpj2 = () => {
-    axios.jsonp(`https://receitaws.com.br/v1/cnpj/${cnpj}`)
+    const formatCnpj = cnpj.replace(/[^\d]+/g,'');
+    console.log(formatCnpj)
+
+    axios.jsonp(`https://receitaws.com.br/v1/cnpj/${formatCnpj}`)
     .then((response => {
       setCorporateName(response.nome)
     }))
@@ -430,12 +433,12 @@ const Lojas = () => {
                     <Td textAlign="center">{user.cnpj}</Td>
                     <Td textAlign='center'>{user.block == false ? 'Ativo' : 'Desativado'}</Td>
                     <Td textAlign='center'>
-                      <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={() => handleEdit(
+                      <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={() => [handleEdit(
                         user.id,
                         user.unit,
                         user.corporate,
                         user.cnpj,                  
-                        )} > 
+                        ), findCnpj2()]} > 
                         <FiEdit />
                       </Button>
                       <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={(() => console.log('a'))}>
@@ -556,7 +559,6 @@ const Lojas = () => {
                   placeholder='CNPJ' 
                   onBlur={findCnpj2}
                   value={cnpj}
-                  onChange={onChange}
                 />
               </FormControl>
               <FormControl mt={4}>
@@ -564,7 +566,7 @@ const Lojas = () => {
                 <Input 
                   isReadOnly 
                   placeholder='Razão social'
-                  value={fantasyName}
+                  value={corporateName}
                 />
               </FormControl>
               <FormControl mt={4}>
