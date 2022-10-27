@@ -30,7 +30,7 @@ import { IoIosPaper } from "react-icons/io";
 
 import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 import SidebarWithHeader from '../../components/sidebar/sidebar';
-import { data } from '../../utils/data';
+import { datas } from '../../utils/data';
 import router from 'next/router';
 import { Pagination } from '@mantine/core';
 
@@ -39,7 +39,7 @@ const Clientes = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null)  
-  const [users, setUsers] = useState(data);
+  const [users, setUsers] = useState(datas);
   const [page, setPage] = useState(1);
   const pageSize = 10;
   const offset = (page - 1) * pageSize;

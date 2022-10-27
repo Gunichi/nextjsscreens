@@ -38,7 +38,7 @@ import { Text } from '@chakra-ui/react'
 
 import { FiPlay, FiEdit, FiChevronLeft, FiChevronRight, FiPlusCircle, FiSearch } from 'react-icons/fi'
 import SidebarWithHeader from '../../components/sidebar/sidebar';
-import { data } from '../../utils/data';
+import { datas } from '../../utils/data';
 import { Pagination } from '@mantine/core';
 
 
@@ -47,7 +47,7 @@ const Users = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null)  
-  const [users, setUsers] = useState(data);
+  const [users, setUsers] = useState(datas);
   const [page, setPage] = useState(1);
   const pageSize = 10;
   const offset = (page - 1) * pageSize;
