@@ -245,6 +245,7 @@ const Lojas = () => {
     axios.jsonp(`https://receitaws.com.br/v1/cnpj/${formatCnpj}`)
     .then((response => {
       setCorporateName(response.nome)
+      console.log(response.nome)
     }))
     .catch(function (error) {
       console.log(error);
