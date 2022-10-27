@@ -39,7 +39,7 @@ import { sortBy } from 'sort-by-typescript';
 
 import { FiPlay, FiEdit, FiPause, FiArrowDown, FiArrowUp, FiSearch, FiPlus } from 'react-icons/fi'
 import SidebarWithHeader from '../../components/sidebar/sidebar';
-import { data } from '../../utils/data';
+import { datas } from '../../utils/data';
 import { Pagination } from '@mantine/core';
 import XLSX from 'xlsx'
 import axios from 'axios-jsonp-pro';
@@ -49,7 +49,6 @@ import { useRouter } from 'next/router';
 
 const Lojas = () => {
 
-  
   const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onCloseEditOpen } = useDisclosure()
   const { isOpen: isCreateOpen , onOpen: onCreateOpen, onClose: onCloseCreateOpen } = useDisclosure()
   const initialRef = React.useRef(null)
@@ -58,7 +57,7 @@ const Lojas = () => {
   const [name, setName] = useState('');
   const [cnpj, setCnpj] = useState('')
   const [fantasyName, setFantasyName] = useState('')
-  const [users, setUsers] = useState(data);
+  const [users, setUsers] = useState(datas);
   const [isActive, setIsActive] = useState(true);
   const [page, setPage] = useState(1);
   const pageSize = 10;
@@ -190,16 +189,6 @@ const Lojas = () => {
     setCnpj(e.target.value)
   }
 
-  const findCnpj = () => { 
-    axios.jsonp(`https://receitaws.com.br/v1/cnpj/${cnpj}`)
-    .then((response => {
-      setFantasyName(response.nome)
-    }))
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
-
   const handleEdit = (id: number) => {
     const user = users.find((user) => user.id === id);
     if (user) {
@@ -270,6 +259,16 @@ const Lojas = () => {
       setUsers(users.sort(sortBy('-active')));
     }
   }; */
+
+  const findCnpj = () => { 
+    axios.jsonp(`https://receitaws.com.br/v1/cnpj/${cnpj}`)
+    .then((response => {
+      setFantasyName(response.nome)
+    }))
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
 
   //Select for sorting asc or desc by id or name or cnpj or status 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -424,8 +423,8 @@ const Lojas = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {posts.map((user) => (
-                <Tr key={user.id}>
+              {posts.map((user, id) => (
+                <Tr key={id}>
                   <Td textAlign='center'>{user.id}</Td>
                   <Td textAlign="center">{user.name}</Td>
                   <Td textAlign="center">{user.cnpj}</Td>
@@ -501,6 +500,7 @@ const Lojas = () => {
               <Input 
                 isReadOnly 
                 placeholder='Razão social'
+                value={fantasyName}
               />
             </FormControl>
             <FormControl mt={4}>

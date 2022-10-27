@@ -12,7 +12,6 @@ import {
   Input,
   Button,
 } from '@chakra-ui/react';
-import BoxComponent from '../../components/box/box';
 
 const Login = () => {
 
