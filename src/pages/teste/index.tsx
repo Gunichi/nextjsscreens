@@ -17,9 +17,7 @@ import SidebarWithHeader from '../../components/sidebar/sidebar';
 const Teste = () => {
 
   const date = new Date().getDate()
-
   const rowss = Array.from(Array(date).keys())
-
 
   return (
     <SidebarWithHeader>

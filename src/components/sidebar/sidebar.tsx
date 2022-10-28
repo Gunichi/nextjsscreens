@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import {
   IconButton,
   Box,
@@ -34,6 +34,7 @@ import {
   SiOpenvpn 
 } from 'react-icons/si';
 import { BuildingStorefrontIcon, BuildingOffice2Icon } from '@heroicons/react/24/solid'
+import { useRouter } from 'next/router';
 
 interface LinkItemProps {
   name: string;
@@ -49,8 +50,8 @@ const LinkItems: Array<LinkItemProps> = [
   { name: 'OVPN', icon: SiOpenvpn, href: '/ovpn'},
   { name: 'Usuários', icon: FiUsers, href: '/usuarios'},
   { name: 'Operador', icon: FiServer, href: '/operador'},
-
 ];
+
 
 export default function SimpleSidebar({ children }: { children: ReactNode }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -85,7 +86,8 @@ interface SidebarProps extends BoxProps {
   onClose: () => void;
 }
 
-const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
+const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {  
+
   return (
     <Box
       bg={useColorModeValue('white', 'gray.900')}
@@ -102,7 +104,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon} link={link.href}>
+        <NavItem key={link.name} icon={link.icon} link={link.href} >
           {link.name}
         </NavItem>
       ))}
@@ -116,9 +118,17 @@ interface NavItemProps extends FlexProps {
   link: string;
 }
 const NavItem = ({ icon, children, link, ...rest }: NavItemProps) => {
+
+  const router = useRouter();
+  const currentRoute = router.pathname;
+  const [active, setActive] = useState(currentRoute);
+
   return (
-    <Link href={link} passHref>
+    <Link href={link} passHref >
       <Flex
+        bg={active == link ? 'red.500' : 'white'}
+        color={active == link ? 'white' : 'black'}
+        activestyle={{ color: 'blue.500' }}
         align="center"
         p="4"
         mx="4"

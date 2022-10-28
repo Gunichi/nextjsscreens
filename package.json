@@ -36,6 +36,7 @@
     "react-chakra-pagination": "^1.0.1",
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",
+    "react-pro-sidebar": "^1.0.0-alpha.7",
     "react-router-dom": "^6.4.2",
     "react-table": "^7.8.0",
     "sort-by-typescript": "^1.2.3",
