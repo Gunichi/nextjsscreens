@@ -1,9 +1,12 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import {
   IconButton,
+  Avatar,
   Box,
   CloseButton,
   Flex,
+  HStack,
+  VStack,
   Icon,
   useColorModeValue,
   Drawer,
@@ -12,11 +15,18 @@ import {
   useDisclosure,
   BoxProps,
   FlexProps,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItem,
+  MenuList,
+  Button,
 } from '@chakra-ui/react';
 import Link from "next/link";
 import {
   FiCodesandbox,
   FiHome,
+  FiLogOut,
   FiMenu,
   FiPlusCircle,
   FiServer,
@@ -74,7 +84,7 @@ export default function SimpleSidebar({ children }: { children: ReactNode }) {
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
-      <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
+      <MobileNav onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} p="4">
         {children}
       </Box>
@@ -90,19 +100,20 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 
   return (
     <Box
-      bg={useColorModeValue('white', 'gray.900')}
-      borderRight="1px"
-      borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-      w={{ base: 'full', md: 60 }}
-      pos="fixed"
-      h="full"
-      {...rest}>
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Logo
-        </Text>
-        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
-      </Flex>
+    transition="3s ease"
+    bg={useColorModeValue('white', 'gray.900')}
+    borderRight="1px"
+    borderRightColor={useColorModeValue('gray.200', 'gray.700')}
+    w={{ base: 'full', md: 60 }}
+    pos="fixed"
+    h="full"
+    {...rest}>
+    <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
+      <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
+        Logo
+      </Text>
+      <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+    </Flex>
       {LinkItems.map((link) => (
         <NavItem key={link.name} icon={link.icon} link={link.href} >
           {link.name}
@@ -126,9 +137,8 @@ const NavItem = ({ icon, children, link, ...rest }: NavItemProps) => {
   return (
     <Link href={link} passHref >
       <Flex
-        bg={active == link ? 'red.500' : 'white'}
+        bg={active == link ? 'red.400' : 'white'}
         color={active == link ? 'white' : 'black'}
-        activestyle={{ color: 'blue.500' }}
         align="center"
         p="4"
         mx="4"
@@ -163,24 +173,36 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
-      px={{ base: 4, md: 24 }}
+      px={{ base: 4, md: 4 }}
       height="20"
       alignItems="center"
       bg={useColorModeValue('white', 'gray.900')}
       borderBottomWidth="1px"
       borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
-      justifyContent="flex-start"
+      justifyContent={{ base: 'space-between', md: 'flex-end' }}
       {...rest}>
       <IconButton
-        variant="outline"
+        display={{ base: 'flex', md: 'none' }}
         onClick={onOpen}
+        variant="outline"
         aria-label="open menu"
         icon={<FiMenu />}
       />
 
-      <Text fontSize="2xl" ml="8" fontFamily="monospace" fontWeight="bold">
+      <Text
+        display={{ base: 'flex', md: 'none' }}
+        fontSize="2xl"
+        fontFamily="monospace"
+        fontWeight="bold">
         Logo
       </Text>
+
+      <HStack spacing={{ base: '0', md: '6' }}>
+        <Button leftIcon={<FiLogOut />}  size='md' colorScheme='red' variant='solid'>
+          Logout
+        </Button>
+      
+      </HStack>
     </Flex>
   );
 };
