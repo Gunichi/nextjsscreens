@@ -57,7 +57,7 @@ const Operador = () => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     setPage(page!);
   };
-
+        
 
   return ( 
     <SidebarWithHeader>
