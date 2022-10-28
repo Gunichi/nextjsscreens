@@ -324,7 +324,7 @@ const Lojas = () => {
   } else {
     return (
       <SidebarWithHeader>
-        <Breadcrumb>
+        <Breadcrumb mt={20}>
           <BreadcrumbItem>
             <BreadcrumbLink href='/lojas'>Lojas</BreadcrumbLink>
           </BreadcrumbItem>

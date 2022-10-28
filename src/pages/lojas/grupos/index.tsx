@@ -111,7 +111,7 @@ const gruposDeLojas = () => {
   } else {
     return ( 
       <SidebarWithHeader>
-        <Breadcrumb separator={<ChevronRightIcon color='gray.500' />}>
+        <Breadcrumb mt={20} separator={<ChevronRightIcon color='gray.500' />}>
           <BreadcrumbItem>
             <BreadcrumbLink href='/lojas'>Lojas</BreadcrumbLink>
           </BreadcrumbItem>

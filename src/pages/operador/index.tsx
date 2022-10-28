@@ -61,7 +61,7 @@ const Operador = () => {
 
   return ( 
     <SidebarWithHeader>
-      <Breadcrumb>
+       <Breadcrumb mt={20}>
         <BreadcrumbItem isCurrentPage>
           <BreadcrumbLink href='#'>Operadores </BreadcrumbLink>
         </BreadcrumbItem>

@@ -61,7 +61,7 @@ const Users = () => {
 
   return ( 
     <SidebarWithHeader>
-      <Breadcrumb>
+       <Breadcrumb mt={20}>
         <BreadcrumbItem isCurrentPage>
           <BreadcrumbLink href='#'>Usuários </BreadcrumbLink>
         </BreadcrumbItem>
