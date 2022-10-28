@@ -38,7 +38,7 @@ const Teste = () => {
           <Table>
             <Thead>
               <Tr>
-                <Th>ID</Th>
+                <Th>Num. dias</Th>
               </Tr>
             </Thead>
             <Tbody>
