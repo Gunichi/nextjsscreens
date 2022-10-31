@@ -69,7 +69,6 @@ const GroupDetails = () => {
       })
   }, [])
 
- 
   return ( 
     <SidebarWithHeader>
       <Breadcrumb mt={20} separator={<ChevronRightIcon color='gray.500' />}>

@@ -450,15 +450,18 @@ const Lojas = () => {
                       <Button colorScheme='red' variant='solid' size='sm' mr={2} onClick={(() => console.log('a'))}>
                         {user.block == false ? <FiPause /> : <FiPlay />}
                       </Button>
-                      <Button 
+                      {user.block == false ? 
+                        <Button 
                         colorScheme='red' 
                         variant='solid' 
-                        size='sm' 
-                        mr={2} 
-                        onClick={() => router.push(`lojas/${user.id}`)}
-                      > 
-                        <VscSettings />
-                    </Button>
+                        size='sm'                   
+                        onClick={() => router.push(`grupos/${user.id}`)}
+                        > 
+                          <VscSettings />
+                        </Button>  
+                      :
+                      ''
+                      }
                     </Td>
                   </Tr>
                 ))}

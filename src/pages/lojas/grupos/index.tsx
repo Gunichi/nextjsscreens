@@ -213,15 +213,19 @@ const gruposDeLojas = () => {
                           <FiPlay />
                         </Button>
                       }
-                      <Button 
+                      {user.block == false ? 
+                        <Button 
                         colorScheme='red' 
                         variant='solid' 
                         size='sm' 
                         ml={2} 
                         onClick={() => router.push(`grupos/${user.id}`)}
-                      > 
-                        <VscSettings />
-                    </Button>
+                        > 
+                          <VscSettings />
+                        </Button>  
+                      :
+                      ''
+                      }
                     </Td>
                   </Tr>
                 ))}
