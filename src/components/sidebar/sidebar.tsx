@@ -21,6 +21,7 @@ import {
   MenuItem,
   MenuList,
   Button,
+  Collapse,
 } from '@chakra-ui/react';
 import Link from "next/link";
 import {
@@ -28,6 +29,7 @@ import {
   FiHome,
   FiLogOut,
   FiMenu,
+  FiMonitor,
   FiPlusCircle,
   FiServer,
   FiUsers,
@@ -45,6 +47,7 @@ import {
 } from 'react-icons/si';
 import { BuildingStorefrontIcon, BuildingOffice2Icon } from '@heroicons/react/24/solid'
 import { useRouter } from 'next/router';
+import { MdKeyboardArrowRight } from 'react-icons/md';
 
 interface LinkItemProps {
   name: string;
@@ -98,6 +101,8 @@ interface SidebarProps extends BoxProps {
 
 const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {  
 
+  const integrations = useDisclosure();
+
   return (
     <Box
     transition="3s ease"
@@ -119,6 +124,28 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
           {link.name}
         </NavItem>
       ))}
+      <Flex
+        align="center"
+        p="4"
+        mx="4"
+        borderRadius="lg"
+        role="group"
+        cursor="pointer"
+        _hover={{
+          bg: 'red.400',
+          color: 'white',
+        }}
+        onMouseEnter={integrations.onToggle}
+        onMouseLeave={integrations.onToggle}
+        {...rest}>
+        <Icon as={FiMonitor} fontSize="20" mr={2} alignContent='center' />
+          Monitoramento
+          <Collapse in={integrations.isOpen}>
+            <NavItem icon={FiPlusCircle} link="/teste" _hover={{bg: 'red.500', color: 'white'}}>      
+              Relatório 1
+            </NavItem>
+        </Collapse>
+      </Flex>
     </Box>
   );
 };
