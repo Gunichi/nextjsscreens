@@ -46,21 +46,28 @@ import axios from 'axios';
 
 const GroupDetails = () => {
 
-  type data = {
+  interface data {
+    result: {
     id: number,
     type: string,
     host: string,
     port: number,
     user: string,
     password: string,
-    database: string,
-    database2: string,
+    db: string,
+    db2: string,
+      systems: {
+        system: string,
+      }
+    }
   }
+
+  const [userData, setUserData] = useState<data[]>([]);
 
   const router = useRouter()
   const id = router.query.id
 
-  const [data, setData] = useState<data[]>([])
+  const [data, setData] = useState([])
   const [system, setSystem] = useState<string[]>([])
   const [type , setType] = useState('')
   const [host, setHost] = useState('')
@@ -82,6 +89,7 @@ const GroupDetails = () => {
     setLoading(true)
     axios.get(`http://144.126.138.178/web/parameters/gunit/list/10`)
       .then(response => {
+        setUserData(response.data.result)
         setData(response.data.result)
         setSystem(response.data.result.systems)
         setType(response.data.result.type)
@@ -94,6 +102,8 @@ const GroupDetails = () => {
         setLoading(false)
       })
   }, [])
+
+  console.log(userData)
 
   const handleEdit = ( 
     type : string,
@@ -320,7 +330,7 @@ const GroupDetails = () => {
 
               <FormLabel mt={2}>Sistema</FormLabel>
                 <Select placeholder='Select option'>
-                  <option value={system} defaultValue >{system.system}</option>
+                  <option value={system}>{system.system}</option>
                 </Select>
                 
             </ModalBody>

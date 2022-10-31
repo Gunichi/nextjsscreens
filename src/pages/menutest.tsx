@@ -21,13 +21,13 @@ import { BsGearFill, BsNewspaper } from "react-icons/bs";
 import { FiCodesandbox, FiMenu, FiSearch, FiServer, FiUsers } from "react-icons/fi";
 import { HiCode, HiCollection } from "react-icons/hi";
 import { MdHome, MdKeyboardArrowRight } from "react-icons/md";
-import React from "react";
+import React, { ReactNode } from "react";
 import Link from "next/link";
 import { BuildingOffice2Icon, BuildingStorefrontIcon } from "@heroicons/react/24/solid";
 import { IoManOutline } from "react-icons/io5";
 import { SiOpenvpn } from "react-icons/si";
 
-export default function App() {
+export default function Sidebar({ children }: { children: ReactNode }) {
   const sidebar = useDisclosure();
   const integrations = useDisclosure();
   
@@ -146,6 +146,7 @@ export default function App() {
       </Flex>
     </Box>
   );
+
   return (
     <Box
       as="section"
@@ -199,7 +200,8 @@ export default function App() {
           </Flex>
         </Flex>
         <Box p="4">
-          
+        {children}
+
         </Box>
       </Box>
     </Box>
