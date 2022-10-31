@@ -135,8 +135,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
           bg: 'red.400',
           color: 'white',
         }}
-        onMouseEnter={integrations.onToggle}
-        onMouseLeave={integrations.onToggle}
+        onClick={integrations.onToggle}
         {...rest}>
         <Icon as={FiMonitor} fontSize="20" mr={2} alignContent='center' />
           Monitoramento

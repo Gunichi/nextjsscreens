@@ -37,24 +37,39 @@ import { Text } from '@chakra-ui/react'
 
 import { FiEdit, FiChevronLeft, FiChevronRight, FiPlusCircle } from 'react-icons/fi'
 import SidebarWithHeader from '../../../components/sidebar/sidebar';
-import { datas } from '../../../utils/data';
 import Pagination from '@choc-ui/paginator';
 import { useRouter } from 'next/router';
 import { ChevronRightIcon } from '@chakra-ui/icons';
+import axios from 'axios';
 
 const GroupDetails = () => {
+
+  type data = {
+    id: number,
+    gunit: string,
+    block : boolean,
+  }
 
   const router = useRouter()
   const id = router.query.id
 
+  const [data , setData] = useState([]);
+
   const { isOpen, onOpen, onClose } = useDisclosure()
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null) 
-  const [users, setUsers] = useState(datas);
   const [page, setPage] = useState(1);
   const pageSize = 10;
   const offset = (page - 1) * pageSize;
-  const posts = users.slice(offset, offset + pageSize);
+  const posts = data.slice(offset, offset + pageSize);
+  const totalPages = Math.ceil(data.length / pageSize);
+
+  useEffect(() => {
+    axios.get(`http://144.126.138.178/web/parameters/unit/list/5`)
+      .then(response => {
+        setData(response.data)
+      })
+  }, [])
 
   return ( 
     <SidebarWithHeader>
@@ -102,12 +117,14 @@ const GroupDetails = () => {
                 <Th textAlign='center'>Sistema</Th>
               </Tr>
             </Thead>
-            <Tbody>
-                <Tr>
-                  <Td textAlign='center'>{id}</Td>
-                  <Td textAlign="center">Infos</Td>
-                  <Td textAlign='center'>Infos</Td>
-                </Tr>
+            <Tbody >
+            {posts.map((user: data) => (
+                  <Tr key={user.id}>
+                    <Td textAlign='center'>{user.id}</Td>
+                    <Td textAlign="center">{user.gunit}</Td>
+                    <Td textAlign='center'>{user.block == true ? 'Ativo' : 'Desativado'}</Td>
+                  </Tr>
+              ))}
             </Tbody>
           </Table>                    
         </TableContainer>

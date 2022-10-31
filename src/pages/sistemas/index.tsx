@@ -40,38 +40,51 @@ import { FiEdit, FiChevronLeft, FiChevronRight, FiSearch, FiPlusCircle } from 'r
 import SidebarWithHeader from '../../components/sidebar/sidebar';
 import { datas } from '../../utils/data';
 import { Pagination } from '@mantine/core';
+import axios from 'axios';
 
 const Sistemas = () => {
+
+  type data = {
+    id: number,
+    system: string,
+    type : string,
+  }
 
   const { isOpen, onOpen, onClose } = useDisclosure()
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null)  
-  const [users, setUsers] = useState(datas);
-  const [page, setPage] = useState(1);
+
+  const [page , setPage] = useState(1);
+  const [data, setData] = useState([]);
+
   const pageSize = 10;
   const offset = (page - 1) * pageSize;
-  const posts = users.slice(offset, offset + pageSize);
+  const posts = data.slice(offset, offset + pageSize);
+  const totalPages = Math.ceil(data.length / pageSize);
+  
+
+  useEffect(() => {
+    axios.get('http://144.126.138.178/web/systems/list/?page=1')
+    .then((response) => {
+      setData(response.data.result.items)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+  }, [])
+
+  console.log(data)
+
 
   const handlePageChange = (page: number | undefined) => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     setPage(page!);
   };
 
-  const Prev = forwardRef((props) => (
-    <Button {...props}>
-      <FiChevronLeft />
-    </Button>
-  ));
-
-  const Next = forwardRef((props) => (
-    <Button {...props}>
-      <FiChevronRight />
-    </Button>
-  ));
 
   return ( 
     <SidebarWithHeader>
-       <Breadcrumb mt={20}>
+      <Breadcrumb mt={20}>
         <BreadcrumbItem isCurrentPage>
           <BreadcrumbLink href='#'>Cadastro de sistemas</BreadcrumbLink>
         </BreadcrumbItem>
@@ -129,12 +142,15 @@ const Sistemas = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {posts.map((user) => (
-                <Tr key={user.id}>
-                  <Td textAlign='center'>{user.id}</Td>
-                  <Td textAlign='center'>{user.active == true ? 'Ativo' : 'Desativado'}</Td>
-                  <Td textAlign='center'>
-                    <Button colorScheme='red' variant='solid' size='sm'> 
+              {posts.map((item: data) => (
+                <Tr key={item.id}>
+                  <Td textAlign='center'>{item.system}</Td>
+                  <Td textAlign='center'>{item.type}</Td>
+                  <Td textAlign='center'> 
+                    <Button 
+                      colorScheme='red'
+                      size='sm'
+                    >
                       <FiEdit />
                     </Button>
                   </Td>
@@ -147,9 +163,9 @@ const Sistemas = () => {
       <Pagination
         page={page}
         onChange={(page) => {handlePageChange(page)}}
-        total={10}
+        total={totalPages}
         siblings={2}
-        boundaries={0}      
+        boundaries={0}                
         color='red.7'  
         position='right'
         sx={(theme) => ({

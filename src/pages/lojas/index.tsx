@@ -242,8 +242,6 @@ const Lojas = () => {
     }
   }, [isEditOpen]);
 
-
-
   const findCnpj2 = () => {
 
     const formatCnpj = cnpj.replace(/[^\d]+/g,'');
