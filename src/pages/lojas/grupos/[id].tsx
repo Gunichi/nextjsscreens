@@ -37,24 +37,39 @@ import { Text } from '@chakra-ui/react'
 
 import { FiEdit, FiChevronLeft, FiChevronRight, FiPlusCircle } from 'react-icons/fi'
 import SidebarWithHeader from '../../../components/sidebar/sidebar';
-import { datas } from '../../../utils/data';
 import Pagination from '@choc-ui/paginator';
 import { useRouter } from 'next/router';
 import { ChevronRightIcon } from '@chakra-ui/icons';
+import axios from 'axios';
 
 const GroupDetails = () => {
+
+  type data = {
+    id: number,
+    type: string,
+    host: string,
+    port: number,
+    user: string,
+    password: string,
+    database: string,
+    database2: string,
+  }
 
   const router = useRouter()
   const id = router.query.id
 
+  const [data, setData] = useState<data[]>([])
+  
   const { isOpen, onOpen, onClose } = useDisclosure()
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null) 
-  const [users, setUsers] = useState(datas);
-  const [page, setPage] = useState(1);
-  const pageSize = 10;
-  const offset = (page - 1) * pageSize;
-  const posts = users.slice(offset, offset + pageSize);
+
+  useEffect(() => {
+    axios.get(`http://144.126.138.178/web/parameters/gunit/list/10`)
+      .then(response => {
+        setData(response.data.result)
+      })
+  }, [])
 
   return ( 
     <SidebarWithHeader>
@@ -107,11 +122,11 @@ const GroupDetails = () => {
               </Tr>
             </Thead>
             <Tbody>
-                <Tr>
-                  <Td textAlign='center'>{id}</Td>
-                  <Td textAlign="center">Infos</Td>
-                  <Td textAlign='center'>Infos</Td>
-                </Tr>
+              <Tr key={data.id}>
+                <Td textAlign='center'>{data.id}</Td>
+                <Td textAlign='center'>{data.type}</Td>
+                <Td textAlign='center'>{data.host}</Td>
+              </Tr> 
             </Tbody>
           </Table>                    
         </TableContainer>

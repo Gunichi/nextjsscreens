@@ -455,7 +455,7 @@ const Lojas = () => {
                         colorScheme='red' 
                         variant='solid' 
                         size='sm'                   
-                        onClick={() => router.push(`grupos/${user.id}`)}
+                        onClick={() => router.push(`lojas/${user.id}`)}
                         > 
                           <VscSettings />
                         </Button>  

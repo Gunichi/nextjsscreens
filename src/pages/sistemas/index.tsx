@@ -33,6 +33,7 @@ import {
   TableCaption,
   SimpleGrid,
   HStack,
+  Spinner,
 } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/react'
 
@@ -61,12 +62,15 @@ const Sistemas = () => {
   const offset = (page - 1) * pageSize;
   const posts = data.slice(offset, offset + pageSize);
   const totalPages = Math.ceil(data.length / pageSize);
-  
 
+  const [loading, setLoading] = useState(false);
+  
   useEffect(() => {
+    setLoading(true);
     axios.get('http://144.126.138.178/web/systems/list/?page=1')
     .then((response) => {
       setData(response.data.result.items)
+      setLoading(false);
     })
     .catch((error) => {
       console.log(error)
@@ -81,132 +85,142 @@ const Sistemas = () => {
     setPage(page!);
   };
 
-
-  return ( 
-    <SidebarWithHeader>
-      <Breadcrumb mt={20}>
-        <BreadcrumbItem isCurrentPage>
-          <BreadcrumbLink href='#'>Cadastro de sistemas</BreadcrumbLink>
-        </BreadcrumbItem>
-      </Breadcrumb>
-      <Box 
-        rounded={"lg"}
-        bg={useColorModeValue("white", "gray.700")}
-        boxShadow={"sm"}
-        w={'100%'}
-        p={8}
-        mt={4}
-        mb={4}
-      >
-        <InputGroup size="md" >
-          <InputLeftElement
-            pointerEvents="none"
-            children={<FiSearch color="gray.300" />}
-          />
-          <Input type="text" placeholder="Pesquisar" />
-        </InputGroup>
-      </Box>   
-      <Box
-        rounded={"lg"}
-        bg={useColorModeValue("white", "gray.700")}
-        boxShadow={"sm"}
-        w={'100%'}
-        p={8}
-        mt={4}
-        mb={4}
-      >
-        <SimpleGrid columns={2} spacing={10}>
-          <Box>
-            <Text fontSize="1xl" fontWeight='bold'>Listagem de Sistemas</Text>
-          </Box>
-          <Box>
-            <HStack spacing='24px' justifyContent='flex-end'>
-              <Button
-                leftIcon={<FiPlusCircle />}
-                colorScheme='red'
-                variant="solid"
-                onClick={onOpen}
-              >
-                Adicionar
-              </Button>
-            </HStack>
-          </Box>
-        </SimpleGrid>
-        <TableContainer mt={4}>
-          <Table size='sm'>
-          <Thead>
-              <Tr>
-                <Th textAlign='center'>Sistema</Th>
-                <Th textAlign='center'>Banco de dados</Th>
-                <Th textAlign='center'>Ações</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {posts.map((item: data) => (
-                <Tr key={item.id}>
-                  <Td textAlign='center'>{item.system}</Td>
-                  <Td textAlign='center'>{item.type}</Td>
-                  <Td textAlign='center'> 
-                    <Button 
-                      colorScheme='red'
-                      size='sm'
-                    >
-                      <FiEdit />
-                    </Button>
-                  </Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>                    
-        </TableContainer>
+  if (loading) {
+    return (
+      <Box justifyContent="center" alignItems="center" display="flex" height="100vh">
+        <Spinner
+          emptyColor='gray.200'
+          color='red.500'
+          size='xl'
+        />
       </Box>
-      <Pagination
-        page={page}
-        onChange={(page) => {handlePageChange(page)}}
-        total={totalPages}
-        siblings={2}
-        boundaries={0}                
-        color='red.7'  
-        position='right'
-        sx={(theme) => ({
-          '@media (max-width: 755px)': {
-            justifyContent: 'center'
-          },
-        })}
-      />
-      <Modal
-        initialFocusRef={initialRef}
-        finalFocusRef={finalRef}
-        isOpen={isOpen}
-        onClose={onClose}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Adicionar sistema</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            <FormControl>
-              <FormLabel>Sistema</FormLabel>
-              <Input ref={initialRef} placeholder='Sistema' />
-            </FormControl>
+    )
+  } else {
+    return ( 
+      <SidebarWithHeader>
+        <Breadcrumb mt={20}>
+          <BreadcrumbItem isCurrentPage>
+            <BreadcrumbLink href='#'>Cadastro de sistemas</BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb>
+        <Box 
+          rounded={"lg"}
+          bg={useColorModeValue("white", "gray.700")}
+          boxShadow={"sm"}
+          w={'100%'}
+          p={8}
+          mt={4}
+          mb={4}
+        >
+          <InputGroup size="md" >
+            <InputLeftElement
+              pointerEvents="none"
+              children={<FiSearch color="gray.300" />}
+            />
+            <Input type="text" placeholder="Pesquisar" />
+          </InputGroup>
+        </Box>   
+        <Box
+          rounded={"lg"}
+          bg={useColorModeValue("white", "gray.700")}
+          boxShadow={"sm"}
+          w={'100%'}
+          p={8}
+          mt={4}
+          mb={4}
+        >
+          <SimpleGrid columns={2} spacing={10}>
+            <Box>
+              <Text fontSize="1xl" fontWeight='bold'>Listagem de Sistemas</Text>
+            </Box>
+            <Box>
+              <HStack spacing='24px' justifyContent='flex-end'>
+                <Button
+                  leftIcon={<FiPlusCircle />}
+                  colorScheme='red'
+                  variant="solid"
+                  onClick={onOpen}
+                >
+                  Adicionar
+                </Button>
+              </HStack>
+            </Box>
+          </SimpleGrid>
+          <TableContainer mt={4}>
+            <Table size='sm'>
+            <Thead>
+                <Tr>
+                  <Th textAlign='center'>Sistema</Th>
+                  <Th textAlign='center'>Banco de dados</Th>
+                  <Th textAlign='center'>Ações</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {posts.map((item: data) => (
+                  <Tr key={item.id}>
+                    <Td textAlign='center'>{item.system}</Td>
+                    <Td textAlign='center'>{item.type}</Td>
+                    <Td textAlign='center'> 
+                      <Button 
+                        colorScheme='red'
+                        size='sm'
+                      >
+                        <FiEdit />
+                      </Button>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>                    
+          </TableContainer>
+        </Box>
+        <Pagination
+          page={page}
+          onChange={(page) => {handlePageChange(page)}}
+          total={totalPages}
+          siblings={2}
+          boundaries={0}                
+          color='red.7'  
+          position='right'
+          sx={(theme) => ({
+            '@media (max-width: 755px)': {
+              justifyContent: 'center'
+            },
+          })}
+        />
+        <Modal
+          initialFocusRef={initialRef}
+          finalFocusRef={finalRef}
+          isOpen={isOpen}
+          onClose={onClose}
+        >
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Adicionar sistema</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody pb={6}>
+              <FormControl>
+                <FormLabel>Sistema</FormLabel>
+                <Input ref={initialRef} placeholder='Sistema' />
+              </FormControl>
 
-            <FormControl mt={4}>
-              <FormLabel>Banco de dados</FormLabel>
-              <Input placeholder='Banco de dados' />
-            </FormControl>           
-          </ModalBody>
+              <FormControl mt={4}>
+                <FormLabel>Banco de dados</FormLabel>
+                <Input placeholder='Banco de dados' />
+              </FormControl>           
+            </ModalBody>
 
-          <ModalFooter>
-            <Button colorScheme='red' mr={3}>
-              Salvar
-            </Button>
-            <Button onClick={onClose}>Cancelar</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </SidebarWithHeader>
-    
-  );
+            <ModalFooter>
+              <Button colorScheme='red' mr={3}>
+                Salvar
+              </Button>
+              <Button onClick={onClose}>Cancelar</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </SidebarWithHeader>
+    );
+  }
 }
 
 

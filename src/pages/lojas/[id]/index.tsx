@@ -61,7 +61,6 @@ const GroupDetails = () => {
 
   const [data, setData] = useState([]);
 
-
   useEffect(() => {
     axios.get(`http://144.126.138.178/web/parameters/unit/list/5`)
       .then(response => {
@@ -119,8 +118,8 @@ const GroupDetails = () => {
             <Tbody >
               <Tr>
                 <Td textAlign='center'>{data.type}</Td>
-                <Td textAlign='center'></Td>
-                <Td textAlign='center'>{data.dateFin}</Td>
+                <Td textAlign='center'>{moment(data.dateIni).format('DD/MM/YYYY')}</Td>
+                <Td textAlign='center'>{moment(data.dateFin).format('DD/MM/YYYY')}</Td>
                 <Td textAlign='center'>{data.block == true ? 'Desativado' : 'Ativo'}</Td>
               </Tr>
               
