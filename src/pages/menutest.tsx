@@ -11,7 +11,6 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
-  Switch,
   Text,
   useColorModeValue,
   useDisclosure,
@@ -27,25 +26,10 @@ import Link from "next/link";
 import { BuildingOffice2Icon, BuildingStorefrontIcon } from "@heroicons/react/24/solid";
 import { IoManOutline } from "react-icons/io5";
 import { SiOpenvpn } from "react-icons/si";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useRoutes,
-} from "react-router-dom";import Lojas from "./lojas";
 
 export default function App() {
-
-  if (typeof window !== 'undefined') {
-    console.log('a') 
-  } else { 
   const sidebar = useDisclosure();
   const integrations = useDisclosure();
-
-  //Render multiple routes into the sidebar content area 
-  const routes = useRoutes([
-    { path: "lojas", element: <Lojas /> },
-  ])
   
   const NavItem = (props) => {
     const { icon, children, ...rest } = props;
@@ -83,7 +67,6 @@ export default function App() {
   };
 
   const SidebarContent = (props) => (
-
     <Box
       as="nav"
       pos="fixed"
@@ -216,10 +199,9 @@ export default function App() {
           </Flex>
         </Flex>
         <Box p="4">
-          {routes}
+          
         </Box>
       </Box>
     </Box>
   );
-  }
 }

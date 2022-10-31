@@ -53,16 +53,12 @@ const GroupDetails = () => {
   const router = useRouter()
   const id = router.query.id
 
-  const [data , setData] = useState([]);
-
   const { isOpen, onOpen, onClose } = useDisclosure()
   const initialRef = React.useRef(null)
   const finalRef = React.useRef(null) 
-  const [page, setPage] = useState(1);
-  const pageSize = 10;
-  const offset = (page - 1) * pageSize;
-  const posts = data.slice(offset, offset + pageSize);
-  const totalPages = Math.ceil(data.length / pageSize);
+
+  const [data, setData] = useState([]);
+
 
   useEffect(() => {
     axios.get(`http://144.126.138.178/web/parameters/unit/list/5`)
@@ -70,6 +66,8 @@ const GroupDetails = () => {
         setData(response.data)
       })
   }, [])
+
+  console.log(data)
 
   return ( 
     <SidebarWithHeader>
@@ -118,13 +116,7 @@ const GroupDetails = () => {
               </Tr>
             </Thead>
             <Tbody >
-            {posts.map((user: data) => (
-                  <Tr key={user.id}>
-                    <Td textAlign='center'>{user.id}</Td>
-                    <Td textAlign="center">{user.gunit}</Td>
-                    <Td textAlign='center'>{user.block == true ? 'Ativo' : 'Desativado'}</Td>
-                  </Tr>
-              ))}
+             
             </Tbody>
           </Table>                    
         </TableContainer>
