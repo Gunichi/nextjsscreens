@@ -63,11 +63,9 @@ const GroupDetails = () => {
   useEffect(() => {
     axios.get(`http://144.126.138.178/web/parameters/unit/list/5`)
       .then(response => {
-        setData(response.data)
+        setData(response.data.result)
       })
   }, [])
-
-  console.log(data)
 
   return ( 
     <SidebarWithHeader>
@@ -116,7 +114,12 @@ const GroupDetails = () => {
               </Tr>
             </Thead>
             <Tbody >
-             
+              <Tr>
+                <Td textAlign='center'>{data.id}</Td>
+                <Td textAlign='center'>{data.type}</Td>
+                <Td textAlign='center'>Sistema</Td>
+              </Tr>
+              
             </Tbody>
           </Table>                    
         </TableContainer>
