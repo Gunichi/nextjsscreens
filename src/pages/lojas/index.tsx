@@ -369,20 +369,7 @@ const Lojas = () => {
             </SimpleGrid>         
           </Stack>   
           </Box>
-          <Pagination
-          page={page}
-          onChange={(page) => {handlePageChange(page)}}
-          total={totalPages}
-          siblings={2}
-          boundaries={0}      
-          color='red.7'  
-          position='right'
-          sx={(theme) => ({
-            '@media (max-width: 755px)': {
-              justifyContent: 'center'
-            },
-          })}
-        />
+        
           <Box
             rounded={"lg"}
             bg={useColorModeValue("white", "gray.700")}
@@ -461,11 +448,13 @@ const Lojas = () => {
                       > 
                         <FiEdit />
                       </Button>
+                      <Button colorScheme='red' mr={2} variant='solid' size='sm' onClick={(() => console.log('a'))}>
+                        {user.block == false ? <FiPause /> : <FiPlay />}
+                      </Button>
                       {user.block == false ? 
                         <Button 
                         colorScheme='red' 
                         variant='solid' 
-                        mr={2}
                         size='sm'                   
                         onClick={() => router.push(`lojas/${user.id}`)}
                         > 
@@ -474,9 +463,6 @@ const Lojas = () => {
                       :
                       ''
                       }
-                      <Button colorScheme='red' variant='solid' size='sm' onClick={(() => console.log('a'))}>
-                        {user.block == false ? <FiPause /> : <FiPlay />}
-                      </Button>
                     </Td>
                   </Tr>
                 ))}
@@ -484,6 +470,21 @@ const Lojas = () => {
             </Table>                    
           </TableContainer>
         </Box>
+
+        <Pagination
+          page={page}
+          onChange={(page) => {handlePageChange(page)}}
+          total={totalPages}
+          siblings={2}
+          boundaries={0}      
+          color='red.7'  
+          position='right'
+          sx={(theme) => ({
+            '@media (max-width: 755px)': {
+              justifyContent: 'center'
+            },
+          })}
+        />
         
         {/* Modal de criação de loja */}
         <Modal
