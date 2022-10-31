@@ -41,13 +41,15 @@ import Pagination from '@choc-ui/paginator';
 import { useRouter } from 'next/router';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import axios from 'axios';
+import moment from 'moment';
 
 const GroupDetails = () => {
 
   type data = {
-    id: number,
-    gunit: string,
-    block : boolean,
+    type: string,
+    dateInit: string,
+    dateFinal: string,
+    block: boolean,
   }
 
   const router = useRouter()
@@ -67,6 +69,7 @@ const GroupDetails = () => {
       })
   }, [])
 
+ 
   return ( 
     <SidebarWithHeader>
       <Breadcrumb mt={20} separator={<ChevronRightIcon color='gray.500' />}>
@@ -108,16 +111,18 @@ const GroupDetails = () => {
           <Table size='sm'>
             <Thead>
               <Tr>
-                <Th textAlign='center'>Id</Th>
                 <Th textAlign='center'>Tipo</Th>
-                <Th textAlign='center'>Sistema</Th>
+                <Th textAlign='center'>Data início</Th>
+                <Th textAlign='center'>Data final</Th>
+                <Th textAlign='center'>Status</Th>
               </Tr>
             </Thead>
             <Tbody >
               <Tr>
-                <Td textAlign='center'>{data.id}</Td>
                 <Td textAlign='center'>{data.type}</Td>
-                <Td textAlign='center'>Sistema</Td>
+                <Td textAlign='center'></Td>
+                <Td textAlign='center'>{data.dateFin}</Td>
+                <Td textAlign='center'>{data.block == true ? 'Desativado' : 'Ativo'}</Td>
               </Tr>
               
             </Tbody>

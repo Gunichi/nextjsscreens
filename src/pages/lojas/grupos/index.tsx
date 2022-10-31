@@ -191,7 +191,7 @@ const gruposDeLojas = () => {
                   <Tr key={user.id}>
                     <Td textAlign='center'>{user.id}</Td>
                     <Td textAlign="center">{user.gunit}</Td>
-                    <Td textAlign='center'>{user.block == true ? 'Ativo' : 'Desativado'}</Td>
+                    <Td textAlign='center'>{user.block == false ? 'Ativo' : 'Desativado'}</Td>
                     <Td textAlign='center'>
                     <Button 
                       colorScheme='red' 
