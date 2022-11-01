@@ -1,18 +1,26 @@
 import * as React from 'react';
 
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
+import router, { useRouter } from 'next/router';
+import { ChevronRightIcon } from '@chakra-ui/icons';
 
 const Breadcrumbs = () => {
 
-  const { pathname } = useRouter();
-const paths = pathname.split('/').filter((x) => x);
+  const router = useRouter();
+  const currentRoute = router.asPath;
 
-const Capitalize = (str: string) => {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
+  const paths = currentRoute.split('/').filter((path) => path !== '');
+
+  const Capitalize = (str: string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
   return (
-    <Breadcrumb>
+    <Breadcrumb 
+      spacing="8px"
+      separator={<ChevronRightIcon color="gray.500" />}
+      mb="2"
+    >
       {paths.map((path, i) => {
         const isCurrentPath = i + 1 === paths.length;
         const href = `/${paths.slice(0, i + 1).join('/')}`;
