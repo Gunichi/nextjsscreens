@@ -28,7 +28,7 @@ const Breadcrumbs = () => {
         const href = `/${paths.slice(0, i + 1).join("/")}`;
         return isCurrentPath ? (
           <BreadcrumbItem key={path} isCurrentPage>
-            <BreadcrumbLink color="gray.500">{capitalize(path)} {pathId}</BreadcrumbLink>
+            <BreadcrumbLink color="gray.500">{capitalize(path)}</BreadcrumbLink>
           </BreadcrumbItem>
         ) : (
           <BreadcrumbItem key={path}>
