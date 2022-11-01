@@ -1,6 +1,9 @@
 import {
   Avatar,
   Box,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
   Button,
   Collapse,
   Drawer,
@@ -13,6 +16,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  Spacer,
   Text,
   useColorModeValue,
   useDisclosure,
@@ -20,27 +24,28 @@ import {
 import { FaBell, FaClipboardCheck, FaRss } from "react-icons/fa";
 import { AiFillGift } from "react-icons/ai";
 import { BsGearFill, BsNewspaper } from "react-icons/bs";
-import { FiCodesandbox, FiLogOut, FiMenu, FiMonitor, FiSearch, FiServer, FiUsers } from "react-icons/fi";
+import { FiChevronRight, FiCodesandbox, FiLogOut, FiMenu, FiMonitor, FiSearch, FiServer, FiUsers } from "react-icons/fi";
 import { HiCode, HiCollection } from "react-icons/hi";
 import { MdHome, MdKeyboardArrowRight } from "react-icons/md";
 import React, { ReactNode, useState } from "react";
 import Link from "next/link";
-import { BuildingOffice2Icon, BuildingStorefrontIcon } from "@heroicons/react/24/solid";
+import { BuildingOffice2Icon, BuildingStorefrontIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import { IoManOutline } from "react-icons/io5";
 import { SiOpenvpn } from "react-icons/si";
 import { useRouter } from "next/router";
+import Breadcrumbs from "../breadcrumbs/Breadcrumbs";
 
 export default function Sidebar({ children }: { children: ReactNode }) {
   const sidebar = useDisclosure();
   const integrations = useDisclosure();  
-  
+
   const NavItem = (props) => {
     const { icon, children, ...rest } = props;
 
     const router = useRouter();
     const currentRoute = router.pathname;
     const [active, setActive] = useState(currentRoute);
-    
+
     return (
       <Flex
       align="center"
@@ -139,6 +144,7 @@ export default function Sidebar({ children }: { children: ReactNode }) {
           <Icon
             as={MdKeyboardArrowRight}
             ml="auto"
+            transform={integrations.isOpen ? "rotate(90deg)" : undefined}
           />
         </NavItem>
         <Collapse in={integrations.isOpen}>
@@ -205,18 +211,15 @@ export default function Sidebar({ children }: { children: ReactNode }) {
             icon={<FiMenu />}
             size="sm"
           />
-          <InputGroup
-            w="96"
-            display={{
-              base: "none",
-              md: "flex",
-            }}
-          >
-            
-          </InputGroup>
-
+          <Flex align="center" mt={4} mx="auto">
+            <Breadcrumbs />
+          </Flex>
           <Flex align="center">
-            <Button leftIcon={<FiLogOut />}  size='md' colorScheme='red' variant='solid'>
+            <Button
+              leftIcon={<FiLogOut />}
+              variant="ghost"
+              mr="2"
+            >
               Logout
             </Button>
           </Flex>
@@ -229,3 +232,5 @@ export default function Sidebar({ children }: { children: ReactNode }) {
     </Box>
   );
 }
+
+
