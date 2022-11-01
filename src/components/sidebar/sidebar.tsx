@@ -32,12 +32,18 @@ import Link from "next/link";
 import { BuildingOffice2Icon, BuildingStorefrontIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import { IoManOutline } from "react-icons/io5";
 import { SiOpenvpn } from "react-icons/si";
-import { useRouter } from "next/router";
-import Breadcrumbs from "../breadcrumbs/Breadcrumbs";
+import router, { useRouter } from "next/router";
 
 export default function Sidebar({ children }: { children: ReactNode }) {
   const sidebar = useDisclosure();
   const integrations = useDisclosure();  
+
+  const { pathname } = useRouter();
+  const paths = pathname.split("/").filter((x) => x);
+
+  const Capitalize = (str: string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
 
   const NavItem = (props) => {
     const { icon, children, ...rest } = props;
@@ -211,8 +217,28 @@ export default function Sidebar({ children }: { children: ReactNode }) {
             icon={<FiMenu />}
             size="sm"
           />
-          <Flex align="center" mt={4} mx="auto">
-            <Breadcrumbs />
+          <Flex align="center" mt={2} mx="auto">
+            <Breadcrumb separator={<ChevronRightIcon color="gray.500" />}>
+              {paths.map((path, index) => {
+                const isCurrentPath = index === paths.length - 1;
+                const href = `/${paths.slice(0, index + 1).join("/")}`;
+
+                return isCurrentPath ? (
+                  <BreadcrumbItem
+                    key={href}
+                    isCurrentPage
+                    color="gray.500"
+                    fontSize="sm"
+                  >
+                    <BreadcrumbLink href={href}>{Capitalize(path)}</BreadcrumbLink>
+                  </BreadcrumbItem>
+                ) : (
+                  <BreadcrumbItem key={href} fontSize="sm">
+                    <BreadcrumbLink href={href}>{Capitalize(path)} </BreadcrumbLink>
+                  </BreadcrumbItem>
+                );
+              })}
+            </Breadcrumb>
           </Flex>
           <Flex align="center">
             <Button
